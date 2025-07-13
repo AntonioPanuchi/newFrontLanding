@@ -20,8 +20,8 @@ Backend сервис для мониторинга статуса VPN серве
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/AntonioPanuchi/rx-vpn-landing.git
-cd rx-vpn-landing
+git clone https://github.com/AntonioPanuchi/newFrontLanding.git
+cd newFrontLanding
 ```
 
 2. Установите зависимости:
