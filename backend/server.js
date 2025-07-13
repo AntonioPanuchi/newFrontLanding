@@ -125,31 +125,21 @@ app.use('/api/', limiter);
 // CORS настройки
 const corsOptions = {
     origin: function (origin, callback) {
-        // Логируем origin для отладки
         logger.debug(`CORS check for origin: ${origin}`);
-        
         // Разрешаем запросы без origin (например, из Postman)
         if (!origin) {
             logger.debug('Allowing request without origin');
             return callback(null, true);
         }
-        
         const allowedOrigins = [
             'https://rx-test.ru',
+            'https://www.rx-test.ru',
             'http://localhost:3000',
             'http://127.0.0.1:3000',
             'http://localhost:3001',
             'http://127.0.0.1:3001'
         ];
-        
         logger.debug(`Checking if ${origin} is in allowed origins: ${allowedOrigins.join(', ')}`);
-        
-        // Временно разрешаем все origins для отладки
-        logger.debug(`Temporarily allowing all origins for debugging`);
-        callback(null, true);
-        
-        // Раскомментируйте для строгой проверки:
-        /*
         if (allowedOrigins.indexOf(origin) !== -1) {
             logger.debug(`Origin ${origin} is allowed`);
             callback(null, true);
@@ -157,7 +147,6 @@ const corsOptions = {
             logger.warn(`Origin ${origin} is not allowed`);
             callback(new Error(`Not allowed by CORS: ${origin}`));
         }
-        */
     },
     credentials: true,
     optionsSuccessStatus: 200,
