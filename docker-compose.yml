@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  rox-vpn-api:
+    build: .
+    container_name: rox-vpn-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - LOG_LEVEL=info
+      - GERMANY_API_URL=${GERMANY_API_URL}
+      - USA_API_URL=${USA_API_URL}
+      - FINLAND_API_URL=${FINLAND_API_URL}
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+      - PINGHOST1=${PINGHOST1}
+      - PINGHOST2=${PINGHOST2}
+      - PINGHOST3=${PINGHOST3}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - rox-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  nginx:
+    image: nginx:alpine
+    container_name: rox-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - rox-vpn-api
+    networks:
+      - rox-network
+
+networks:
+  rox-network:
+    driver: bridge
+
+volumes:
+  logs: 
