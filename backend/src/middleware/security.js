@@ -92,7 +92,7 @@ const apiKeyAuth = (req, res, next) => {
 };
 
 // Middleware для логирования ошибок
-const errorLogger = (err, req, res, next) => {
+const errorLogger = (err, req, res, _next) => {
     logger.error('Unhandled error:', {
         error: err.message,
         stack: err.stack,
@@ -101,7 +101,7 @@ const errorLogger = (err, req, res, next) => {
         ip: req.ip,
         userAgent: req.get('User-Agent')
     });
-    next(err);
+    _next(err);
 };
 
 // Middleware для обработки ошибок
