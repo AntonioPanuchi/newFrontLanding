@@ -69,7 +69,7 @@ const corsOptions = {
 };
 
 // Middleware для проверки API ключа (опционально)
-const apiKeyAuth = (req, res, next) => {
+const apiKeyAuth = (req, _res, next) => {
     const apiKey = req.headers['x-api-key'];
     
     if (!apiKey) {
@@ -83,7 +83,7 @@ const apiKeyAuth = (req, res, next) => {
             ip: req.ip,
             path: req.path
         });
-        return res.status(401).json({
+        return _res.status(401).json({
             error: 'Invalid API key'
         });
     }
@@ -102,6 +102,7 @@ const errorLogger = (err, req, res, _next) => {
         userAgent: req.get('User-Agent')
     });
     // Передаем ошибку дальше в следующий middleware
+    _next(err);
 };
 
 // Middleware для обработки ошибок
