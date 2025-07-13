@@ -969,7 +969,7 @@ class AnalyticsTracker {
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     window.serverStatusManager = new ServerStatusManager({
-        apiUrl: 'https://api.rox-net.ru/api/server-statuses',
+        apiUrl: 'https://rx-testru/api/server-statuses',
         updateInterval: 60000,
         enableAnalytics: true,
         enableOfflineSupport: true
