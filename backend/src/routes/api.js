@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const ServerController = require('../controllers/serverController');
+const serverController = require('../controllers/serverController');
 
 // GET /api/server-statuses - Получение статуса всех серверов
-router.get('/server-statuses', ServerController.getServerStatuses);
+router.get('/server-statuses', serverController.getServerStatuses);
 
 // GET /api/health - Проверка здоровья сервиса
-router.get('/health', ServerController.getHealth);
+router.get('/health', serverController.getHealth);
 
 module.exports = router; 

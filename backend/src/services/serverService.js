@@ -145,14 +145,19 @@ class ServerService {
     async fetchDataWithRetry(url, cookie, method = 'GET', retries = 3) {
         for (let i = 0; i < retries; i++) {
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                
                 const response = await fetch(url, {
                     method,
                     headers: {
                         'Cookie': cookie,
                         'Content-Type': 'application/json',
                     },
-                    signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined // 15 секунд таймаут
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
