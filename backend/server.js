@@ -9,7 +9,120 @@ const DailyRotateFile = require('winston-daily-rotate-file');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const app = express();
-const port = process.env.PORT || 3000;
+
+// --- ВАЛИДАЦИЯ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ ---
+const requiredEnvVars = [
+    'GERMANY_API_URL',
+    'USA_API_URL', 
+    'FINLAND_API_URL',
+    'USERNAME',
+    'PASSWORD'
+];
+
+// Функция для валидации URL
+function validateUrl(url, name) {
+    if (!url) {
+        throw new Error(`Missing ${name} URL`);
+    }
+    
+    try {
+        const urlObj = new URL(url);
+        if (!['http:', 'https:'].includes(urlObj.protocol)) {
+            throw new Error(`${name} URL must use HTTP or HTTPS protocol`);
+        }
+        if (!urlObj.hostname) {
+            throw new Error(`${name} URL must have a valid hostname`);
+        }
+        return url;
+    } catch (error) {
+        if (error instanceof TypeError) {
+            throw new Error(`${name} URL is not a valid URL: ${url}`);
+        }
+        throw error;
+    }
+}
+
+// Функция для валидации учетных данных
+function validateCredentials(username, password) {
+    if (!username || username.trim().length === 0) {
+        throw new Error('USERNAME cannot be empty');
+    }
+    
+    if (username.length < 3) {
+        throw new Error('USERNAME must be at least 3 characters long');
+    }
+    
+    if (!password || password.trim().length === 0) {
+        throw new Error('PASSWORD cannot be empty');
+    }
+    
+    if (password.length < 8) {
+        throw new Error('PASSWORD must be at least 8 characters long');
+    }
+    
+    return { username: username.trim(), password: password.trim() };
+}
+
+// Функция для валидации опциональных переменных
+function validateOptionalVars() {
+    const optionalVars = {
+        PORT: process.env.PORT || '3000',
+        NODE_ENV: process.env.NODE_ENV || 'development',
+        LOG_LEVEL: process.env.LOG_LEVEL || 'info'
+    };
+    
+    // Валидация PORT
+    const port = parseInt(optionalVars.PORT);
+    if (isNaN(port) || port < 1 || port > 65535) {
+        throw new Error(`PORT must be a number between 1 and 65535, got: ${optionalVars.PORT}`);
+    }
+    
+    // Валидация NODE_ENV
+    const validEnvs = ['development', 'production', 'test'];
+    if (!validEnvs.includes(optionalVars.NODE_ENV)) {
+        throw new Error(`NODE_ENV must be one of: ${validEnvs.join(', ')}, got: ${optionalVars.NODE_ENV}`);
+    }
+    
+    // Валидация LOG_LEVEL
+    const validLogLevels = ['error', 'warn', 'info', 'debug'];
+    if (!validLogLevels.includes(optionalVars.LOG_LEVEL)) {
+        throw new Error(`LOG_LEVEL must be one of: ${validLogLevels.join(', ')}, got: ${optionalVars.LOG_LEVEL}`);
+    }
+    
+    return optionalVars;
+}
+
+// Выполняем валидацию
+let germanyUrl, usaUrl, finlandUrl, credentials, optionalVars;
+
+try {
+    console.log('Starting environment variables validation...');
+    
+    // Проверяем наличие обязательных переменных
+    const missingVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+    if (missingVars.length > 0) {
+        throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+    }
+    
+    // Валидируем URL серверов
+    germanyUrl = validateUrl(process.env.GERMANY_API_URL, 'GERMANY_API_URL');
+    usaUrl = validateUrl(process.env.USA_API_URL, 'USA_API_URL');
+    finlandUrl = validateUrl(process.env.FINLAND_API_URL, 'FINLAND_API_URL');
+    
+    // Валидируем учетные данные
+    credentials = validateCredentials(process.env.USERNAME, process.env.PASSWORD);
+    
+    // Валидируем опциональные переменные
+    optionalVars = validateOptionalVars();
+    
+    console.log('Environment variables validation completed successfully');
+    
+} catch (error) {
+    console.error('Environment variables validation failed:', error.message);
+    process.exit(1);
+}
+
+const port = optionalVars.PORT;
 
 // --- СОЗДАНИЕ ДИРЕКТОРИИ ДЛЯ ЛОГОВ ---
 const logsDir = path.join(__dirname, 'logs');
@@ -19,7 +132,7 @@ if (!fs.existsSync(logsDir)) {
 
 // --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
 const logger = winston.createLogger({
-    level: process.env.LOG_LEVEL || 'info',
+    level: optionalVars.LOG_LEVEL,
     format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.errors({ stack: true }),
@@ -46,7 +159,7 @@ const logger = winston.createLogger({
 });
 
 // В development режиме также логируем в консоль
-if (process.env.NODE_ENV !== 'production') {
+if (optionalVars.NODE_ENV !== 'production') {
     logger.add(new winston.transports.Console({
         format: winston.format.combine(
             winston.format.colorize(),
@@ -55,42 +168,27 @@ if (process.env.NODE_ENV !== 'production') {
     }));
 }
 
-// --- ВАЛИДАЦИЯ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ ---
-const requiredEnvVars = [
-    'GERMANY_API_URL',
-    'USA_API_URL', 
-    'FINLAND_API_URL',
-    'USERNAME',
-    'PASSWORD'
-];
-
-const missingVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
-if (missingVars.length > 0) {
-    logger.error(`Missing required environment variables: ${missingVars.join(', ')}`);
-    process.exit(1);
-}
-
 // --- КОНФИГУРАЦИЯ СЕРВЕРОВ ---
 const SERVER_CONFIGS = [
     { 
         name: "Germany", 
-        baseUrl: process.env.GERMANY_API_URL,
-        username: process.env.USERNAME,
-        password: process.env.PASSWORD,
+        baseUrl: germanyUrl,
+        username: credentials.username,
+        password: credentials.password,
         pingHost: process.env.PINGHOST1
     },
     { 
         name: "USA", 
-        baseUrl: process.env.USA_API_URL,
-        username: process.env.USERNAME,
-        password: process.env.PASSWORD,
+        baseUrl: usaUrl,
+        username: credentials.username,
+        password: credentials.password,
         pingHost: process.env.PINGHOST2
     },
     { 
         name: "Finland", 
-        baseUrl: process.env.FINLAND_API_URL,
-        username: process.env.USERNAME,
-        password: process.env.PASSWORD,
+        baseUrl: finlandUrl,
+        username: credentials.username,
+        password: credentials.password,
         pingHost: process.env.PINGHOST3
     }
 ];
