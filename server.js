@@ -115,7 +115,7 @@ app.use('/api/', limiter);
 
 // CORS настройки
 const corsOptions = {
-    origin: process.env.ALLOWED_ORIGIN || 'https://static.rox-net.ru',
+    origin: process.env.ALLOWED_ORIGIN || 'https://rx-test.ru',
     credentials: true,
     optionsSuccessStatus: 200,
     methods: ['GET', 'POST', 'OPTIONS'],
