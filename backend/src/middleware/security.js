@@ -101,6 +101,7 @@ const errorLogger = (err, req, res, _next) => {
         ip: req.ip,
         userAgent: req.get('User-Agent')
     });
+    // Передаем ошибку дальше
     _next(err);
 };
 
