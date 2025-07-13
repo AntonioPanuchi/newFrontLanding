@@ -18,7 +18,7 @@ if (!fs.existsSync(logsDir)) {
 
 // --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
 const logger = winston.createLogger({
-    level: process.env.LOG_LEVEL || 'info',
+    level: process.env.LOG_LEVEL || 'debug',
     format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.errors({ stack: true }),
@@ -116,8 +116,14 @@ app.use('/api/', limiter);
 // CORS настройки
 const corsOptions = {
     origin: function (origin, callback) {
+        // Логируем origin для отладки
+        logger.debug(`CORS check for origin: ${origin}`);
+        
         // Разрешаем запросы без origin (например, из Postman)
-        if (!origin) return callback(null, true);
+        if (!origin) {
+            logger.debug('Allowing request without origin');
+            return callback(null, true);
+        }
         
         const allowedOrigins = [
             'https://rx-test.ru',
@@ -127,11 +133,22 @@ const corsOptions = {
             'http://127.0.0.1:3001'
         ];
         
+        logger.debug(`Checking if ${origin} is in allowed origins: ${allowedOrigins.join(', ')}`);
+        
+        // Временно разрешаем все origins для отладки
+        logger.debug(`Temporarily allowing all origins for debugging`);
+        callback(null, true);
+        
+        // Раскомментируйте для строгой проверки:
+        /*
         if (allowedOrigins.indexOf(origin) !== -1) {
+            logger.debug(`Origin ${origin} is allowed`);
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            logger.warn(`Origin ${origin} is not allowed`);
+            callback(new Error(`Not allowed by CORS: ${origin}`));
         }
+        */
     },
     credentials: true,
     optionsSuccessStatus: 200,
@@ -145,6 +162,15 @@ app.use(express.json());
 // Middleware для логирования запросов
 app.use((req, res, next) => {
     const start = Date.now();
+    
+    // Логируем входящие запросы с origin для отладки CORS
+    logger.debug('Incoming request:', {
+        method: req.method,
+        url: req.url,
+        origin: req.get('Origin'),
+        userAgent: req.get('User-Agent'),
+        ip: req.ip || req.connection.remoteAddress
+    });
     
     res.on('finish', () => {
         const duration = Date.now() - start;
@@ -520,6 +546,23 @@ app.use('*', (req, res) => {
 
 // Global error handler
 app.use((error, req, res, _next) => {
+    // Специальная обработка CORS ошибок
+    if (error.message && error.message.includes('Not allowed by CORS')) {
+        logger.warn('CORS error:', {
+            error: error.message,
+            url: req.url,
+            method: req.method,
+            origin: req.get('Origin'),
+            userAgent: req.get('User-Agent')
+        });
+        
+        return res.status(403).json({
+            error: 'CORS Error',
+            message: 'Cross-origin request not allowed',
+            details: error.message
+        });
+    }
+    
     logger.error('Unhandled error:', {
         error: error.message,
         stack: error.stack,
