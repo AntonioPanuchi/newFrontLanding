@@ -11,12 +11,12 @@
   <!-- SEO и Open Graph -->
   <meta name="description" content="⚡ Быстрый VPN через Telegram-бота ROX.VPN. Настройка за 30 секунд, высокая скорость, полная анонимность. Попробуйте бесплатно!" />
   <meta name="keywords" content="VPN Telegram, ROX VPN, быстрый VPN, анонимный интернет, VPN бот, обход блокировок, безопасный интернет" />
-  <link rel="canonical" href="https://rox-net.ru/" />
-  <link rel="stylesheet" href="styles.css">
+  <link rel="canonical" href="https://rx-test.ru" />
+  <link rel="stylesheet" href="./style.css">
   <meta property="og:title" content="ROX.VPN — VPN через Telegram за 30 секунд" />
   <meta property="og:description" content="Никаких сложных настроек! Быстрый и безопасный VPN прямо в Telegram. Попробуй бесплатно!" />
-  <meta property="og:image" content="https://rox-net.ru/og-image.jpg" />
-  <meta property="og:url" content="https://rox-net.ru/" />
+  <meta property="og:image" content="https://rx-test.ru/og-image.jpg" />
+  <meta property="og:url" content="https://rx-test.ru/" />
   <meta property="og:type" content="website" />
 
   <!-- Tailwind -->
@@ -24,18 +24,7 @@
   
   <!-- Font Awesome для иконок -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- Yandex.Metrika -->
-  <script type="text/javascript">
-     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-     m[i].l=1*new Date();
-     for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-     k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-     (window, document, "script", "https://mc.webvisor.org/metrika/tag_ww.js", "ym");
-
-     ym(103220708, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true });
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/103220708" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  
 </head>
 
 <body class="gradient-bg text-white font-sans">
@@ -69,7 +58,7 @@
         </div>
       </div>
       <div class="space-y-4">
-        <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" onclick="ym(103220708,'reachGoal','main_cta_click')" class="inline-block bg-green-400 hover:bg-green-300 text-gray-900 px-8 py-4 rounded-full text-xl font-bold transition transform duration-300 pulse-green shadow-lg">🚀 Попробовать бесплатно</a>
+        <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="inline-block bg-green-400 hover:bg-green-300 text-gray-900 px-8 py-4 rounded-full text-xl font-bold transition transform duration-300 pulse-green shadow-lg">🚀 Попробовать бесплатно</a>
         <p class="text-green-300 text-sm">✅ Без регистрации • ✅ Без карты • ✅ Работает сразу</p>
       </div>
     </div>
@@ -142,7 +131,7 @@
   <section class="bg-gradient-to-r from-green-600 to-blue-600 px-6 py-16 text-center rounded-t-3xl shadow-inner">
     <h2 class="text-3xl font-bold mb-4">Готов попробовать?</h2>
     <p class="text-xl mb-8 opacity-90">Присоединяйся к тысячам пользователей, которые уже оценили удобство ROX.VPN</p>
-    <a href="https://t.me/RX_VPN_Seller_bot?start=utm_land_final_cta" target="_blank" onclick="ym(103220708,'reachGoal','final_cta_click')" class="inline-block bg-white text-gray-900 px-8 py-4 rounded-full text-xl font-bold hover:bg-gray-100 transition transform duration-300 shadow-lg">Начать прямо сейчас →</a>
+    <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="inline-block bg-white text-gray-900 px-8 py-4 rounded-full text-xl font-bold hover:bg-gray-100 transition transform duration-300 shadow-lg">Начать прямо сейчас →</a>
   </section>
 
   <!-- Footer -->
