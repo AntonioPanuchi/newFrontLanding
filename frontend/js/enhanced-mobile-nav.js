@@ -90,14 +90,15 @@ class EnhancedMobileNavigation {
             }
         });
 
-        // Обновление активного элемента при скролле
-        window.addEventListener('scroll', () => {
-            this.updateActiveSection();
-        });
-
-        // Показ/скрытие навигации при скролле
+        // OPTIMIZED: Throttled scroll handlers for better performance
+        let scrollTicking = false;
         let lastScrollY = window.scrollY;
-        window.addEventListener('scroll', () => {
+        
+        function updateScrollEffects() {
+            // Update active section
+            this.updateActiveSection();
+            
+            // Show/hide navigation based on scroll direction
             const currentScrollY = window.scrollY;
             const scrollDelta = currentScrollY - lastScrollY;
             
@@ -108,7 +109,17 @@ class EnhancedMobileNavigation {
             }
             
             lastScrollY = currentScrollY;
-        });
+            scrollTicking = false;
+        }
+        
+        function requestScrollTick() {
+            if (!scrollTicking) {
+                requestAnimationFrame(updateScrollEffects.bind(this));
+                scrollTicking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', requestScrollTick.bind(this), { passive: true });
     }
 
     setupSwipeGestures() {

@@ -106,15 +106,27 @@ class EnhancedAnalytics {
             }
         });
 
-        // Отслеживание скролла
+        // OPTIMIZED: Throttled scroll tracking for better performance
+        let scrollTicking = false;
         let scrollDepth = 0;
-        window.addEventListener('scroll', () => {
+        
+        function updateScrollDepth() {
             const newScrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
             if (newScrollDepth > scrollDepth && newScrollDepth % 25 === 0) {
                 this.trackEvent('scroll_depth', { depth: newScrollDepth });
                 scrollDepth = newScrollDepth;
             }
-        });
+            scrollTicking = false;
+        }
+        
+        function requestScrollTick() {
+            if (!scrollTicking) {
+                requestAnimationFrame(updateScrollDepth.bind(this));
+                scrollTicking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', requestScrollTick.bind(this), { passive: true });
     }
 
     async sendToServer(eventData) {
