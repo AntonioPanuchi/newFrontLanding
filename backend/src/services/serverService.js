@@ -196,7 +196,7 @@ class ServerService {
 
     async pingServer(host) {
         try {
-            // Используем HTTP ping вместо ICMP ping (работает в Docker)
+            // Используем HTTP ping вместо ICMP ping (работает в любом окружении)
             const startTime = Date.now();
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);

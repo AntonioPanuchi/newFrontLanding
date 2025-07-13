@@ -237,9 +237,11 @@ watch -n 30 'curl -s https://rx-test.ru/api/health | jq .'
 
 ### Логи
 
-Логи API доступны в контейнере Docker:
+Логи API доступны в директории `logs/`:
 - `logs/combined.log` - Все логи
 - `logs/error.log` - Только ошибки
+- `logs/pm2-error.log` - Ошибки PM2
+- `logs/pm2-out.log` - Вывод PM2
 
 ### Метрики
 

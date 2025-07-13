@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ROX VPN API Deployment Script
-# Автоматическое развертывание приложения
+# Автоматическое развертывание приложения с PM2
 
 set -e  # Остановка при ошибке
 
@@ -44,13 +44,12 @@ check_dependencies() {
     fi
     
     if ! command -v pm2 &> /dev/null; then
-        missing_deps+=("pm2")
-    fi
-    
-    if [ ${#missing_deps[@]} -ne 0 ]; then
-        log_error "Отсутствуют зависимости: ${missing_deps[*]}"
-        log_info "Установите недостающие зависимости и повторите попытку"
-        exit 1
+        log_warning "PM2 не установлен. Устанавливаем..."
+        npm install -g pm2
+        if [ $? -ne 0 ]; then
+            log_error "Не удалось установить PM2"
+            exit 1
+        fi
     fi
     
     log_success "Все зависимости установлены"
