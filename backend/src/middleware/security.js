@@ -102,7 +102,6 @@ const errorLogger = (err, req, res, _next) => {
         userAgent: req.get('User-Agent')
     });
     // Передаем ошибку дальше в следующий middleware
-    _next(err);
 };
 
 // Middleware для обработки ошибок
