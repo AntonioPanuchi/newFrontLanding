@@ -505,9 +505,9 @@ app.use(express.static(path.join(__dirname, '..', 'frontend'), {
     }
 }));
 
-// Serve index.php for root path
+// Serve index.html for root path
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.php'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
 // 404 handler
