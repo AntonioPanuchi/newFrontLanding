@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = new express.Router();
 const { getServerStatuses, getHealth } = require('../controllers/serverController');
 
 // GET /api/server-statuses - Получение статуса всех серверов

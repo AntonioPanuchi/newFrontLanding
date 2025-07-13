@@ -2,11 +2,11 @@ require('dotenv').config();
 const App = require('./app');
 
 process.on('uncaughtException', (error) => {
-    throw new Error('Uncaught Exception: ' + error);
+    throw new Error(`Uncaught Exception: ${  error}`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-    throw new Error('Unhandled Rejection at: ' + promise + ' reason: ' + reason);
+    throw new Error(`Unhandled Rejection at: ${  promise  } reason: ${  reason}`);
 });
 
 process.on('SIGTERM', () => {

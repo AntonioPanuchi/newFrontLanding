@@ -1,8 +1,8 @@
 const { formatUptime, createApiResponse } = require('../utils/helpers');
 const { logger } = require('../utils/logger');
-const serverServiceClass = require('../services/serverService');
+const ServerServiceClass = require('../services/serverService');
 
-const serverService = new serverServiceClass();
+const serverService = new ServerServiceClass();
 
 async function getServerStatuses(req, res) {
     try {

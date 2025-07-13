@@ -69,7 +69,7 @@ const corsOptions = {
 };
 
 // Middleware для проверки API ключа (опционально)
-const apiKeyAuth = (req, _res, next) => {
+const apiKeyAuth = (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
     
     if (!apiKey) {
@@ -83,7 +83,7 @@ const apiKeyAuth = (req, _res, next) => {
             ip: req.ip,
             path: req.path
         });
-        return _res.status(401).json({
+        return res.status(401).json({
             error: 'Invalid API key'
         });
     }
@@ -92,7 +92,7 @@ const apiKeyAuth = (req, _res, next) => {
 };
 
 // Middleware для логирования ошибок
-const errorLogger = (err, req, res, _next) => {
+const errorLogger = (err, req, _res, _next) => {
     logger.error('Unhandled error:', {
         error: err.message,
         stack: err.stack,
@@ -102,10 +102,11 @@ const errorLogger = (err, req, res, _next) => {
         userAgent: req.get('User-Agent')
     });
     // Передаем ошибку дальше в следующий middleware
+    // _next(err); // если нужно передать ошибку дальше, раскомментируйте
 };
 
 // Middleware для обработки ошибок
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, _next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
     
