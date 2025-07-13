@@ -125,15 +125,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Статические файлы
-app.use(express.static(path.join(__dirname, '..', 'frontend'), {
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        }
-    }
-}));
-
 // Middleware для логирования запросов
 app.use((req, res, next) => {
     const start = Date.now();
@@ -487,6 +478,15 @@ app.post('/api/refresh-cache', async (req, res) => {
         });
     }
 });
+
+// Статические файлы (после API маршрутов)
+app.use(express.static(path.join(__dirname, '..', 'frontend'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        }
+    }
+}));
 
 // Serve index.php for root path
 app.get('/', (req, res) => {
