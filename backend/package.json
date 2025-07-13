@@ -2,7 +2,7 @@
   "name": "rox-vpn-api",
   "version": "1.0.0",
   "description": "ROX VPN Server Status API - Backend service for monitoring VPN server status and providing real-time data",
-  "main": "server.js",
+  "main": "./server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",

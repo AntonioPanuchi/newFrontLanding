@@ -12,7 +12,7 @@
   <meta name="description" content="⚡ Быстрый VPN через Telegram-бота ROX.VPN. Настройка за 30 секунд, высокая скорость, полная анонимность. Попробуйте бесплатно!" />
   <meta name="keywords" content="VPN Telegram, ROX VPN, быстрый VPN, анонимный интернет, VPN бот, обход блокировок, безопасный интернет" />
   <link rel="canonical" href="https://rx-test.ru" />
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css" type="text/css">
   <meta property="og:title" content="ROX.VPN — VPN через Telegram за 30 секунд" />
   <meta property="og:description" content="Никаких сложных настроек! Быстрый и безопасный VPN прямо в Telegram. Попробуй бесплатно!" />
   <meta property="og:image" content="https://rx-test.ru/og-image.jpg" />
@@ -958,7 +958,7 @@ class AnalyticsTracker {
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     window.serverStatusManager = new ServerStatusManager({
-        apiUrl: 'https://rx-testru/api/server-statuses',
+        apiUrl: 'https://rx-test.ru/api/server-statuses',
         updateInterval: 60000,
         enableAnalytics: true,
         enableOfflineSupport: true

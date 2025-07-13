@@ -119,11 +119,20 @@ const corsOptions = {
     credentials: true,
     optionsSuccessStatus: 200,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept']
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Статические файлы
+app.use(express.static(path.join(__dirname, '..', 'frontend'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        }
+    }
+}));
 
 // Middleware для логирования запросов
 app.use((req, res, next) => {
@@ -477,6 +486,11 @@ app.post('/api/refresh-cache', async (req, res) => {
             message: error.message
         });
     }
+});
+
+// Serve index.php for root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.php'));
 });
 
 // 404 handler
