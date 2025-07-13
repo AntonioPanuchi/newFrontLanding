@@ -145,53 +145,6 @@
     </div>
   </footer>
 
-  <!-- Varioqub и скрипты аналитики -->
-  <script type="text/javascript">(function(e,x,pe,r,i,me,nt){e[i]=e[i]||function(){(e[i].a=e[i].a||[]).push(arguments)},me=x.createElement(pe),me.async=1,me.src=r,nt=x.getElementsByTagName(pe)[0],me.addEventListener('error',function(){function cb(t){t=t[t.length-1],'function'==typeof t&&t({flags:{}})};Array.isArray(e[i].a)&&e[i].a.forEach(cb);e[i]=function(){cb(arguments)}}),nt.parentNode.insertBefore(me,nt)})(window,document,'script','https://abt.s3.yandex.net/exp.js','ymab');ymab('metrika.103220708','init');</script>
-  
-  <!-- Аналитика скроллинга и времени на сайте -->
-  <script>
-    let scrollDepth = 0;
-    window.addEventListener('scroll', function() {
-      const scrollPercent = Math.round(window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100);
-      if (scrollPercent > scrollDepth) {
-        scrollDepth = scrollPercent;
-        if (scrollDepth >= 25 && scrollDepth < 50) {
-          ym(103220708, 'reachGoal', 'scroll_25');
-        } else if (scrollDepth >= 50 && scrollDepth < 75) {
-          ym(103220708, 'reachGoal', 'scroll_50');
-        } else if (scrollDepth >= 75) {
-          ym(103220708, 'reachGoal', 'scroll_75');
-        }
-      }
-    });
-
-    let timeOnSite = 0;
-    setInterval(function() {
-      timeOnSite += 10;
-      if (timeOnSite === 30) {
-        ym(103220708, 'reachGoal', 'time_30s');
-      } else if (timeOnSite === 60) {
-        ym(103220708, 'reachGoal', 'time_60s');
-      } else if (timeOnSite === 120) {
-        ym(103220708, 'reachGoal', 'time_2min');
-      }
-    }, 10000);
-
-    // Smooth scroll для якорных ссылок
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-  </script>
-
   <!-- Tailwind config -->
   <script>
     tailwind.config = {
@@ -209,7 +162,7 @@ class ServerStatusManager {
     constructor(config = {}) {
         // Конфигурация
         this.config = {
-            apiUrl: config.apiUrl || 'https://api.rox-net.ru/api/server-statuses',
+            apiUrl: config.apiUrl || 'https://rx-test.ru/api/server-statuses',
             updateInterval: config.updateInterval || 60000,
             retryAttempts: config.retryAttempts || 3,
             retryDelay: config.retryDelay || 2000,
