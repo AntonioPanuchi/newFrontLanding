@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Debug</title>
+    <link href="./dist/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white p-8">
+    <h1 class="text-2xl mb-4">API Debug</h1>
+    
+    <div id="debug-results" class="space-y-4">
+        <div class="bg-gray-800 p-4 rounded">
+            <h2 class="text-lg mb-2">Testing API with detailed logging...</h2>
+            <div id="api-debug"></div>
+        </div>
+    </div>
+
+    <script>
+        async function debugAPI() {
+            const debugDiv = document.getElementById('api-debug');
+            
+            try {
+                console.log('=== API DEBUG START ===');
+                
+                // Тест 1: Простой fetch
+                console.log('1. Testing simple fetch...');
+                const response = await fetch('/api/server-statuses');
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                // Тест 2: Получение текста
+                console.log('2. Getting response text...');
+                const text = await response.text();
+                console.log('Response text length:', text.length);
+                console.log('Response text preview:', text.substring(0, 200));
+                
+                // Тест 3: Парсинг JSON
+                console.log('3. Parsing JSON...');
+                const data = JSON.parse(text);
+                console.log('Parsed data type:', typeof data);
+                console.log('Is Array:', Array.isArray(data));
+                console.log('Data length:', data ? data.length : 'null');
+                console.log('First item:', data && data.length > 0 ? data[0] : 'none');
+                
+                if (data && Array.isArray(data)) {
+                    debugDiv.innerHTML = `
+                        <div class="text-green-400">✅ API работает корректно!</div>
+                        <div class="text-sm text-gray-400 mt-2">
+                            <strong>Получено ${data.length} серверов:</strong><br>
+                            ${data.map(server => 
+                                `- ${server.name}: ${server.status} (${server.users_online} users, ${server.ping_ms}ms ping)`
+                            ).join('<br>')}
+                        </div>
+                        <details class="mt-4">
+                            <summary class="cursor-pointer text-blue-400">Показать полные данные</summary>
+                            <pre class="text-xs mt-2 bg-gray-700 p-2 rounded overflow-auto">${JSON.stringify(data, null, 2)}</pre>
+                        </details>
+                    `;
+                } else {
+                    debugDiv.innerHTML = `
+                        <div class="text-red-400">❌ Неверный формат данных</div>
+                        <div class="text-sm text-gray-400 mt-2">
+                            <strong>Тип данных:</strong> ${typeof data}<br>
+                            <strong>Is Array:</strong> ${Array.isArray(data)}<br>
+                            <strong>Длина:</strong> ${data ? data.length : 'null'}
+                        </div>
+                        <pre class="text-xs mt-2 bg-gray-700 p-2 rounded overflow-auto">${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+                
+                console.log('=== API DEBUG END ===');
+                
+            } catch (error) {
+                console.error('=== API DEBUG ERROR ===');
+                console.error('Error:', error);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+                console.error('=== END ERROR ===');
+                
+                debugDiv.innerHTML = `
+                    <div class="text-red-400">❌ Ошибка API: ${error.message}</div>
+                    <div class="text-sm text-gray-400 mt-2">
+                        <strong>Тип ошибки:</strong> ${error.name}<br>
+                        <strong>Сообщение:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        // Запускаем отладку при загрузке страницы
+        document.addEventListener('DOMContentLoaded', debugAPI);
+    </script>
+</body>
+</html> 

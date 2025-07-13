@@ -12,7 +12,7 @@
   <meta name="description" content="⚡ Быстрый VPN через Telegram-бота ROX.VPN. Настройка за 30 секунд, высокая скорость, полная анонимность. Попробуйте бесплатно!" />
   <meta name="keywords" content="VPN Telegram, ROX VPN, быстрый VPN, анонимный интернет, VPN бот, обход блокировок, безопасный интернет" />
   <link rel="canonical" href="https://rx-test.ru" />
-  <link rel="stylesheet" href="./style.css" type="text/css">
+  <link rel="stylesheet" href="./enhanced-style.css" type="text/css">
   <meta property="og:title" content="ROX.VPN — VPN через Telegram за 30 секунд" />
   <meta property="og:description" content="Никаких сложных настроек! Быстрый и безопасный VPN прямо в Telegram. Попробуй бесплатно!" />
   <meta property="og:image" content="https://rx-test.ru/og-image.jpg" />
@@ -204,7 +204,19 @@
     </div>
   </footer>
 
-
+  <!-- Tailwind config -->
+  <script>
+    tailwind.config = {
+      content: ['./**/*.html'],
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
 
   <!-- Enhanced Features -->
   <script src="./js/enhanced-features.js"></script>

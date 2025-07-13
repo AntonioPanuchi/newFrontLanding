@@ -128,41 +128,70 @@ class ServerStatusManager {
         this.hideError();
 
         try {
+            console.log('Fetching server statuses from:', this.config.apiUrl);
+            
             const response = await this.fetchWithTimeout(
                 this.config.apiUrl,
                 {
                     method: 'GET',
                     headers: {
+                        'Accept': 'application/json',
                         'Content-Type': 'application/json',
                     }
                 },
                 this.config.requestTimeout
             );
 
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
 
-            const data = await response.json();
+            // Сначала получаем текст ответа
+            const text = await response.text();
+            console.log('Response text length:', text.length);
+            console.log('Response text preview:', text.substring(0, 200));
+
+            // Парсим JSON
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (parseError) {
+                console.error('JSON parse error:', parseError);
+                console.error('Response text:', text);
+                throw new Error('Invalid JSON response');
+            }
+
+            console.log('Parsed data:', data);
+            console.log('Data type:', typeof data);
+            console.log('Is Array:', Array.isArray(data));
+            console.log('Data length:', data ? data.length : 'null');
             
-            if (data.success && data.data && data.data.servers) {
-                this.state.servers = data.data.servers;
+            if (data && Array.isArray(data)) {
+                console.log('✅ Valid data received, processing...');
+                this.state.servers = data;
                 this.state.lastFetchTime = Date.now();
                 this.state.retryCount = 0;
                 
                 this.renderServers();
-                this.updateLastUpdated(data.data.lastUpdate);
-                this.notifyObservers('dataLoaded', data.data);
+                this.updateLastUpdated(Date.now());
+                this.notifyObservers('dataLoaded', { servers: data });
                 
                 if (this.config.enableAnalytics) {
-                    this.trackAnalytics('servers_loaded', { count: data.data.servers.length });
+                    this.trackAnalytics('servers_loaded', { count: data.length });
                 }
+                
+                console.log('✅ Server statuses loaded successfully');
             } else {
-                throw new Error('Invalid response format');
+                console.error('❌ Invalid data format:', data);
+                throw new Error('Invalid response format - expected array');
             }
 
         } catch (error) {
-            console.error('Error loading server statuses:', error);
+            console.error('❌ Error loading server statuses:', error);
             this.handleError(error);
         } finally {
             this.state.isLoading = false;
@@ -225,18 +254,23 @@ class ServerStatusManager {
                     
                     <div class="flex justify-between items-center">
                         <span class="text-gray-400 text-sm">Пинг:</span>
-                        <span class="text-white font-medium">${server.ping} мс</span>
+                        <span class="text-white font-medium">${server.ping_ms} мс</span>
                     </div>
                     
                     <div class="flex justify-between items-center">
                         <span class="text-gray-400 text-sm">Пользователи:</span>
-                        <span class="text-white font-medium">${server.users}</span>
+                        <span class="text-white font-medium">${server.users_online}</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-400 text-sm">CPU:</span>
+                        <span class="text-white font-medium">${server.cpu_load}%</span>
                     </div>
                 </div>
                 
                 <div class="mt-4 pt-4 border-t border-white/10">
                     <div class="text-xs text-gray-500">
-                        Обновлено: ${this.formatTime(server.lastUpdate)}
+                        Обновлено: ${this.formatTime(this.state.lastFetchTime)}
                     </div>
                 </div>
             </div>
