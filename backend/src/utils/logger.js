@@ -2,11 +2,9 @@ const winston = require('winston');
 const path = require('path');
 const fs = require('fs');
 
-// Создаем директорию для логов если её нет
+// Создаем директорию для логов если её нет (асинхронно)
 const logsDir = path.join(__dirname, '../../logs');
-if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
-}
+fs.promises.mkdir(logsDir, { recursive: true }).catch(() => {});
 
 // Создаем логгер
 const logger = winston.createLogger({

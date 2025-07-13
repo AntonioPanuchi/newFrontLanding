@@ -34,7 +34,7 @@ const apiLimiter = rateLimit({
 
 // CORS настройки
 const corsOptions = {
-    origin: function (origin, callback) {
+    origin(origin, callback) {
         logger.debug(`CORS check for origin: ${origin}`);
         
         // Разрешаем запросы без origin (например, из Postman)
@@ -92,7 +92,7 @@ const apiKeyAuth = (req, res, next) => {
 };
 
 // Middleware для логирования ошибок
-const errorLogger = (err, req, res, next) => {
+const errorLogger = (err, req, res, _next) => {
     logger.error('Unhandled error:', {
         error: err.message,
         stack: err.stack,

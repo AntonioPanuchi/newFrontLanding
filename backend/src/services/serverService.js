@@ -151,7 +151,7 @@ class ServerService {
                         'Cookie': cookie,
                         'Content-Type': 'application/json',
                     },
-                    signal: AbortSignal.timeout(15000) // 15 секунд таймаут
+                    signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined // 15 секунд таймаут
                 });
 
                 if (!response.ok) {

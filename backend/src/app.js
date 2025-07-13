@@ -88,7 +88,7 @@ class App {
         
         if (!validation.isValid) {
             logger.error(validation.message);
-            process.exit(1);
+            throw new Error(validation.message);
         }
         
         logger.info('Environment validation passed');

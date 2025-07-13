@@ -42,9 +42,8 @@ function isValidIP(ip) {
 /**
  * Очищает кэш от устаревших записей
  * @param {Object} cache - Объект кэша
- * @param {number} maxAge - Максимальный возраст записи в миллисекундах
  */
-function cleanCache(cache, maxAge) {
+function cleanCache(cache) {
     const now = Date.now();
     Object.keys(cache).forEach(key => {
         if (cache[key].expiresAt && cache[key].expiresAt < now) {
@@ -95,7 +94,7 @@ function formatBytes(bytes) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
 
 /**
@@ -128,7 +127,7 @@ function isEmpty(obj) {
  * @param {*} defaultValue - Значение по умолчанию
  * @returns {*} Значение или defaultValue
  */
-function get(obj, path, defaultValue = undefined) {
+function get(obj, path, defaultValue = void 0) {
     const keys = path.split('.');
     let result = obj;
     
@@ -139,7 +138,7 @@ function get(obj, path, defaultValue = undefined) {
         result = result[key];
     }
     
-    return result !== undefined ? result : defaultValue;
+    return result !== void 0 ? result : defaultValue;
 }
 
 module.exports = {
