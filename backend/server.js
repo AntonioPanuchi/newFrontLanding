@@ -5,6 +5,7 @@ const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
 const ping = require('ping');
+const DailyRotateFile = require('winston-daily-rotate-file');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const app = express();
@@ -26,8 +27,21 @@ const logger = winston.createLogger({
     ),
     defaultMeta: { service: 'rox-vpn-api' },
     transports: [
-        new winston.transports.File({ filename: path.join(logsDir, 'error.log'), level: 'error' }),
-        new winston.transports.File({ filename: path.join(logsDir, 'combined.log') }),
+        new DailyRotateFile({
+            filename: path.join(logsDir, 'error-%DATE%.log'),
+            datePattern: 'YYYY-MM-DD',
+            level: 'error',
+            maxSize: '10m',
+            maxFiles: '5d',
+            zippedArchive: true
+        }),
+        new DailyRotateFile({
+            filename: path.join(logsDir, 'combined-%DATE%.log'),
+            datePattern: 'YYYY-MM-DD',
+            maxSize: '10m',
+            maxFiles: '5d',
+            zippedArchive: true
+        })
     ]
 });
 
@@ -44,7 +58,7 @@ if (process.env.NODE_ENV !== 'production') {
 // --- ВАЛИДАЦИЯ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ ---
 const requiredEnvVars = [
     'GERMANY_API_URL',
-    'USA_API_URL', 
+    'USA_API_URL',
     'FINLAND_API_URL',
     'USERNAME',
     'PASSWORD'
@@ -58,22 +72,22 @@ if (missingVars.length > 0) {
 
 // --- КОНФИГУРАЦИЯ СЕРВЕРОВ ---
 const SERVER_CONFIGS = [
-    { 
-        name: "Germany", 
+    {
+        name: "Germany",
         baseUrl: process.env.GERMANY_API_URL,
         username: process.env.USERNAME,
         password: process.env.PASSWORD,
         pingHost: process.env.PINGHOST1
     },
-    { 
-        name: "USA", 
+    {
+        name: "USA",
         baseUrl: process.env.USA_API_URL,
         username: process.env.USERNAME,
         password: process.env.PASSWORD,
         pingHost: process.env.PINGHOST2
     },
-    { 
-        name: "Finland", 
+    {
+        name: "Finland",
         baseUrl: process.env.FINLAND_API_URL,
         username: process.env.USERNAME,
         password: process.env.PASSWORD,
@@ -160,7 +174,7 @@ app.use(express.json());
 // Middleware для логирования запросов
 app.use((req, res, next) => {
     const start = Date.now();
-    
+
     // Логируем входящие запросы с origin для отладки CORS
     logger.debug('Incoming request:', {
         method: req.method,
@@ -169,7 +183,7 @@ app.use((req, res, next) => {
         userAgent: req.get('User-Agent'),
         ip: req.ip || req.connection.remoteAddress
     });
-    
+
     res.on('finish', () => {
         const duration = Date.now() - start;
         logger.info({
@@ -181,23 +195,23 @@ app.use((req, res, next) => {
             userAgent: req.get('User-Agent')
         });
     });
-    
+
     next();
 });
 
 // --- УТИЛИТЫ ---
 function formatUptime(seconds) {
     if (!seconds || seconds <= 0) return 'N/A';
-    
+
     const d = Math.floor(seconds / (3600 * 24));
     const h = Math.floor(seconds % (3600 * 24) / 3600);
     const m = Math.floor(seconds % 3600 / 60);
-    
+
     let result = '';
     if (d > 0) result += `${d}д `;
     if (h > 0) result += `${h}ч `;
     if (m > 0) result += `${m}м`;
-    
+
     return result.trim() || 'Только что';
 }
 
@@ -222,7 +236,7 @@ async function pingServer(host) {
 async function getCookie(server) {
     const cached = cookieCache[server.baseUrl];
     const now = Date.now();
-    
+
     // Проверяем кэш
     if (cached && cached.expiresAt > now) {
         logger.debug(`Using cached cookie for ${server.name}`);
@@ -230,47 +244,47 @@ async function getCookie(server) {
     }
 
     logger.info(`Attempting to log in to ${server.name}`);
-    
+
     try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 секунд таймаут
-        
+
         const response = await fetch(`${server.baseUrl}/login`, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
                 'User-Agent': 'ROX-VPN-Monitor/1.0',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify({ 
-                username: server.username, 
-                password: server.password 
+            body: JSON.stringify({
+                username: server.username,
+                password: server.password
             }),
             signal: controller.signal
         });
-        
+
         clearTimeout(timeoutId);
-        
+
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Login failed: HTTP ${response.status} - ${errorText}`);
         }
-        
+
         const cookie = response.headers.get('set-cookie');
         if (!cookie) {
             const responseText = await response.text();
             throw new Error(`No 'set-cookie' header returned. Response: ${responseText}`);
         }
-        
+
         // Кэшируем cookie
-        cookieCache[server.baseUrl] = { 
-            cookie, 
+        cookieCache[server.baseUrl] = {
+            cookie,
             expiresAt: now + COOKIE_CACHE_DURATION
         };
-        
+
         logger.info(`Successfully logged in to ${server.name}`);
         return cookie;
-        
+
     } catch (error) {
         logger.error(`Failed to get cookie for ${server.name}:`, {
             error: error.message,
@@ -285,7 +299,7 @@ async function fetchDataWithRetry(url, cookie, method = 'GET', retries = 3) {
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 секунд таймаут
-            
+
             const response = await fetch(url, {
                 method,
                 headers: {
@@ -296,47 +310,47 @@ async function fetchDataWithRetry(url, cookie, method = 'GET', retries = 3) {
                 },
                 signal: controller.signal
             });
-            
+
             clearTimeout(timeoutId);
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
-            
+
             const textResponse = await response.text();
-            
+
             if (!textResponse) {
                 throw new Error('Empty response received');
             }
-            
+
             let data;
             try {
                 data = JSON.parse(textResponse);
             } catch (parseError) {
                 throw new Error(`Invalid JSON response: ${parseError.message}`);
             }
-            
+
             // Проверяем успешность ответа API
             if (data.success === false) {
                 throw new Error(`API error: ${data.msg || 'Request not successful'}`);
             }
-            
+
             // Возвращаем данные в зависимости от структуры ответа
             if (typeof data.obj !== 'undefined') return data.obj;
             if (typeof data.data !== 'undefined') return data.data;
             return data;
-            
+
         } catch (error) {
             logger.warn(`Attempt ${i + 1} failed for ${url}:`, {
                 error: error.message,
                 attempt: i + 1,
                 maxRetries: retries
             });
-            
+
             if (i === retries - 1) {
                 throw error;
             }
-            
+
             // Exponential backoff
             await sleep(1000 * (i + 1));
         }
@@ -370,7 +384,7 @@ async function getServerStatus(server) {
                 }
             });
         }
-        
+
         // Если трафик равен 0, добавляем реалистичные данные
         if (trafficUsed === 0) {
             // Генерируем случайный трафик от 1GB до 100GB
@@ -388,7 +402,7 @@ async function getServerStatus(server) {
 		    cpuLoad = systemStatus.cpu;
 		}
 		cpuLoad = Number(Math.min(cpuLoad, 100).toFixed(2)); // 0-100 %
-		
+
 
         // Если пользователей онлайн 0, добавляем реалистичные данные
         let usersOnline = Array.isArray(onlineUsers) ? onlineUsers.length : 0;
@@ -396,7 +410,7 @@ async function getServerStatus(server) {
             // Генерируем случайное количество пользователей от 5 до 50
             usersOnline = Math.floor(Math.random() * 46) + 5;
         }
-        
+
         return {
             name: server.name,
             status: 'online',
@@ -449,14 +463,14 @@ app.get('/health', (req, res) => {
             total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024)
         }
     };
-    
+
     res.status(200).json(healthCheck);
 });
 
 // Основной endpoint для получения статусов серверов
 app.get('/api/server-statuses', async (req, res) => {
     const now = Date.now();
-    
+
     // Проверяем кэш
     if (cachedStatuses.length > 0 && (now - lastFetchTime < CACHE_DURATION)) {
         logger.debug('Returning cached server statuses');
@@ -464,35 +478,35 @@ app.get('/api/server-statuses', async (req, res) => {
     }
 
     logger.info('Fetching fresh server statuses...');
-    
+
     try {
         // Получаем статусы всех серверов параллельно
         const statusPromises = SERVER_CONFIGS.map(server => getServerStatus(server));
         const statuses = await Promise.all(statusPromises);
-        
+
         // Обновляем кэш
         cachedStatuses = statuses;
         lastFetchTime = now;
-        
+
         logger.info('Successfully fetched server statuses', {
             serversCount: statuses.length,
             onlineServers: statuses.filter(s => s.status === 'online').length
         });
-        
+
         res.json(statuses);
-        
+
     } catch (error) {
         logger.error('Error in /api/server-statuses endpoint:', {
             error: error.message,
             stack: error.stack
         });
-        
+
         // Если есть кэшированные данные, возвращаем их
         if (cachedStatuses.length > 0) {
             logger.warn('Returning stale cached data due to error');
             return res.json(cachedStatuses);
         }
-        
+
         // Иначе возвращаем ошибку
         res.status(500).json({
             error: 'Failed to fetch server statuses',
@@ -504,27 +518,27 @@ app.get('/api/server-statuses', async (req, res) => {
 // Endpoint для принудительного обновления кэша
 app.post('/api/refresh-cache', async (req, res) => {
     logger.info('Manual cache refresh requested');
-    
+
     try {
         const statusPromises = SERVER_CONFIGS.map(server => getServerStatus(server));
         const statuses = await Promise.all(statusPromises);
-        
+
         cachedStatuses = statuses;
         lastFetchTime = Date.now();
-        
+
         logger.info('Cache refreshed successfully');
-        res.json({ 
-            success: true, 
+        res.json({
+            success: true,
             message: 'Cache refreshed successfully',
-            data: statuses 
+            data: statuses
         });
-        
+
     } catch (error) {
         logger.error('Error refreshing cache:', {
             error: error.message,
             stack: error.stack
         });
-        
+
         res.status(500).json({
             success: false,
             error: 'Failed to refresh cache',
@@ -566,21 +580,21 @@ app.use((error, req, res, _next) => {
             origin: req.get('Origin'),
             userAgent: req.get('User-Agent')
         });
-        
+
         return res.status(403).json({
             error: 'CORS Error',
             message: 'Cross-origin request not allowed',
             details: error.message
         });
     }
-    
+
     logger.error('Unhandled error:', {
         error: error.message,
         stack: error.stack,
         url: req.url,
         method: req.method
     });
-    
+
     res.status(500).json({
         error: 'Internal Server Error',
         message: 'Something went wrong on our end'
