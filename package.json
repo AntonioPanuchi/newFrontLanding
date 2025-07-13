@@ -1,5 +1,40 @@
 {
+  "name": "rox-vpn-landing",
+  "version": "1.0.0",
+  "description": "ROX VPN Landing Page with API Backend",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install:backend": "cd backend && npm install",
+    "build": "echo 'No build step required'",
+    "deploy": "./deploy.sh deploy",
+    "deploy:quick": "./deploy.sh quick",
+    "logs": "./deploy.sh logs",
+    "status": "./deploy.sh health"
+  },
+  "keywords": [
+    "vpn",
+    "landing-page",
+    "api",
+    "express",
+    "nodejs"
+  ],
+  "author": "Antonio Panuchi <antonio@example.com>",
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonioPanuchi/newFrontLanding.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AntonioPanuchi/newFrontLanding/issues"
+  },
+  "homepage": "https://github.com/AntonioPanuchi/newFrontLanding#readme",
   "dependencies": {
-    "dotenv": "^17.2.0"
+    "dotenv": "^16.3.1"
   }
 }
