@@ -19,13 +19,13 @@ const apiLimiter = rateLimit({
         // Пропускаем health check
         return req.path === '/health' || req.path === '/api/health';
     },
-    handler: (req, res) => {
+    handler: (req, _res) => {
         logger.warn('Rate limit exceeded', {
             ip: req.ip,
             path: req.path,
             userAgent: req.get('User-Agent')
         });
-        res.status(429).json({
+        _res.status(429).json({
             error: 'Слишком много запросов, попробуйте позже',
             retryAfter: '60'
         });
@@ -92,7 +92,7 @@ const apiKeyAuth = (req, res, next) => {
 };
 
 // Middleware для логирования ошибок
-const errorLogger = (err, req, res, _next) => {
+const errorLogger = (err, req, res, next) => {
     logger.error('Unhandled error:', {
         error: err.message,
         stack: err.stack,
