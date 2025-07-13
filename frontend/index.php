@@ -162,7 +162,7 @@ class ServerStatusManager {
     constructor(config = {}) {
         // Конфигурация
         this.config = {
-            apiUrl: config.apiUrl || 'https://rx-test.ru/api/server-statuses',
+            apiUrl: config.apiUrl || 'https://rx-test.ru/api/server-statuses:3001',
             updateInterval: config.updateInterval || 60000,
             retryAttempts: config.retryAttempts || 3,
             retryDelay: config.retryDelay || 2000,
@@ -911,7 +911,7 @@ class AnalyticsTracker {
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     window.serverStatusManager = new ServerStatusManager({
-        apiUrl: 'https://rx-test.ru/api/server-statuses',
+        apiUrl: 'https://rx-test.ru/api/server-statuses:3001',
         updateInterval: 60000,
         enableAnalytics: true,
         enableOfflineSupport: true
