@@ -1,0 +1,57 @@
+body.gradient-bg {
+    background: linear-gradient(180deg, #0f172a 0%, #10141f 100%);
+    min-height: 100vh;
+  }
+  
+  .pulse-green {
+    animation: pulse-green 2s infinite;
+  }
+  
+  @keyframes pulse-green {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  .progress-bar {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.2) 0 10px, transparent 10px 20px);
+    animation: progress-stripes 1s linear infinite;
+  }
+  
+  @keyframes progress-stripes {
+    from { transform: translateX(0); }
+    to { transform: translateX(20px); }
+  }
+  
+  .metric-row + .metric-row {
+    margin-top: 1rem;
+  }
+  
+  /* Decorative blur balls in the hero section */
+  .blur-ball {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.7;
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .blur-blue {
+    background: radial-gradient(circle, #0ea5e9, transparent);
+  }
+  
+  .blur-green {
+    background: radial-gradient(circle, #22c55e, transparent);
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
