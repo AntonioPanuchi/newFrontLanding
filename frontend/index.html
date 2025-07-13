@@ -13,6 +13,8 @@
   <meta name="keywords" content="VPN Telegram, ROX VPN, быстрый VPN, анонимный интернет, VPN бот, обход блокировок, безопасный интернет" />
   <link rel="canonical" href="https://rx-test.ru" />
   <link rel="stylesheet" href="./style.css" type="text/css">
+  <link rel="stylesheet" href="./enhanced-animations.css" type="text/css">
+  <link rel="stylesheet" href="./readability-enhancements.css" type="text/css">
   <meta property="og:title" content="ROX.VPN — VPN через Telegram за 30 секунд" />
   <meta property="og:description" content="Никаких сложных настроек! Быстрый и безопасный VPN прямо в Telegram. Попробуй бесплатно!" />
   <meta property="og:image" content="https://rx-test.ru/og-image.jpg" />
@@ -29,57 +31,161 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website" />
+
+  <!-- Performance optimizations -->
+  <link rel="preload" href="./dist/output.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="./dist/output.css"></noscript>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
+  <meta property="og:url" content="https://rx-test.ru/" />
+  <meta property="og:type" content="website" />
+
+  <!-- SEO and Analytics -->
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="ROX.VPN">
+  <meta name="theme-color" content="#22c55e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID', {
+      page_title: 'ROX.VPN Landing Page',
+      page_location: window.location.href
+    });
+  </script>
+
+  <!-- Schema.org markup for FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Действительно ли это бесплатно?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да! Мы даём бесплатный пробный период, чтобы ты мог оценить качество. Потом можешь выбрать подходящий тариф."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "На каких устройствах работает?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "На всех! iPhone, Android, Windows, Mac, Linux — везде. Получишь универсальную конфигурацию."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Насколько это безопасно?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Используем современное шифрование REALITY. Твой трафик полностью защищён, логи не ведём."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "А если не понравится?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Просто перестань пользоваться — никаких обязательств. Деньги за неиспользованное время вернём."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Performance optimizations -->
+  <link rel="preload" href="./dist/output.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="./dist/output.css"></noscript>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
+  
+  <!-- Font Awesome для иконок -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
 </head>
 
-<body class="gradient-bg text-white font-sans">
+<body class="animated-gradient-bg text-white font-sans">
+<a href="#main-content" class="skip-link sr-only focus:not-sr-only">Перейти к основному содержимому</a>
+
+  <!-- Плавающие частицы -->
+  <div class="floating-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
 
   <!-- Hero Section -->
-  <section id="hero" class="text-center px-6 py-20 relative overflow-hidden bg-gradient-to-b from-[#1e293b]/50 to-transparent rounded-b-3xl shadow-lg">
-    <div class="absolute inset-0 opacity-10">
-      <div class="blur-ball blur-blue top-10 left-10 w-20 h-20"></div>
-      <div class="blur-ball blur-green bottom-10 right-10 w-32 h-32"></div>
-      <div class="blur-ball blur-blue top-1/2 left-1/4 w-16 h-16"></div>
+  <section id="hero" class="text-center px-6 py-20 relative overflow-hidden bg-gradient-to-b from-[#1e293b]/50 to-transparent rounded-b-3xl shadow-lg text-readable" id="main-content">
+    <!-- Dark mode toggle -->
+    <button id="dark-mode-toggle" class="fixed top-4 right-4 z-50 p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400" aria-label="Переключить тёмный режим">
+      <i class="fas fa-moon text-lg"></i>
+    </button>
+    
+    <!-- Parallax container for blur balls -->
+    <div class="absolute inset-0 opacity-10 parallax-container">
+      <div class="blur-ball blur-blue top-10 left-10 w-20 h-20 parallax-element" data-speed="0.5"></div>
+      <div class="blur-ball blur-green bottom-10 right-10 w-32 h-32 parallax-element" data-speed="0.3"></div>
+      <div class="blur-ball blur-blue top-1/2 left-1/4 w-16 h-16 parallax-element" data-speed="0.7"></div>
     </div>
     <div class="relative z-10">
-      <div class="inline-block bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-medium mb-4 animate-on-scroll">
+      <div class="inline-block bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-medium mb-4 fade-in-up">
         🎉 Бесплатный пробный период!
       </div>
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight animate-on-scroll">
-        VPN за <span class="text-green-400">30 секунд</span><br />прямо в Telegram
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight fade-in-up tracking-tight">
+        VPN за <span class="text-green-400 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">30 секунд</span><br />прямо в Telegram
       </h1>
-      <p class="text-lg md:text-xl text-blue-200 mb-8 max-w-2xl mx-auto animate-on-scroll">
+      <p class="text-lg md:text-xl lg:text-2xl text-blue-200 mb-8 max-w-3xl mx-auto fade-in-up font-medium leading-relaxed">
         Забудь про сложные настройки! ROX.VPN работает через Telegram-бота — просто нажми кнопку и получи быстрый защищённый интернет.
       </p>
       
       <!-- Анимированный счетчик пользователей -->
-      <div class="flex justify-center items-center gap-4 mb-8 text-sm text-gray-300 animate-on-scroll">
-        <div class="user-counter text-center">
+      <div class="flex justify-center items-center gap-4 mb-8 text-sm fade-in-up">
+        <div class="user-counter text-center animated-counter counter-enhanced">
           <div class="counter-number" data-target="15420">0</div>
           <div class="counter-label">активных пользователей</div>
         </div>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-10">
-        <div class="server-card animate-on-scroll">
-          <div class="text-3xl mb-3">⚡</div>
-          <h3 class="font-semibold mb-2">Молниеносная скорость</h3>
-          <p class="text-sm text-gray-300">До 1 Гбит/с без ограничений</p>
+        <div class="enhanced-server-card animate-on-scroll hover:scale-105 transition-transform duration-300">
+          <div class="text-3xl mb-3" aria-hidden="true">⚡</div>
+          <h3 class="font-bold text-lg mb-2">Молниеносная скорость</h3>
+          <p class="text-sm text-gray-300 leading-relaxed">До 1 Гбит/с без ограничений</p>
         </div>
-        <div class="server-card animate-on-scroll">
-          <div class="text-3xl mb-3">🛡️</div>
-          <h3 class="font-semibold mb-2">Полная анонимность</h3>
-          <p class="text-sm text-gray-300">Никто не узнает, что ты делаешь в сети</p>
+        <div class="enhanced-server-card animate-on-scroll hover:scale-105 transition-transform duration-300">
+          <div class="text-3xl mb-3" aria-hidden="true">🛡️</div>
+          <h3 class="font-bold text-lg mb-2">Полная анонимность</h3>
+          <p class="text-sm text-gray-300 leading-relaxed">Никто не узнает, что ты делаешь в сети</p>
         </div>
-        <div class="server-card animate-on-scroll">
-          <div class="text-3xl mb-3">🤖</div>
-          <h3 class="font-semibold mb-2">Настройка в 1 клик</h3>
-          <p class="text-sm text-gray-300">Никаких сложных инструкций</p>
+        <div class="enhanced-server-card animate-on-scroll hover:scale-105 transition-transform duration-300">
+          <div class="text-3xl mb-3" aria-hidden="true">🤖</div>
+          <h3 class="font-bold text-lg mb-2">Настройка в 1 клик</h3>
+          <p class="text-sm text-gray-300 leading-relaxed">Никаких сложных инструкций</p>
         </div>
       </div>
       
-      <div class="space-y-4 animate-on-scroll">
-        <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="inline-block bg-green-400 hover:bg-green-300 text-gray-900 px-8 py-4 rounded-full text-xl font-bold transition transform duration-300 pulse-green shadow-lg touch-button">
+      <div class="space-y-4 fade-in-up">
+        <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="inline-block enhanced-button bg-green-400 hover:bg-green-300 text-gray-900 px-8 py-4 rounded-full text-xl font-bold transition transform duration-300 pulse-green shadow-lg touch-button">
           🚀 Попробовать бесплатно
         </a>
         <p class="text-green-300 text-sm">✅ Без регистрации • ✅ Без карты • ✅ Работает сразу</p>
@@ -88,33 +194,13 @@
   </section>
 
   <!-- Server Status Section -->
-  <section id="servers" class="bg-[#0a0f1c] px-6 py-16 rounded-xl shadow-inner">
+  <section id="servers" class="bg-[#0a0f1c] px-6 py-16 rounded-xl shadow-inner text-readable">
     <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl font-bold mb-8 text-center text-white animate-on-scroll">Статус наших серверов</h2>
+      <h2 class="text-3xl font-bold mb-8 text-center text-white fade-in-up">Статус наших серверов</h2>
       
       <!-- Интерактивная карта серверов -->
-      <div class="server-map mb-8 animate-on-scroll">
-        <div class="map-container bg-white/5 rounded-lg p-6 border border-white/10">
-          <div class="text-center text-gray-400 mb-4">
-            <i class="fas fa-globe text-2xl mb-2"></i>
-            <p>Наши серверы по всему миру</p>
-          </div>
-          <!-- Здесь будет SVG карта мира с точками серверов -->
-          <div class="flex justify-center gap-8 text-sm">
-            <div class="flex items-center gap-2">
-              <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-              <span>Германия</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
-              <span>США</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="w-3 h-3 bg-purple-400 rounded-full"></div>
-              <span>Финляндия</span>
-            </div>
-          </div>
-        </div>
+      <div class="server-map mb-8 fade-in-up">
+        <div id="world-map-container" class="w-full"></div>
       </div>
       
       <div id="server-status-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -124,59 +210,101 @@
     </div>
   </section>
 
-  <!-- How It Works Section -->
-  <section id="how-it-works" class="bg-[#111827] px-6 py-16">
+  <!-- Social Proof Section -->
+  <section id="social-proof" class="bg-[#111827] px-6 py-16 text-readable">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold mb-12 text-center animate-on-scroll">Как начать пользоваться</h2>
+      <h2 class="text-3xl font-bold mb-12 text-center fade-in-up">Что говорят наши пользователи</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="testimonial-card rounded-lg p-6 hover-lift">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">А</div>
+            <div>
+              <div class="font-semibold">Алексей</div>
+              <div class="text-sm text-gray-400">⭐️⭐️⭐️⭐️⭐️</div>
+            </div>
+          </div>
+          <p class="text-sm">"Настроил за минуту! Скорость отличная, никаких проблем с подключением."</p>
+        </div>
+        
+        <div class="testimonial-card rounded-lg p-6 hover-lift">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold mr-4">М</div>
+            <div>
+              <div class="font-semibold">Мария</div>
+              <div class="text-sm text-gray-400">⭐️⭐️⭐️⭐️⭐️</div>
+            </div>
+          </div>
+          <p class="text-sm">"Очень удобно через бота! Поддержка отвечает быстро, всё работает стабильно."</p>
+        </div>
+        
+        <div class="testimonial-card rounded-lg p-6 hover-lift">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold mr-4">Д</div>
+            <div>
+              <div class="font-semibold">Дмитрий</div>
+              <div class="text-sm text-gray-400">⭐️⭐️⭐️⭐️⭐️</div>
+            </div>
+          </div>
+          <p class="text-sm">"Лучший VPN из всех что пробовал. Простота настройки и высокая скорость."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="bg-[#111827] px-6 py-16 text-readable">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-12 text-center fade-in-up">Как начать пользоваться</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="text-center animate-on-scroll">
-          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4">1</div>
+        <div class="text-center fade-in-left">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4 enhanced-button">1</div>
           <h3 class="text-xl font-semibold mb-3">Открой бота</h3>
           <p class="text-gray-300">Нажми кнопку выше — откроется наш Telegram-бот</p>
         </div>
-        <div class="text-center animate-on-scroll">
-          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4">2</div>
+        <div class="text-center fade-in-up">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4 enhanced-button">2</div>
           <h3 class="text-xl font-semibold mb-3">Выбери тариф</h3>
           <p class="text-gray-300">Начни с бесплатного пробного периода</p>
         </div>
-        <div class="text-center animate-on-scroll">
-          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4">3</div>
+        <div class="text-center fade-in-right">
+          <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4 enhanced-button">3</div>
           <h3 class="text-xl font-semibold mb-3">Пользуйся</h3>
           <p class="text-gray-300">Получи конфигурацию и наслаждайся быстрым интернетом</p>
         </div>
       </div>
-      <div class="text-center mt-12 animate-on-scroll">
+      <div class="text-center mt-12 fade-in-up">
         <p class="text-gray-400 text-lg">⏱️ Весь процесс займёт меньше минуты</p>
       </div>
     </div>
   </section>
 
   <!-- FAQ Section -->
-  <section id="faq" class="px-6 py-16">
+  <section id="faq" class="px-6 py-16 text-readable">
     <div class="max-w-3xl mx-auto">
-      <h2 class="text-3xl font-bold mb-12 text-center animate-on-scroll">Частые вопросы</h2>
+      <h2 class="text-3xl font-bold mb-12 text-center fade-in-up">Частые вопросы</h2>
       <div class="space-y-6">
-        <details class="faq-item animate-on-scroll">
-          <summary class="faq-summary">Действительно ли это бесплатно?</summary>
-          <div class="faq-content">
+        <details class="enhanced-faq-item faq-enhanced animate-on-scroll">
+          <summary class="enhanced-faq-summary" aria-expanded="false">Действительно ли это бесплатно?</summary>
+          <div class="faq-content" role="region">
             <p>Да! Мы даём бесплатный пробный период, чтобы ты мог оценить качество. Потом можешь выбрать подходящий тариф.</p>
           </div>
         </details>
-        <details class="faq-item animate-on-scroll">
-          <summary class="faq-summary">На каких устройствах работает?</summary>
-          <div class="faq-content">
+        <details class="enhanced-faq-item faq-enhanced animate-on-scroll">
+          <summary class="enhanced-faq-summary" aria-expanded="false">На каких устройствах работает?</summary>
+          <div class="faq-content" role="region">
             <p>На всех! iPhone, Android, Windows, Mac, Linux — везде. Получишь универсальную конфигурацию.</p>
           </div>
         </details>
-        <details class="faq-item animate-on-scroll">
-          <summary class="faq-summary">Насколько это безопасно?</summary>
-          <div class="faq-content">
+        <details class="enhanced-faq-item faq-enhanced animate-on-scroll">
+          <summary class="enhanced-faq-summary" aria-expanded="false">Насколько это безопасно?</summary>
+          <div class="faq-content" role="region">
             <p>Используем современное шифрование REALITY. Твой трафик полностью защищён, логи не ведём.</p>
           </div>
         </details>
-        <details class="faq-item animate-on-scroll">
-          <summary class="faq-summary">А если не понравится?</summary>
-          <div class="faq-content">
+        <details class="enhanced-faq-item faq-enhanced animate-on-scroll">
+          <summary class="enhanced-faq-summary" aria-expanded="false">А если не понравится?</summary>
+          <div class="faq-content" role="region">
             <p>Просто перестань пользоваться — никаких обязательств. Деньги за неиспользованное время вернём.</p>
           </div>
         </details>
@@ -186,9 +314,9 @@
 
   <!-- Final CTA Section -->
   <section class="bg-gradient-to-r from-green-600 to-blue-600 px-6 py-16 text-center rounded-t-3xl shadow-inner">
-    <h2 class="text-3xl font-bold mb-4 animate-on-scroll">Готов попробовать?</h2>
-    <p class="text-xl mb-8 opacity-90 animate-on-scroll">Присоединяйся к тысячам пользователей, которые уже оценили удобство ROX.VPN</p>
-    <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="inline-block bg-white text-gray-900 px-8 py-4 rounded-full text-xl font-bold hover:bg-gray-100 transition transform duration-300 shadow-lg touch-button animate-on-scroll">
+    <h2 class="text-3xl font-bold mb-4 fade-in-up">Готов попробовать?</h2>
+    <p class="text-xl mb-8 opacity-90 fade-in-up">Присоединяйся к тысячам пользователей, которые уже оценили удобство ROX.VPN</p>
+    <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" aria-label="Начать использовать VPN прямо сейчас через Telegram-бота" class="inline-block enhanced-button bg-white text-gray-900 px-8 py-4 rounded-full text-xl font-bold hover:bg-gray-100 transition transform duration-300 shadow-lg touch-button fade-in-up">
       Начать прямо сейчас →
     </a>
   </section>
@@ -207,14 +335,26 @@
 
 
   <!-- Enhanced Features -->
-  <script src="./js/enhanced-features.js"></script>
+  <script src="./js/enhanced-features.js" defer></script>
+  
+  <!-- Interactive World Map -->
+  <script src="./js/interactive-map.js" defer></script>
+  
+  <!-- Enhanced Mobile Navigation -->
+  <script src="./js/enhanced-mobile-nav.js" defer></script>
   
   <!-- Server Status Manager -->
-  <script src="./js/server-status.js"></script>
+  <script src="./js/server-status.js" defer></script>
   
-  <!-- Initialize Server Status -->
+  <!-- Initialize Enhanced Features -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Инициализация интерактивной карты мира
+      const worldMap = new InteractiveWorldMap('world-map-container');
+      
+      // Инициализация улучшенной мобильной навигации
+      const mobileNav = new EnhancedMobileNavigation();
+      
       // Инициализация статуса серверов
       const serverManager = new ServerStatusManager({
         apiUrl: '/api/server-statuses',
@@ -226,6 +366,298 @@
       if (window.ROXNotifications) {
         window.ROXNotifications.show('Добро пожаловать в ROX.VPN! 🚀', 'info', 3000);
       }
+
+      // Анимация счетчика пользователей
+      const counterElement = document.querySelector('.counter-number');
+      if (counterElement) {
+        const target = parseInt(counterElement.dataset.target);
+        const counter = new AnimatedCounter(counterElement, target, 3000);
+        counter.start();
+      }
+
+      // Добавление классов для анимаций при скролле
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-on-scroll');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Parallax effect for blur balls
+      const parallaxElements = document.querySelectorAll('.parallax-element');
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        parallaxElements.forEach(element => {
+          const speed = element.dataset.speed || 0.5;
+          const yPos = -(scrolled * speed);
+          element.style.transform = `translateY(${yPos}px)`;
+        });
+      });
+
+
+      // Dark mode toggle functionality
+      const darkModeToggle = document.getElementById('dark-mode-toggle');
+      const body = document.body;
+      const icon = darkModeToggle.querySelector('i');
+      
+      // Check for saved dark mode preference
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        body.classList.add('dark-mode');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+      
+      darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const isDark = body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        
+        if (isDark) {
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun');
+        } else {
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon');
+        }
+      });
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Enhanced mobile navigation with swipe gestures
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      document.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+      
+      document.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+      
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        const sections = ['#hero', '#servers', '#social-proof', '#how-it-works', '#faq'];
+        const currentSection = getCurrentSection();
+        const currentIndex = sections.indexOf(currentSection);
+        
+        if (touchEndX < touchStartX - swipeThreshold && currentIndex < sections.length - 1) {
+          // Swipe left - go to next section
+          const nextSection = document.querySelector(sections[currentIndex + 1]);
+          if (nextSection) {
+            nextSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else if (touchEndX > touchStartX + swipeThreshold && currentIndex > 0) {
+          // Swipe right - go to previous section
+          const prevSection = document.querySelector(sections[currentIndex - 1]);
+          if (prevSection) {
+            prevSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }
+      
+      function getCurrentSection() {
+        const sections = document.querySelectorAll('section[id]');
+        let currentSection = '#hero';
+        
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            currentSection = '#' + section.id;
+          }
+        });
+        
+        return currentSection;
+      }
+
+      // A/B testing for CTA buttons
+      const ctaButtons = document.querySelectorAll('a[href*="t.me"]');
+      const ctaVariants = [
+        '🚀 Попробовать бесплатно',
+        '⚡ Начать сейчас',
+        '🛡️ Защитить себя',
+        'Начать прямо сейчас →'
+      ];
+      
+      // Randomly select a variant for each button
+      ctaButtons.forEach(button => {
+        const randomVariant = ctaVariants[Math.floor(Math.random() * ctaVariants.length)];
+        if (button.textContent.includes('Попробовать') || button.textContent.includes('Начать')) {
+          button.textContent = randomVariant;
+        }
+      });
+
+      // Enhanced user feedback
+      function showNotification(message, type = 'info', duration = 3000) {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg text-white font-medium transition-all duration-300 ${
+          type === 'success' ? 'bg-green-500' : 
+          type === 'error' ? 'bg-red-500' : 
+          'bg-blue-500'
+        }`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transform = 'translate(-50%, -100%)';
+          setTimeout(() => notification.remove(), 300);
+        }, duration);
+      }
+
+      // Show welcome notification
+      setTimeout(() => {
+        showNotification('Добро пожаловать в ROX.VPN! 🚀', 'success', 4000);
+      }, 1000);
+
+      // Enhanced loading states
+      function showLoadingState(element) {
+        element.classList.add('loading');
+        element.disabled = true;
+        const originalText = element.textContent;
+        element.textContent = 'Загрузка...';
+        
+        return () => {
+          element.classList.remove('loading');
+          element.disabled = false;
+          element.textContent = originalText;
+        };
+      }
+
+      // Add loading states to CTA buttons
+      ctaButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const stopLoading = showLoadingState(this);
+          
+          // Track CTA clicks in Google Analytics
+          gtag('event', 'click', {
+            event_category: 'CTA',
+            event_label: this.textContent,
+            value: 1
+          });
+          
+          setTimeout(stopLoading, 2000); // Simulate loading time
+        });
+      });
+
+      document.querySelectorAll('details').forEach(detail => {
+        const summary = detail.querySelector('summary');
+        summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
+        detail.addEventListener('toggle', () => {
+          summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
+          
+          // Track FAQ interactions
+          if (detail.open) {
+            gtag('event', 'click', {
+              event_category: 'FAQ',
+              event_label: summary.textContent
+            });
+          }
+        });
+      });
+
+      // Enhanced error handling for API calls
+      function handleApiError(error, context) {
+        console.error(`API Error in ${context}:`, error);
+        showNotification('Ошибка загрузки данных. Попробуйте позже.', 'error', 5000);
+        
+        // Track errors in Google Analytics
+        gtag('event', 'exception', {
+          description: `${context}: ${error.message}`,
+          fatal: false
+        });
+      }
+
+      // Fallback data for server status
+      const fallbackServerData = {
+        servers: [
+          { name: "Germany", status: "online", uptime: "5д 12ч 30м", ping: 45, users: 1250 },
+          { name: "USA", status: "online", uptime: "3д 8ч 15м", ping: 65, users: 890 },
+          { name: "Finland", status: "online", uptime: "7д 2ч 45м", ping: 35, users: 1100 }
+        ],
+        lastUpdate: new Date().toISOString()
+      };
+
+      // Enhanced server status with fallback
+      if (window.ServerStatusManager) {
+        const serverManager = new ServerStatusManager({
+          apiUrl: '/api/server-statuses',
+          updateInterval: 30000,
+          enableAnalytics: true,
+          fallbackData: fallbackServerData,
+          onError: (error) => handleApiError(error, 'Server Status')
+        });
+      }
+
+      // Track page views and user interactions
+      gtag('event', 'page_view', {
+        page_title: 'ROX.VPN Landing Page',
+        page_location: window.location.href
+      });
+
+      // Track scroll depth
+      let maxScroll = 0;
+      window.addEventListener('scroll', () => {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        if (scrollPercent > maxScroll && scrollPercent % 25 === 0) {
+          maxScroll = scrollPercent;
+          gtag('event', 'scroll', {
+            event_category: 'Engagement',
+            event_label: `${scrollPercent}% scroll depth`
+          });
+        }
+      });
+
+      // Track time on page
+      let startTime = Date.now();
+      window.addEventListener('beforeunload', () => {
+        const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+        gtag('event', 'timing_complete', {
+          name: 'page_view_time',
+          value: timeOnPage
+        });
+      });
+
+      document.querySelectorAll('details').forEach(detail => {
+        const summary = detail.querySelector('summary');
+        summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
+        detail.addEventListener('toggle', () => {
+          summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
+          
+          // Track FAQ interactions
+          if (detail.open) {
+            gtag('event', 'click', {
+              event_category: 'FAQ',
+              event_label: summary.textContent
+            });
+          }
+        });
+      });
     });
   </script>
 </body>
