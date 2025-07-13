@@ -115,7 +115,24 @@ app.use('/api/', limiter);
 
 // CORS настройки
 const corsOptions = {
-    origin: process.env.ALLOWED_ORIGIN || 'https://rx-test.ru',
+    origin: function (origin, callback) {
+        // Разрешаем запросы без origin (например, из Postman)
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+            'https://rx-test.ru',
+            'http://localhost:3000',
+            'http://127.0.0.1:3000',
+            'http://localhost:3001',
+            'http://127.0.0.1:3001'
+        ];
+        
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
     optionsSuccessStatus: 200,
     methods: ['GET', 'POST', 'OPTIONS'],
