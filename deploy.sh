@@ -35,20 +35,16 @@ check_dependencies() {
     
     local missing_deps=()
     
-    if ! command -v docker &> /dev/null; then
-        missing_deps+=("docker")
-    fi
-    
-    if ! command -v docker-compose &> /dev/null; then
-        missing_deps+=("docker-compose")
-    fi
-    
     if ! command -v node &> /dev/null; then
         missing_deps+=("node")
     fi
     
     if ! command -v npm &> /dev/null; then
         missing_deps+=("npm")
+    fi
+    
+    if ! command -v pm2 &> /dev/null; then
+        missing_deps+=("pm2")
     fi
     
     if [ ${#missing_deps[@]} -ne 0 ]; then
@@ -63,6 +59,16 @@ check_dependencies() {
 # Проверка переменных окружения
 check_environment() {
     log_info "Проверка переменных окружения..."
+    
+    # Загружаем переменные из .env файла в backend
+    if [ -f "backend/.env" ]; then
+        log_info "Загрузка переменных из backend/.env..."
+        export $(grep -v '^#' backend/.env | xargs)
+    else
+        log_error "Файл backend/.env не найден"
+        log_info "Создайте файл backend/.env на основе backend/env.example"
+        exit 1
+    fi
     
     local required_vars=(
         "GERMANY_API_URL"
@@ -85,7 +91,7 @@ check_environment() {
     
     if [ ${#missing_vars[@]} -ne 0 ]; then
         log_error "Отсутствуют переменные окружения: ${missing_vars[*]}"
-        log_info "Создайте файл .env на основе env.example"
+        log_info "Проверьте файл backend/.env"
         exit 1
     fi
     
@@ -97,26 +103,40 @@ install_dependencies() {
     log_info "Установка зависимостей Node.js..."
     
     cd backend
-    npm ci --only=production
+    npm install
     cd ..
     
     log_success "Зависимости установлены"
 }
 
-# Сборка Docker образа
-build_docker() {
-    log_info "Сборка Docker образа..."
+# Проверка кода
+check_code() {
+    log_info "Проверка кода..."
     
-    docker build -t rox-vpn-api:latest .
+    cd backend
+    if npm run lint 2>/dev/null; then
+        log_success "Linting прошел успешно"
+    else
+        log_warning "Linting не прошел, но продолжаем деплой"
+    fi
+    cd ..
     
-    log_success "Docker образ собран"
+    log_success "Проверка кода завершена"
 }
 
-# Запуск с Docker Compose
+# Запуск с PM2
 start_services() {
     log_info "Запуск сервисов..."
     
-    docker-compose up -d
+    # Останавливаем существующий процесс если есть
+    pm2 stop rox-vpn-api 2>/dev/null || true
+    pm2 delete rox-vpn-api 2>/dev/null || true
+    
+    # Запускаем через PM2
+    pm2 start ecosystem.config.js
+    
+    # Сохраняем конфигурацию
+    pm2 save
     
     log_success "Сервисы запущены"
 }
@@ -141,23 +161,18 @@ health_check() {
     
     if [ $attempt -gt $max_attempts ]; then
         log_error "API сервис не запустился в течение 60 секунд"
-        docker-compose logs rox-vpn-api
+        pm2 logs rox-vpn-api --lines 20
         exit 1
     fi
     
-    # Проверка nginx
-    if curl -f -s http://localhost:80 > /dev/null; then
-        log_success "Nginx работает"
-    else
-        log_warning "Nginx не отвечает на порту 80"
-    fi
+    log_success "Все сервисы работают корректно"
 }
 
 # Остановка сервисов
 stop_services() {
     log_info "Остановка сервисов..."
     
-    docker-compose down
+    pm2 stop rox-vpn-api
     
     log_success "Сервисы остановлены"
 }
@@ -166,15 +181,14 @@ stop_services() {
 show_logs() {
     log_info "Просмотр логов..."
     
-    docker-compose logs -f
+    pm2 logs rox-vpn-api -f
 }
 
 # Очистка
 cleanup() {
     log_info "Очистка..."
     
-    docker system prune -f
-    docker volume prune -f
+    pm2 flush
     
     log_success "Очистка завершена"
 }
@@ -201,24 +215,23 @@ full_deploy() {
     check_dependencies
     check_environment
     install_dependencies
-    build_docker
+    check_code
     start_services
     health_check
     
     log_success "Развертывание завершено успешно!"
     log_info "API доступен по адресу: http://localhost:3000"
-    log_info "Frontend доступен по адресу: http://localhost:80"
 }
 
 # Быстрое развертывание
 quick_deploy() {
     log_info "Быстрое развертывание..."
     
-    build_docker
     start_services
     health_check
     
     log_success "Развертывание завершено!"
+    log_info "API доступен по адресу: http://localhost:3000"
 }
 
 # Главная функция

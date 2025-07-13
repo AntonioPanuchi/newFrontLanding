@@ -8,13 +8,11 @@ async function getServerStatuses(req, res) {
     try {
         const servers = await serverService.getAllServerStatuses();
         
-        res.json(createApiResponse(true, {
-            servers,
-            lastUpdate: new Date().toISOString()
-        }));
+        // Возвращаем массив серверов напрямую, как ожидает frontend
+        res.json(servers);
     } catch (error) {
         logger.error('Error fetching server statuses:', error);
-        res.status(500).json(createApiResponse(false, null, 'Ошибка получения статуса серверов'));
+        res.status(500).json({ error: 'Ошибка получения статуса серверов' });
     }
 }
 

@@ -447,8 +447,7 @@ async fetchWithRetry(url, options = {}, attempts = this.config.retryAttempts) {
                 <!-- Метрики -->
                 ${isOnline ? this.renderServerMetrics(server, memUsagePercent, cpuStatus, memStatus) : this.renderOfflineState()}
                 
-                <!-- Дополнительные действия -->
-                ${isOnline ? this.renderServerActions(server) : ''}
+
             </div>
         `;
     }
@@ -551,26 +550,7 @@ async fetchWithRetry(url, options = {}, attempts = this.config.retryAttempts) {
     }
 
     // Рендеринг действий для сервера
-    renderServerActions(server) {
-        return `
-            <div class="flex justify-end mt-4 pt-4 border-t border-gray-700/50">
-                <button onclick="serverStatusManager.showServerDetails('${server.name}')" 
-                        class="text-xs text-gray-400 hover:text-white transition-colors">
-                    <i class="fa-solid fa-info-circle mr-1"></i>Подробнее
-                </button>
-            </div>
-        `;
-    }
 
-    // Показать детали сервера
-    showServerDetails(serverName) {
-        const server = this.state.servers.find(s => s.name === serverName);
-        if (!server) return;
-
-        // Здесь можно показать модальное окно с деталями
-        console.log('Server details:', server);
-        this.analytics.track('server_details_viewed', { serverName });
-    }
 
     // Skeleton loader
     showSkeletonLoader() {
