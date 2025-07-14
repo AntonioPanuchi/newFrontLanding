@@ -63,19 +63,39 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#22c55e',
+          light: '#4ade80',
+          dark: '#15803d',
+        },
+        accent: '#0ea5e9',
+        indigo: '#6366f1',
+        bg: '#f0f4f8',
+        dark: '#18181b',
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+      },
+      borderRadius: {
+        'xl': '1rem',
+        '2xl': '1.5rem',
+        '3xl': '2rem',
+      },
+      boxShadow: {
+        'wow': '0 8px 32px 0 rgba(34,197,94,0.15), 0 1.5px 6px 0 rgba(14,165,233,0.10)',
+      },
+      backgroundImage: {
+        'hero-gradient': 'linear-gradient(135deg, #22c55e 0%, #0ea5e9 50%, #6366f1 100%)',
+      },
+      animation: {
+        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.4,0,0.2,1) both',
+      },
       keyframes: {
-        'fade-in-up': {
+        fadeInUp: {
           '0%': { opacity: '0', transform: 'translateY(40px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-      },
-      animation: {
-        'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.4,0,0.2,1) both',
-        'fade-in': 'fade-in 0.8s cubic-bezier(0.4,0,0.2,1) both',
       },
     },
   },

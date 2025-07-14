@@ -1,46 +1,34 @@
-import React, { useState } from 'react';
-import Section from './Section';
+import React from 'react';
 
 const faqs = [
   {
-    question: 'Как подключиться к ROX.VPN?',
-    answer: 'Просто напишите нашему Telegram-боту и следуйте инструкциям.',
+    question: 'Как начать пользоваться ROX.VPN?',
+    answer: 'Просто нажмите кнопку “Начать бесплатно” и следуйте инструкциям в Telegram-боте.'
   },
   {
-    question: 'Сколько стоит сервис?',
-    answer: 'Есть бесплатный пробный период, далее — по тарифу.',
+    question: 'Безопасно ли это?',
+    answer: 'Да, все данные шифруются, а логи не хранятся.'
+  },
+  {
+    question: 'Есть ли бесплатный пробный период?',
+    answer: 'Да, вы можете попробовать сервис бесплатно.'
   },
 ];
 
-const FaqSection: React.FC = () => {
-  const [open, setOpen] = useState<number | null>(null);
-  return (
-    <Section title="Часто задаваемые вопросы">
-      <div className="max-w-2xl mx-auto space-y-4 animate-fade-in-up">
-        {faqs.map((faq, idx) => (
-          <div
-            key={idx}
-            className={`rounded-2xl border border-blue-200 bg-white/90 shadow-md transition-all duration-300 ${open === idx ? 'ring-2 ring-blue-400' : ''}`}
-          >
-            <button
-              className="w-full text-left px-6 py-5 text-lg font-semibold text-blue-700 flex items-center justify-between focus:outline-none"
-              onClick={() => setOpen(open === idx ? null : idx)}
-              aria-expanded={open === idx}
-            >
-              <span>{faq.question}</span>
-              <svg className={`w-5 h-5 ml-2 transform transition-transform duration-300 ${open === idx ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-300 px-6 ${open === idx ? 'max-h-40 py-2' : 'max-h-0 py-0'}`}
-              style={{ color: '#334155' }}
-            >
-              {open === idx && <div className="text-base">{faq.answer}</div>}
-            </div>
-          </div>
+const FaqSection: React.FC = () => (
+  <section className="py-16 sm:py-24 bg-bg animate-fade-in-up">
+    <div className="container mx-auto px-4 sm:px-8 max-w-3xl sm:max-w-4xl">
+      <h2 className="text-3xl sm:text-4xl font-bold mb-10 sm:mb-14 text-center">Часто задаваемые вопросы</h2>
+      <div className="space-y-6 sm:space-y-8">
+        {faqs.map((faq, i) => (
+          <details key={i} className="faq-enhanced animate-fade-in-up text-lg sm:text-xl" style={{ animationDelay: `${i * 0.1 + 0.1}s`, animationFillMode: 'both' }}>
+            <summary className="cursor-pointer font-semibold py-4 sm:py-6 px-6 sm:px-8 select-none text-xl sm:text-2xl">{faq.question}</summary>
+            <div className="faq-content px-6 sm:px-8 pb-4 sm:pb-6 text-gray-700 text-lg sm:text-xl">{faq.answer}</div>
+          </details>
         ))}
       </div>
-    </Section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default FaqSection; 
