@@ -1,436 +1,475 @@
-// Анимированные счетчики
-class AnimatedCounter {
-    constructor(element, target, duration = 2000) {
-        this.element = element;
-        this.target = parseInt(target);
-        this.duration = duration;
-        this.startTime = null;
-        this.current = 0;
-    }
+/**
+ * Улучшенные функции для ROX.VPN
+ * Включает навигацию, мобильное меню, анимации и интерактивные элементы
+ */
 
-    start() {
-        this.startTime = performance.now();
-        this.animate();
-    }
-
-    animate(currentTime) {
-        if (!this.startTime) this.startTime = currentTime;
-        const elapsed = currentTime - this.startTime;
-        const progress = Math.min(elapsed / this.duration, 1);
-        
-        this.current = Math.floor(this.target * progress);
-        this.element.textContent = this.current.toLocaleString();
-        
-        if (progress < 1) {
-            requestAnimationFrame((time) => this.animate(time));
-        }
-    }
-}
-
-// Улучшенная аналитика
-class EnhancedAnalytics {
+class EnhancedFeatures {
     constructor() {
-        this.events = [];
-        this.sessionStart = Date.now();
+    this.isDarkMode = false;
+    this.isMobileMenuOpen = false;
+    this.currentSection = '';
         this.init();
     }
 
     init() {
-        this.trackPageView();
-        this.setupEventListeners();
-        this.trackUserEngagement();
-    }
-
-    trackEvent(event, data = {}) {
-        const eventData = {
-            event,
-            data,
-            timestamp: Date.now(),
-            sessionDuration: Date.now() - this.sessionStart,
-            url: window.location.href,
-            userAgent: navigator.userAgent
-        };
-
-        this.events.push(eventData);
-        
-        // Отправка в Google Analytics
-        if (typeof gtag !== 'undefined') {
-            gtag('event', event, data);
+    this.setupTheme();
+    this.setupMobileMenu();
+    this.setupNavigation();
+    this.setupScrollEffects();
+    this.setupAnimations();
+    this.setupNotifications();
+    this.setupAccessibility();
+    this.setupFAQ();
         }
 
-        // Отправка в собственную аналитику
-        this.sendToServer(eventData);
-    }
-
-    trackPageView() {
-        this.trackEvent('page_view', {
-            page_title: document.title,
-            page_location: window.location.href
-        });
-    }
-
-    trackUserEngagement() {
-        let lastActivity = Date.now();
-        const activityThreshold = 30000; // 30 секунд
-
-        const updateActivity = () => {
-            lastActivity = Date.now();
-        };
-
-        const checkEngagement = () => {
-            const timeSinceLastActivity = Date.now() - lastActivity;
-            if (timeSinceLastActivity > activityThreshold) {
-                this.trackEvent('user_inactive', {
-                    duration: timeSinceLastActivity
-                });
+  // Настройка темы
+  setupTheme() {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Проверяем сохраненную тему
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      this.setTheme(savedTheme === 'dark');
+    } else {
+      this.setTheme(prefersDarkScheme.matches);
             }
-        };
 
-        // Отслеживание активности пользователя
-        ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
-            document.addEventListener(event, updateActivity, true);
-        });
+    // Обработчик переключения темы
+    darkModeToggle?.addEventListener('click', () => {
+      this.setTheme(!this.isDarkMode);
+    });
 
-        // Проверка каждые 30 секунд
-        setInterval(checkEngagement, activityThreshold);
+    // Обработчик изменения системной темы
+    prefersDarkScheme.addListener((e) => {
+      if (!localStorage.getItem('theme')) {
+        this.setTheme(e.matches);
+      }
+    });
+  }
+
+  setTheme(isDark) {
+    this.isDarkMode = isDark;
+    document.body.classList.toggle('dark', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+    // Обновляем иконку
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+      darkModeToggle.innerHTML = isDark ? 
+        '<i class="fas fa-sun text-lg"></i>' : 
+        '<i class="fas fa-moon text-lg"></i>';
     }
+  }
 
-    setupEventListeners() {
-        // Отслеживание кликов по CTA кнопкам
-        document.addEventListener('click', (e) => {
-            if (e.target.matches('a[href*="t.me"], button')) {
-                this.trackEvent('cta_click', {
-                    element: e.target.textContent.trim(),
-                    href: e.target.href || 'button'
-                });
-            }
-        });
+  // Настройка мобильного меню
+  setupMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileNavLinks = mobileMenu?.querySelectorAll('.mobile-nav-link');
 
-        // OPTIMIZED: Throttled scroll tracking for better performance
-        let scrollTicking = false;
-        let scrollDepth = 0;
-        
-        function updateScrollDepth() {
-            const newScrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-            if (newScrollDepth > scrollDepth && newScrollDepth % 25 === 0) {
-                this.trackEvent('scroll_depth', { depth: newScrollDepth });
-                scrollDepth = newScrollDepth;
-            }
-            scrollTicking = false;
-        }
-        
-        function requestScrollTick() {
-            if (!scrollTicking) {
-                requestAnimationFrame(updateScrollDepth.bind(this));
-                scrollTicking = true;
-            }
-        }
-        
-        window.addEventListener('scroll', requestScrollTick.bind(this), { passive: true });
+    mobileMenuToggle?.addEventListener('click', () => {
+      this.toggleMobileMenu();
+    });
+
+    // Закрываем меню при клике на ссылку
+    mobileNavLinks?.forEach(link => {
+      link.addEventListener('click', () => {
+        this.closeMobileMenu();
+      });
+    });
+
+    // Закрываем меню при клике вне его
+    document.addEventListener('click', (e) => {
+      if (this.isMobileMenuOpen && 
+          !mobileMenu?.contains(e.target) && 
+          !mobileMenuToggle?.contains(e.target)) {
+        this.closeMobileMenu();
     }
+    });
+  }
 
-    async sendToServer(eventData) {
-        // Аналитика пока отключена - endpoint не существует
-        console.log('Analytics event:', eventData.event, eventData.data);
-        
-        // TODO: Добавить endpoint для аналитики в backend
-        // try {
-        //     await fetch('/api/analytics', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify(eventData)
-        //     });
-        // } catch (error) {
-        //     console.warn('Failed to send analytics:', error);
-        // }
+  toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    
+    if (this.isMobileMenuOpen) {
+      if (mobileMenu) mobileMenu.classList.remove('hidden');
+      if (mobileMenuToggle) mobileMenuToggle.innerHTML = '<i class="fas fa-times text-lg"></i>';
+      document.body.style.overflow = 'hidden';
+    } else {
+      if (mobileMenu) mobileMenu.classList.add('hidden');
+      if (mobileMenuToggle) mobileMenuToggle.innerHTML = '<i class="fas fa-bars text-lg"></i>';
+      document.body.style.overflow = '';
     }
-}
+  }
 
-// Улучшенная мобильная навигация
-class MobileNavigation {
-    constructor() {
-        this.isVisible = false;
-        this.init();
+  closeMobileMenu() {
+    if (this.isMobileMenuOpen) {
+      this.toggleMobileMenu();
     }
+  }
 
-    init() {
-        this.createNavigation();
-        this.setupEventListeners();
-    }
-
-    createNavigation() {
-        const nav = document.createElement('nav');
-        nav.className = 'mobile-nav';
-        nav.innerHTML = `
-            <a href="#hero" class="mobile-nav-item">
-                <i class="fas fa-home"></i>
-                <span>Главная</span>
-            </a>
-            <a href="#servers" class="mobile-nav-item">
-                <i class="fas fa-server"></i>
-                <span>Серверы</span>
-            </a>
-            <a href="#how-it-works" class="mobile-nav-item">
-                <i class="fas fa-play"></i>
-                <span>Как начать</span>
-            </a>
-            <a href="#faq" class="mobile-nav-item">
-                <i class="fas fa-question"></i>
-                <span>FAQ</span>
-            </a>
-        `;
-        
-        document.body.appendChild(nav);
-        this.nav = nav;
-    }
-
-    setupEventListeners() {
-        // Плавная прокрутка к секциям
-        this.nav.addEventListener('click', (e) => {
-            if (e.target.closest('.mobile-nav-item')) {
+  // Настройка навигации
+  setupNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
                 e.preventDefault();
-                const href = e.target.closest('.mobile-nav-item').getAttribute('href');
-                const target = document.querySelector(href);
-                
+          this.smoothScrollTo(href);
+        }
+      });
+    });
+
+    // Активная навигация при скролле
+    this.updateActiveNavigation();
+  }
+
+  smoothScrollTo(targetId) {
+    const target = document.querySelector(targetId);
                 if (target) {
-                    target.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
+      const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+      const targetPosition = target.offsetTop - headerHeight - 20;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
                     });
                 }
             }
-        });
 
-        // Обновление активного элемента при скролле
-        window.addEventListener('scroll', () => {
-            this.updateActiveSection();
-        });
-    }
+  updateActiveNavigation() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const currentId = entry.target.id;
+          this.setActiveNavLink(currentId);
+        }
+      });
+    }, {
+      threshold: 0.3,
+      rootMargin: '-20% 0px -20% 0px'
+    });
 
-    updateActiveSection() {
-        const sections = ['#hero', '#servers', '#how-it-works', '#faq'];
-        const scrollPosition = window.scrollY + 100;
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  }
 
-        sections.forEach((sectionId, index) => {
-            const section = document.querySelector(sectionId);
-            if (section) {
-                const sectionTop = section.offsetTop;
-                const sectionBottom = sectionTop + section.offsetHeight;
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                    this.setActiveItem(index);
-                }
+  setActiveNavLink(sectionId) {
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === `#${sectionId}`) {
+        link.classList.add('text-blue-600', 'dark:text-blue-400');
+        link.classList.remove('text-gray-700', 'dark:text-gray-300');
+      } else {
+        link.classList.remove('text-blue-600', 'dark:text-blue-400');
+        link.classList.add('text-gray-700', 'dark:text-gray-300');
             }
         });
     }
 
-    setActiveItem(index) {
-        const items = this.nav.querySelectorAll('.mobile-nav-item');
-        items.forEach((item, i) => {
-            item.classList.toggle('active', i === index);
-        });
-    }
+  // Эффекты при скролле
+  setupScrollEffects() {
+    const header = document.querySelector('header');
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      
+      // Эффект скрытия/показа header
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        header?.classList.add('-translate-y-full');
+      } else {
+        header?.classList.remove('-translate-y-full');
+      }
+      
+      lastScrollY = currentScrollY;
+  });
 }
 
-// Улучшенные уведомления
-class NotificationManager {
-    constructor() {
-        this.notifications = [];
-        this.container = null;
-        this.init();
-    }
+  // Настройка анимаций
+  setupAnimations() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-    init() {
-        this.createContainer();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-on-scroll');
     }
+      });
+    }, observerOptions);
 
-    createContainer() {
-        this.container = document.createElement('div');
-        this.container.className = 'notification-container';
-        this.container.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-            max-width: 400px;
-        `;
-        document.body.appendChild(this.container);
-    }
+    // Наблюдаем за элементами с анимациями
+    document.querySelectorAll('.animate-fade-in-up, .animate-fade-in-left, .animate-fade-in-right').forEach(el => {
+      observer.observe(el);
+    });
+  }
 
-    show(message, type = 'info', duration = 5000) {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.style.cssText = `
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            color: white;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        `;
+  // Настройка уведомлений
+  setupNotifications() {
+    const notification = document.getElementById('notification');
+    if (!notification) return;
+
+    let hideTimeout;
+    let isVisible = false;
+    
+    const showNotification = () => {
+      notification.style.transform = 'translateX(0)';
+      isVisible = true;
+    };
+    
+    const hideNotification = () => {
+      notification.style.transform = 'translateX(100%)';
+      isVisible = false;
+    };
+    
+    // Показываем уведомление через 1 секунду
+    setTimeout(() => {
+      showNotification();
+      hideTimeout = setTimeout(hideNotification, 5000);
+    }, 1000);
+
+    // Обработчик клика для закрытия
+    notification.addEventListener('click', () => {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+      hideNotification();
+    });
+  }
+
+  // Настройка доступности
+  setupAccessibility() {
+    // Навигация с клавиатуры
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeMobileMenu();
+      }
+    });
+
+    // Фокус для скринридеров
+    const skipLink = document.querySelector('.skip-link');
+    skipLink?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector('#main-content');
+      target?.focus();
+    });
+  }
+
+  // Настройка FAQ
+  setupFAQ() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const isActive = question.classList.contains('active');
         
-        notification.innerHTML = `
-            <div class="flex items-center gap-3">
-                <div class="notification-icon">
-                    ${this.getIcon(type)}
-                </div>
-                <div class="flex-1">
-                    <div class="font-medium">${message}</div>
-                </div>
-                <button class="notification-close text-gray-400 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        `;
-
-        this.container.appendChild(notification);
+        // Закрываем все остальные вопросы
+        faqQuestions.forEach(q => {
+          q.classList.remove('active');
+          q.nextElementSibling.classList.remove('active');
+        });
         
-        // Анимация появления
+        // Открываем текущий вопрос, если он был закрыт
+        if (!isActive) {
+          question.classList.add('active');
+          answer.classList.add('active');
+        }
+      });
+    });
+  }
+
+  // Утилитарные методы
+  showToast(message, type = 'info', duration = 3000) {
+    const toast = document.createElement('div');
+    toast.className = `fixed top-24 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
+    
+    const colors = {
+      success: 'bg-green-500 text-white',
+      error: 'bg-red-500 text-white',
+      warning: 'bg-yellow-500 text-white',
+      info: 'bg-blue-500 text-white'
+    };
+    
+    toast.className += ` ${colors[type] || colors.info}`;
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+        
+    // Показываем
         setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
+      toast.classList.remove('translate-x-full');
         }, 100);
 
-        // Автоматическое скрытие
-        if (duration > 0) {
+    // Скрываем
+    setTimeout(() => {
+      toast.classList.add('translate-x-full');
             setTimeout(() => {
-                this.hide(notification);
+        document.body.removeChild(toast);
+      }, 300);
             }, duration);
         }
 
-        // Кнопка закрытия
-        notification.querySelector('.notification-close').addEventListener('click', () => {
-            this.hide(notification);
-        });
-
-        this.notifications.push(notification);
-        return notification;
-    }
-
-    hide(notification) {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-            this.notifications = this.notifications.filter(n => n !== notification);
-        }, 300);
-    }
-
-    getIcon(type) {
-        const icons = {
-            success: '<i class="fas fa-check-circle text-green-400"></i>',
-            error: '<i class="fas fa-exclamation-circle text-red-400"></i>',
-            warning: '<i class="fas fa-exclamation-triangle text-yellow-400"></i>',
-            info: '<i class="fas fa-info-circle text-blue-400"></i>'
-        };
-        return icons[type] || icons.info;
-    }
-}
-
-// Улучшенная производительность
-class PerformanceOptimizer {
-    constructor() {
-        this.init();
-    }
-
-    init() {
-        this.setupLazyLoading();
-        this.setupIntersectionObserver();
-        this.optimizeImages();
-    }
-
-    setupLazyLoading() {
-        // Lazy loading для изображений
-        const lazyImages = document.querySelectorAll('img[data-src]');
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
-                }
-            });
-        });
-
-        lazyImages.forEach(img => imageObserver.observe(img));
-    }
-
-    setupIntersectionObserver() {
-        // Анимация элементов при появлении в viewport
-        const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        const animationObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        animatedElements.forEach(el => animationObserver.observe(el));
-    }
-
-    optimizeImages() {
-        // Оптимизация изображений для разных размеров экрана
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            if (img.src) {
-                img.loading = 'lazy';
-                img.decoding = 'async';
-            }
-        });
-    }
-}
-
-// Инициализация всех улучшений
-document.addEventListener('DOMContentLoaded', () => {
-    // Инициализация счетчиков
-    const counters = document.querySelectorAll('.counter-number');
-    counters.forEach(counter => {
-        const target = counter.dataset.target;
-        if (target) {
-            const animatedCounter = new AnimatedCounter(counter, target);
-            
-            // Запуск анимации при появлении в viewport
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animatedCounter.start();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-            
-            observer.observe(counter);
-        }
+  // Метод для показа модального окна
+  showModal(content, title = '') {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content">
+        ${title ? `<div class="modal-header"><h3 class="text-lg font-semibold">${title}</h3></div>` : ''}
+        <div class="modal-body">${content}</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Закрыть</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Закрытие по клику вне модала
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
     });
+    
+    // Закрытие по Escape
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        modal.remove();
+        document.removeEventListener('keydown', handleEscape);
+            }
+    };
+    document.addEventListener('keydown', handleEscape);
+  }
 
-    // Инициализация аналитики
-    const analytics = new EnhancedAnalytics();
-
-    // Инициализация мобильной навигации
-    if (window.innerWidth <= 768) {
-        const mobileNav = new MobileNavigation();
+  // Метод для загрузки данных с индикатором
+  async fetchWithLoader(url, options = {}) {
+    const loader = document.createElement('div');
+    loader.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    loader.innerHTML = '<div class="spinner spinner-lg"></div>';
+    
+    document.body.appendChild(loader);
+    
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Ошибка загрузки:', error);
+      this.showToast('Ошибка загрузки данных', 'error');
+      throw error;
+    } finally {
+      document.body.removeChild(loader);
     }
+  }
 
-    // Инициализация уведомлений
-    const notifications = new NotificationManager();
+  // Метод для валидации форм
+  validateForm(form) {
+    const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+      if (!input.value.trim()) {
+        input.classList.add('border-red-500');
+        isValid = false;
+      } else {
+        input.classList.remove('border-red-500');
+                }
+            });
+    
+    return isValid;
+  }
 
-    // Инициализация оптимизации производительности
-    const performanceOptimizer = new PerformanceOptimizer();
+  // Метод для форматирования чисел
+  formatNumber(num) {
+    return new Intl.NumberFormat('ru-RU').format(num);
+  }
 
-    // Глобальные объекты для доступа из других модулей
-    window.ROXAnalytics = analytics;
-    window.ROXNotifications = notifications;
+  // Метод для форматирования времени
+  formatTime(seconds) {
+    const days = Math.floor(seconds / 86400);
+    const hours = Math.floor((seconds % 86400) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    
+    if (days > 0) {
+      return `${days}д ${hours}ч ${minutes}м`;
+    } else if (hours > 0) {
+      return `${hours}ч ${minutes}м`;
+    } else {
+      return `${minutes}м`;
+    }
+  }
+
+  // Метод для форматирования размера файла
+  formatFileSize(bytes) {
+    const sizes = ['Б', 'КБ', 'МБ', 'ГБ', 'ТБ'];
+    if (bytes === 0) return '0 Б';
+    
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+  }
+
+  // Метод для копирования в буфер обмена
+  async copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      this.showToast('Скопировано в буфер обмена', 'success');
+    } catch (error) {
+      console.error('Ошибка копирования:', error);
+      this.showToast('Ошибка копирования', 'error');
+    }
+  }
+
+  // Метод для дебаунса
+  debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  // Метод для throttle
+  throttle(func, limit) {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+            }
+    };
+    }
+}
+
+// Инициализация при загрузке DOM
+document.addEventListener('DOMContentLoaded', () => {
+  window.enhancedFeatures = new EnhancedFeatures();
 });
 
-// Экспорт классов для использования в других модулях
-window.AnimatedCounter = AnimatedCounter;
-window.EnhancedAnalytics = EnhancedAnalytics;
-window.MobileNavigation = MobileNavigation;
-window.NotificationManager = NotificationManager;
-window.PerformanceOptimizer = PerformanceOptimizer; 
+// Экспорт для использования в других модулях
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = EnhancedFeatures;
+} 

@@ -2,33 +2,24 @@
 module.exports = {
   content: [
     "./frontend/**/*.{html,js}",
-    "./backend/**/*.{js,html}"
+    "./frontend/src/**/*.{css,js}",
+    "./frontend/dist/**/*.{css,js}"
   ],
-  // Включаем purge для удаления неиспользуемых стилей
-  purge: {
-    enabled: true,
-    content: [
-      "./frontend/**/*.{html,js}",
-      "./backend/**/*.{js,html}"
-    ],
-    options: {
-      safelist: [
-        // Сохраняем важные классы, которые могут генерироваться динамически
-        'dark',
-        'animate-fade-in',
-        'animate-fade-in-up',
-        'animate-scale-in',
-        'hover-lift',
-        'focus-brand',
-        'text-readable',
-        'bg-surface',
-        'bg-surface-secondary',
-        'border-brand',
-        'shadow-glow',
-        'shadow-glow-lg'
-      ]
-    }
-  },
+  // Safelist для важных классов, которые могут генерироваться динамически
+  safelist: [
+    'dark',
+    'animate-fade-in',
+    'animate-fade-in-up',
+    'animate-scale-in',
+    'hover-lift',
+    'focus-brand',
+    'text-readable',
+    'bg-surface',
+    'bg-surface-secondary',
+    'border-brand',
+    'shadow-glow',
+    'shadow-glow-lg'
+  ],
   theme: {
     extend: {
       // Единая система контейнеров

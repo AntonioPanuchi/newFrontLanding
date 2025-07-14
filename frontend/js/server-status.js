@@ -227,13 +227,33 @@ class ServerStatusManager {
             return;
         }
         
-        // Получаем все серверы (без фильтрации)
-        const allServers = this.getAllServers();
+        // Фильтруем серверы
+        const filteredServers = this.filterServers(this.state.servers);
+        
+        // Обновляем статистику
+        if (typeof updateStatistics === 'function') {
+            updateStatistics(this.state.servers);
+        }
         
         // Рендерим карточки серверов с задержкой для анимации
-        this.elements.container.innerHTML = allServers.map((server, index) => 
+        this.elements.container.innerHTML = filteredServers.map((server, index) => 
             this.createServerCard(server, index)
         ).join('');
+    }
+
+    filterServers(servers) {
+        if (!this.currentFilter || this.currentFilter === 'all') {
+            return servers;
+        }
+        
+        switch (this.currentFilter) {
+            case 'online':
+                return servers.filter(server => server.status === 'online');
+            case 'offline':
+                return servers.filter(server => server.status === 'offline');
+            default:
+                return servers;
+        }
     }
 
     // Получение всех серверов (без фильтрации)
@@ -953,6 +973,58 @@ function showNotification(message, type = 'info', duration = 3000) {
     });
 }
 
+// Функции для фильтрации и управления
+function setupFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const refreshButton = document.getElementById('refresh-servers');
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Убираем активный класс у всех кнопок
+            filterButtons.forEach(b => b.classList.remove('active'));
+            // Добавляем активный класс к нажатой кнопке
+            btn.classList.add('active');
+            
+            // Обновляем фильтр
+            const filter = btn.getAttribute('data-filter');
+            if (window.serverManager) {
+                window.serverManager.currentFilter = filter;
+                window.serverManager.renderServers();
+            }
+        });
+    });
+    
+    if (refreshButton) {
+        refreshButton.addEventListener('click', () => {
+            if (window.serverManager) {
+                window.serverManager.loadServerStatuses();
+                showNotification('Обновление данных...', 'info', 2000);
+            }
+        });
+    }
+}
+
+// Обновляем статистику
+function updateStatistics(servers) {
+    const totalServers = servers.length;
+    const onlineServers = servers.filter(s => s.status === 'online').length;
+    const totalUsers = servers.reduce((sum, s) => sum + (s.users_online || 0), 0);
+    const avgPing = servers.length > 0 
+        ? (servers.reduce((sum, s) => sum + (s.ping_ms || 0), 0) / servers.length).toFixed(1)
+        : '0.0';
+
+    // Обновляем элементы статистики
+    const totalServersEl = document.getElementById('total-servers');
+    const onlineServersEl = document.getElementById('online-servers');
+    const totalUsersEl = document.getElementById('total-users');
+    const avgPingEl = document.getElementById('avg-ping');
+
+    if (totalServersEl) totalServersEl.textContent = totalServers;
+    if (onlineServersEl) onlineServersEl.textContent = onlineServers;
+    if (totalUsersEl) totalUsersEl.textContent = totalUsers;
+    if (avgPingEl) avgPingEl.textContent = avgPing;
+}
+
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     window.serverManager = new ServerStatusManager({
@@ -960,6 +1032,18 @@ document.addEventListener('DOMContentLoaded', () => {
         updateInterval: 30000,
         enableAnalytics: true
     });
+    
+    // Настраиваем фильтры
+    setupFilters();
+    
+    // Обновляем статистику при загрузке данных
+    if (window.serverManager) {
+        window.serverManager.addObserver((event, data) => {
+            if (event === 'dataLoaded') {
+                updateStatistics(data.servers);
+            }
+        });
+    }
 });
 
 // Экспорт для использования

@@ -99,7 +99,7 @@ PINGHOST2=usa-vpn.example.com
 PINGHOST3=finland-vpn.example.com
 
 # CORS настройки
-ALLOWED_ORIGIN=https://static.rox-net.ru
+ALLOWED_ORIGIN=https://rx-test.ru
 
 # Google Analytics ID (опционально)
 GA_MEASUREMENT_ID=G-XXXXXXXXXX

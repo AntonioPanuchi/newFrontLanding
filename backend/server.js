@@ -72,7 +72,7 @@ function validateOptionalVars() {
     };
     
     // Валидация PORT
-    const port = parseInt(optionalVars.PORT);
+    const port = parseInt(optionalVars.PORT, 10);
     if (isNaN(port) || port < 1 || port > 65535) {
         throw new Error(`PORT must be a number between 1 and 65535, got: ${optionalVars.PORT}`);
     }
@@ -119,7 +119,7 @@ try {
     
 } catch (error) {
     console.error('Environment variables validation failed:', error.message);
-    process.exit(1);
+    throw new Error('Environment variables validation failed: ' + error.message);
 }
 
 const port = optionalVars.PORT;
@@ -227,7 +227,7 @@ app.use('/api/', limiter);
 
 // CORS настройки
 const corsOptions = {
-    origin: function (origin, callback) {
+    origin(origin, callback) {
         logger.debug(`CORS check for origin: ${origin}`);
         // Разрешаем запросы без origin (например, из Postman)
         if (!origin) {
@@ -381,7 +381,7 @@ async function fetchDataWithRetry(url, cookie, method = 'GET', retries = 3) {
             const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 секунд таймаут
             
             const response = await fetch(url, {
-                method: method,
+                method,
                 headers: {
                     'Cookie': cookie,
                     'Accept': 'application/json, text/plain, */*',
@@ -683,7 +683,7 @@ process.on('uncaughtException', (error) => {
         error: error.message,
         stack: error.stack
     });
-    process.exit(1);
+    throw error;
 });
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -691,7 +691,7 @@ process.on('unhandledRejection', (reason, promise) => {
         promise: promise,
         reason: reason
     });
-    process.exit(1);
+    throw reason instanceof Error ? reason : new Error('Unhandled rejection: ' + reason);
 });
 
 module.exports = app;
