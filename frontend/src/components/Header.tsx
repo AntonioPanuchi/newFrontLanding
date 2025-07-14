@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { FaHome, FaServer, FaQuestionCircle, FaTelegramPlane } from 'react-icons/fa';
 
 const navLinks = [
-  { href: '/', label: 'Главная' },
-  { href: '/servers', label: 'Серверы' },
-  { href: '/faq', label: 'FAQ' },
+  { href: '/', label: 'Главная', icon: <FaHome /> },
+  { href: '/servers', label: 'Серверы', icon: <FaServer /> },
+  { href: '/faq', label: 'FAQ', icon: <FaQuestionCircle /> },
 ];
 
 function getInitialDark() {
@@ -21,7 +22,6 @@ const Header: React.FC = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [pop, setPop] = useState(false);
 
-  // Сохраняем тему в localStorage и явно применяем класс
   useEffect(() => {
     if (dark) {
       document.documentElement.classList.add('dark');
@@ -31,7 +31,6 @@ const Header: React.FC = () => {
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   }, [dark]);
 
-  // Pop-эффект при клике
   useEffect(() => {
     if (pop) {
       const timeout = setTimeout(() => setPop(false), 180);
@@ -40,25 +39,30 @@ const Header: React.FC = () => {
   }, [pop]);
 
   return (
-    <header className="w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header className="w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 fixed top-0 left-0 right-0 z-50 shadow-lg transition-all duration-300">
       <div className="container mx-auto px-4 flex items-center justify-between h-16 lg:h-20">
         {/* Логотип */}
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm lg:text-base">R</span>
+        <a href="/" className="flex items-center space-x-3 group">
+          <div className="w-10 h-10 bg-gradient-to-br from-green-400 via-blue-400 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+            <span className="text-white font-black text-lg drop-shadow-lg">R</span>
           </div>
-          <span className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">ROX.VPN</span>
-        </div>
+          <span className="text-2xl font-extrabold bg-gradient-to-r from-green-600 via-blue-500 to-blue-700 bg-clip-text text-transparent tracking-tight group-hover:drop-shadow-lg transition-all">ROX.VPN</span>
+        </a>
         {/* Навигация (десктоп) */}
-        <nav className="hidden lg:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-2 xl:space-x-4">
           {navLinks.map(link => (
-            <a key={link.href} href={link.href} className="nav-link hover:underline">
-              {link.label}
+            <a
+              key={link.href}
+              href={link.href}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-gray-700 dark:text-gray-200 hover:bg-gradient-to-r hover:from-green-100/80 hover:to-blue-100/80 dark:hover:from-blue-900/60 dark:hover:to-green-900/60 hover:text-accent transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-accent/60"
+            >
+              <span className="text-lg opacity-80">{link.icon}</span>
+              <span>{link.label}</span>
             </a>
           ))}
         </nav>
         {/* Правая часть header */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 xl:space-x-4">
           {/* Переключатель темы */}
           <div className="relative">
             <button
@@ -67,15 +71,15 @@ const Header: React.FC = () => {
               onMouseLeave={() => setShowTooltip(false)}
               onFocus={() => setShowTooltip(true)}
               onBlur={() => setShowTooltip(false)}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
+              className="p-2 rounded-xl bg-white/60 dark:bg-gray-800/60 hover:bg-accent/20 dark:hover:bg-accent/20 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 shadow"
               aria-label="Переключить тёмный режим"
               type="button"
             >
               <span className={`inline-block transition-transform duration-150 ${pop ? 'scale-125' : 'scale-100'}`}>
                 {dark ? (
-                  <svg className="w-5 h-5 text-yellow-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-8.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.95 7.07l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                  <svg className="w-6 h-6 text-yellow-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-8.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.95 7.07l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 ) : (
-                  <svg className="w-5 h-5 text-gray-700 dark:text-gray-200 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" /></svg>
+                  <svg className="w-6 h-6 text-gray-700 dark:text-gray-200 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" /></svg>
                 )}
               </span>
             </button>
@@ -86,16 +90,23 @@ const Header: React.FC = () => {
             )}
           </div>
           {/* CTA кнопка */}
-          <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105" aria-label="Открыть Telegram-бота">
-            <span className="mr-2">Telegram</span>
+          <a
+            href="https://t.me/RX_VPN_Seller_bot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-green-500 via-blue-500 to-blue-700 text-white font-bold rounded-2xl shadow-xl hover:from-green-600 hover:to-blue-800 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent/60"
+            aria-label="Открыть Telegram-бота"
+          >
+            <FaTelegramPlane className="text-lg" />
+            <span className="hidden sm:inline">Telegram</span>
           </a>
           {/* Мобильное меню */}
           <button
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="lg:hidden p-2 rounded-xl bg-white/60 dark:bg-gray-800/60 hover:bg-accent/20 dark:hover:bg-accent/20 transition-colors shadow"
             aria-label="Открыть меню"
             onClick={() => setMenuOpen(m => !m)}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
         </div>
       </div>
@@ -113,16 +124,28 @@ const Header: React.FC = () => {
             className="lg:hidden fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300"
             style={{ transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)' }}
           >
-            <div className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-xl">
-              <div className="container mx-auto px-4 py-4">
-                <nav className="flex flex-col space-y-4">
+            <div className="bg-white/95 dark:bg-gray-900/95 border-t border-gray-200 dark:border-gray-700 shadow-2xl rounded-b-3xl">
+              <div className="container mx-auto px-4 py-6">
+                <nav className="flex flex-col space-y-3">
                   {navLinks.map(link => (
-                    <a key={link.href} href={link.href} className="mobile-nav-link text-lg py-2 hover:underline" onClick={() => setMenuOpen(false)}>
-                      {link.label}
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className="flex items-center gap-3 text-lg px-4 py-3 rounded-xl font-semibold text-gray-700 dark:text-gray-200 hover:bg-gradient-to-r hover:from-green-100/80 hover:to-blue-100/80 dark:hover:from-blue-900/60 dark:hover:to-green-900/60 hover:text-accent transition-all duration-200 shadow-sm"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <span className="text-xl opacity-80">{link.icon}</span>
+                      <span>{link.label}</span>
                     </a>
                   ))}
-                  <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" rel="noopener noreferrer" className="mobile-nav-link bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg px-4 py-3 text-center mt-2">
-                    Telegram
+                  <a
+                    href="https://t.me/RX_VPN_Seller_bot"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 justify-center bg-gradient-to-r from-green-500 via-blue-500 to-blue-700 text-white font-bold rounded-2xl px-4 py-4 text-lg mt-2 shadow-xl hover:from-green-600 hover:to-blue-800 hover:scale-105 transition-all duration-300"
+                  >
+                    <FaTelegramPlane className="text-xl" />
+                    <span>Telegram</span>
                   </a>
                 </nav>
               </div>
