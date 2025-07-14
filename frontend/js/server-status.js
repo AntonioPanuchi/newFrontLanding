@@ -866,9 +866,9 @@ CPU: ${server.cpu_load}%
     `.trim();
     
     navigator.clipboard.writeText(info).then(() => {
-        showNotification('Информация скопирована в буфер обмена', 'success');
+        showNotification(`Информация о ${server.name} скопирована`, 'success', 3000);
     }).catch(() => {
-        showNotification('Не удалось скопировать информацию', 'error');
+        showNotification('Не удалось скопировать информацию', 'error', 4000);
     });
 }
 
@@ -877,50 +877,80 @@ function pingServer(serverName) {
     const server = window.serverManager?.getServers().find(s => s.name === serverName);
     if (!server) return;
     
-    showNotification('Проверка пинга...', 'info');
+    showNotification(`Проверка пинга до ${server.name}...`, 'info', 2000);
     
     // Имитация проверки пинга (в реальном приложении здесь был бы API запрос)
     setTimeout(() => {
         const ping = Math.floor(Math.random() * 100) + 20; // 20-120мс
-        showNotification(`Пинг до ${server.name}: ${ping}мс`, 'success');
-    }, 1000);
+        const status = ping < 50 ? 'Отличный' : ping < 100 ? 'Хороший' : 'Медленный';
+        showNotification(`Пинг до ${server.name}: ${ping}мс (${status})`, 'success', 4000);
+    }, 1500);
 }
 
+// Система уведомлений с очередью
+const notificationQueue = {
+    notifications: [],
+    isProcessing: false,
+    
+    add(notification) {
+        this.notifications.push(notification);
+        if (!this.isProcessing) {
+            this.process();
+        }
+    },
+    
+    process() {
+        if (this.notifications.length === 0) {
+            this.isProcessing = false;
+            return;
+        }
+        
+        this.isProcessing = true;
+        const notification = this.notifications.shift();
+        this.show(notification);
+    },
+    
+    show(notification) {
+        document.body.appendChild(notification.element);
+        
+        // Анимация появления
+        setTimeout(() => {
+            notification.element.classList.remove('translate-x-full');
+        }, 100);
+        
+        // Автоматическое скрытие
+        setTimeout(() => {
+            notification.element.classList.add('translate-x-full');
+            setTimeout(() => {
+                notification.element.remove();
+                this.process(); // Показать следующее уведомление
+            }, 300);
+        }, notification.duration || 3000);
+    }
+};
+
 // Показать уведомление
-function showNotification(message, type = 'info') {
+function showNotification(message, type = 'info', duration = 3000) {
     const notification = document.createElement('div');
-    notification.className = `fixed top-20 right-4 z-[70] p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
     
-    const colors = {
-        success: 'bg-green-500/90 text-white',
-        error: 'bg-red-500/90 text-white',
-        info: 'bg-blue-500/90 text-white',
-        warning: 'bg-yellow-500/90 text-white'
-    };
+    // Увеличиваем z-index для отображения поверх модального окна
+    notification.className = `fixed top-20 right-4 z-[9999] p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full notification notification-${type}`;
     
-    notification.className += ` ${colors[type] || colors.info}`;
     notification.innerHTML = `
         <div class="flex items-center gap-3">
             <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle"></i>
-            <span>${message}</span>
-            <button onclick="this.parentElement.parentElement.remove()" class="ml-2 hover:opacity-70">
+            <span class="font-medium">${message}</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-2 hover:opacity-70 transition-opacity">
                 <i class="fas fa-times"></i>
             </button>
         </div>
     `;
     
-    document.body.appendChild(notification);
-    
-    // Анимация появления
-    setTimeout(() => {
-        notification.classList.remove('translate-x-full');
-    }, 100);
-    
-    // Автоматическое скрытие
-    setTimeout(() => {
-        notification.classList.add('translate-x-full');
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    // Добавляем в очередь
+    notificationQueue.add({
+        element: notification,
+        duration: duration
+    });
 }
 
 // Инициализация при загрузке страницы
