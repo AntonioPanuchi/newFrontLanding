@@ -6,7 +6,6 @@ import Features from '../components/Features';
 import ServerStatus from '../components/ServerStatus';
 import Notification from '../components/Notification';
 import FaqSection from '../components/FaqSection';
-import Footer from '../components/Footer';
 
 const Home: React.FC = () => (
   <>
@@ -19,7 +18,6 @@ const Home: React.FC = () => (
       <Notification />
       <FaqSection />
     </main>
-    <Footer />
   </>
 );
 
