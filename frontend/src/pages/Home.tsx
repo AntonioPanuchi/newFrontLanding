@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
-import SocialProof from '../components/SocialProof';
+import HowItWorks from '../components/HowItWorks';
 import Features from '../components/Features';
 import ServerStatus from '../components/ServerStatus';
 import Notification from '../components/Notification';
@@ -13,7 +13,7 @@ const Home: React.FC = () => (
     <Header />
     <main className="relative z-10">
       <HeroSection />
-      <SocialProof />
+      <HowItWorks />
       <Features />
       <ServerStatus />
       <Notification />
