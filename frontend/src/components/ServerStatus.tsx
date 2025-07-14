@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CountryFlag from 'react-country-flag';
+import ServerCardSkeleton from './ServerCardSkeleton';
+import { useInView } from '../hooks/useInView';
 
 type Server = {
   country: string;
@@ -43,7 +45,7 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-between min-h-[280px] sm:min-h-[360px] bg-white/90 rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-fade-in-up px-6 sm:px-10 md:px-14 py-8 sm:py-12 backdrop-blur-xl transition-transform duration-300 hover:scale-105`}
+      className={`relative flex flex-col items-center justify-between min-h-[280px] sm:min-h-[360px] bg-white/90 rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-fade-in-up px-6 sm:px-10 md:px-14 py-8 sm:py-12 backdrop-blur-xl transition-transform duration-300 hover:scale-105 hover:shadow-wow hover:ring-4 hover:ring-accent/30`}
       style={{
         animationDelay: `${index * 0.1 + 0.1}s`,
         animationFillMode: 'both',
@@ -126,6 +128,7 @@ const fetchServers = async (): Promise<Server[]> => {
 const ServerStatus: React.FC = () => {
   const [servers, setServers] = useState<Server[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [ref, inView] = useInView();
 
   useEffect(() => {
     fetchServers().then(data => {
@@ -135,14 +138,23 @@ const ServerStatus: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div className="p-8 text-center">Загрузка статуса серверов...</div>;
+    return (
+      <section ref={ref} className={`py-20 sm:py-28 transition-opacity duration-700 ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}>
+        <div className="container mx-auto px-4 max-w-7xl">
+          <h2 className="text-4xl font-bold mb-12 text-center">Статус серверов</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-14">
+            {[...Array(3)].map((_, i) => <ServerCardSkeleton key={i} />)}
+          </div>
+        </div>
+      </section>
+    );
   }
   if (!Array.isArray(servers)) {
     return <div className="p-8 text-center text-red-500">Ошибка загрузки серверов</div>;
   }
 
   return (
-    <section className="py-20 sm:py-28">
+    <section ref={ref} className={`py-20 sm:py-28 transition-opacity duration-700 ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}>
       <div className="container mx-auto px-4 max-w-7xl">
         <h2 className="text-4xl font-bold mb-12 text-center">Статус серверов</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-14">

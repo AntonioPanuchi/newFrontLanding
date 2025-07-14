@@ -62,20 +62,34 @@ const Header: React.FC = () => {
       </div>
       {/* Мобильное меню */}
       {menuOpen && (
-        <div className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-          <div className="container mx-auto px-4 py-4">
-            <nav className="flex flex-col space-y-4">
-              {navLinks.map(link => (
-                <a key={link.href} href={link.href} className="mobile-nav-link text-lg py-2 hover:underline" onClick={() => setMenuOpen(false)}>
-                  {link.label}
-                </a>
-              ))}
-              <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" rel="noopener noreferrer" className="mobile-nav-link bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg px-4 py-3 text-center mt-2">
-                Telegram
-              </a>
-            </nav>
+        <>
+          {/* Затемнение фона */}
+          <div
+            className="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 animate-fade-in"
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />
+          {/* Мобильное меню с анимацией */}
+          <div
+            className="lg:hidden fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300"
+            style={{ transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)' }}
+          >
+            <div className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-xl">
+              <div className="container mx-auto px-4 py-4">
+                <nav className="flex flex-col space-y-4">
+                  {navLinks.map(link => (
+                    <a key={link.href} href={link.href} className="mobile-nav-link text-lg py-2 hover:underline" onClick={() => setMenuOpen(false)}>
+                      {link.label}
+                    </a>
+                  ))}
+                  <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" rel="noopener noreferrer" className="mobile-nav-link bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg px-4 py-3 text-center mt-2">
+                    Telegram
+                  </a>
+                </nav>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </header>
   );

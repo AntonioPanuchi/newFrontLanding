@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaQuestionCircle } from 'react-icons/fa';
+import { useInView } from '../hooks/useInView';
 
 const faqs = [
   {
@@ -30,9 +31,13 @@ const faqs = [
 
 const FaqSection: React.FC = () => {
   const [open, setOpen] = useState<number | null>(null);
+  const [ref, inView] = useInView();
 
   return (
-    <section className="py-16 sm:py-24 bg-bg animate-fade-in-up">
+    <section
+      ref={ref}
+      className={`py-16 sm:py-24 bg-bg transition-opacity duration-700 ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}
+    >
       <div className="container mx-auto px-4 sm:px-8 max-w-3xl sm:max-w-4xl">
         <h2 className="text-4xl sm:text-5xl font-bold mb-12 text-center">Часто задаваемые вопросы</h2>
         <div className="flex flex-col gap-6">

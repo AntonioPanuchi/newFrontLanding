@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Servers from './pages/Servers';
 import Faq from './pages/Faq';
+import TelegramFab from './components/TelegramFab';
 
 const App: React.FC = () => (
   <HelmetProvider>
@@ -17,6 +18,7 @@ const App: React.FC = () => (
           <Route path="/servers" element={<Servers />} />
           <Route path="/faq" element={<Faq />} />
         </Routes>
+        <TelegramFab />
       </main>
       <Footer />
     </Router>
