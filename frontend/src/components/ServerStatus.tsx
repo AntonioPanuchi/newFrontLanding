@@ -45,7 +45,7 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-between min-h-[280px] sm:min-h-[360px] bg-white/90 dark:bg-slate-800/90 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-fade-in-up px-6 sm:px-10 md:px-14 py-8 sm:py-12 backdrop-blur-xl transition-colors duration-300 transition-transform hover:scale-105 hover:shadow-wow hover:ring-4 hover:ring-accent/30`}
+      className={`card-panel group animate-fade-in-up hover:rotate-1 hover:border-accent/50`}
       style={{
         animationDelay: `${index * 0.1 + 0.1}s`,
         animationFillMode: 'both',
@@ -64,6 +64,7 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
               svg
               style={{ width: '2.5em', height: '2.5em', borderRadius: '0.7em', boxShadow: '0 1px 4px #0002' }}
               title={server.country}
+              className="group-hover:scale-110 transition-transform duration-300"
             />
           )}
           <span className="text-xl sm:text-2xl font-bold dark:text-gray-100">{server.country}</span>
@@ -88,7 +89,7 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
             <span>{server.cpu}%</span>
           </div>
           <div className="w-full h-3 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div className="h-3 bg-gradient-to-r from-green-400 to-blue-400" style={{ width: `${Math.min(server.cpu, 100)}%` }} />
+            <div className="h-3 bg-gradient-to-r from-green-400 to-blue-400 transition-all duration-1000 ease-out" style={{ width: `${Math.min(server.cpu, 100)}%` }} />
           </div>
         </div>
         <div className="w-full mt-3">
@@ -97,7 +98,7 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
             <span>{formatMem(server.memUsed, server.memTotal)}</span>
           </div>
           <div className="w-full h-3 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div className="h-3 bg-gradient-to-r from-blue-400 to-indigo-400" style={{ width: `${memPercent}%` }} />
+            <div className="h-3 bg-gradient-to-r from-blue-400 to-indigo-400 transition-all duration-1000 ease-out" style={{ width: `${memPercent}%` }} />
           </div>
         </div>
         <div className="w-full mt-3 flex items-center gap-3 text-gray-500 dark:text-gray-300">
@@ -108,8 +109,10 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
   );
 };
 
-const fetchServers = async (): Promise<Server[]> => {
+const fetchServers = async (): Promise<Server[] | null> => {
+  try {
   const res = await fetch('/api/server-statuses');
+    if (!res.ok) throw new Error('Network response was not ok');
   const data = await res.json();
   if (!Array.isArray(data)) return [];
   return data.map((s: any) => ({
@@ -123,6 +126,9 @@ const fetchServers = async (): Promise<Server[]> => {
     memUsed: s.mem_used,
     memTotal: s.mem_total,
   }));
+  } catch (e) {
+    return null;
+  }
 };
 
 const ServerStatus: React.FC = () => {

@@ -5,7 +5,7 @@ const TelegramFab: React.FC = () => (
     href="https://t.me/RX_VPN_Seller_bot"
     target="_blank"
     rel="noopener noreferrer"
-    className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-blue-500 text-white shadow-2xl hover:scale-110 hover:shadow-wow transition-all duration-300 sm:hidden"
+    className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-blue-500 text-white shadow-2xl hover:scale-110 hover:shadow-wow active:scale-95 transition-all duration-300 sm:hidden"
     aria-label="Открыть Telegram-бота"
   >
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -560,7 +560,10 @@ app.get('/api/server-statuses', async (req, res) => {
             onlineServers: statuses.filter(s => s.status === 'online').length
         });
         
-        res.json(statuses);
+        res.json({
+            servers: statuses,
+            lastUpdate: new Date().toISOString()
+        });
         
     } catch (error) {
         logger.error('Error in /api/server-statuses endpoint:', {

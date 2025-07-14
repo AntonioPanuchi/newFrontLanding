@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Footer: React.FC = () => (
   <footer className="py-10 sm:py-14 bg-dark text-white mt-16 sm:mt-24">
@@ -7,7 +8,7 @@ const Footer: React.FC = () => (
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-10 items-center text-base sm:text-lg">
         <a href="mailto:support@rx-test.ru" className="hover:underline">support@rx-test.ru</a>
         <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" rel="noopener noreferrer" className="hover:underline">Telegram</a>
-        <a href="#faq" className="hover:underline">FAQ</a>
+        <NavLink to="/faq" className="hover:underline">FAQ</NavLink>
       </div>
     </div>
   </footer>

@@ -9,7 +9,10 @@ async function getServerStatuses(req, res) {
         const servers = await serverService.getAllServerStatuses();
         
         // Возвращаем массив серверов напрямую, как ожидает frontend
-        res.json(servers);
+        res.json({
+            servers,
+            lastUpdate: new Date().toISOString()
+          });
     } catch (error) {
         logger.error('Error fetching server statuses:', error);
         res.status(500).json({ error: 'Ошибка получения статуса серверов' });

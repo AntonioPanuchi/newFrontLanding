@@ -791,4 +791,83 @@ code, pre {
     background: white !important;
     color: black !important;
   }
+}
+
+/* Page Transition Animations */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+/* Enhanced hover effects */
+.hover-bounce {
+  transition: transform 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.hover-bounce:hover {
+  transform: scale(1.05);
+}
+
+.hover-wiggle {
+  transition: transform 0.3s ease;
+}
+
+.hover-wiggle:hover {
+  transform: rotate(2deg) scale(1.02);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced focus states */
+.focus-ring {
+  transition: box-shadow 0.2s ease;
+}
+
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+} 
+
+.card-panel {
+  @apply relative flex flex-col items-center justify-between min-h-[280px] sm:min-h-[360px] bg-white/90 dark:bg-slate-800/90 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden px-6 sm:px-10 md:px-14 py-8 sm:py-12 backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-wow hover:ring-4 hover:ring-accent/30;
+} 
+
+.btn-base {
+  @apply px-8 py-4 rounded-3xl font-bold transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:scale-95;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-primary to-accent text-white hover:from-green-600 hover:to-blue-600 hover:scale-105 hover:shadow-wow focus:ring-4 focus:ring-accent/40;
+}
+
+.btn-secondary {
+  @apply bg-white/80 border-2 border-accent text-accent hover:bg-blue-50 hover:scale-105 hover:shadow-wow focus:ring-4 focus:ring-accent/40;
+}
+
+.btn-outline {
+  @apply bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white hover:scale-105 hover:shadow-wow focus:ring-4 focus:ring-accent/40;
+}
+
+.btn-glass {
+  @apply bg-white/30 backdrop-blur-lg border border-white/40 text-primary hover:bg-white/50 hover:scale-105 hover:shadow-wow focus:ring-4 focus:ring-accent/40;
 } 
