@@ -61,7 +61,7 @@ const Features: React.FC = () => {
   return (
     <section
       ref={ref}
-      className={`relative py-16 sm:py-24 bg-bg transition-opacity duration-700 ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}
+      className={`relative py-16 sm:py-24 bg-bg dark:bg-slate-900 transition-colors duration-300 transition-opacity ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}
     >
       {/* SVG wave top - удалён, теперь используется SectionDivider на странице */}
       <div className="container mx-auto px-4 sm:px-8 max-w-7xl relative z-10">
@@ -69,14 +69,14 @@ const Features: React.FC = () => {
           {features.map((f, i) => (
             <div
               key={f.title}
-              className="text-center p-8 sm:p-12 rounded-3xl shadow-wow bg-white/90 backdrop-blur-xl border border-gray-100 animate-fade-in-up transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
+              className="text-center p-8 sm:p-12 rounded-3xl shadow-wow bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-gray-100 dark:border-gray-700 animate-fade-in-up transition-colors duration-300 transition-transform hover:scale-105 hover:shadow-2xl"
               style={{ animationDelay: `${i * 0.1 + 0.1}s`, animationFillMode: 'both' }}
             >
               <div className="mx-auto mb-6 sm:mb-8 w-16 sm:w-20 h-16 sm:h-20 flex items-center justify-center rounded-full shadow-lg bg-gradient-to-br from-primary to-accent text-white">
                 {f.icon}
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-gray-900">{f.title}</h3>
-              <p className="text-gray-500 text-lg sm:text-xl">{f.description}</p>
+              <h3 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-gray-900 dark:text-gray-100">{f.title}</h3>
+              <p className="text-gray-500 dark:text-gray-300 text-lg sm:text-xl">{f.description}</p>
             </div>
           ))}
         </div>
