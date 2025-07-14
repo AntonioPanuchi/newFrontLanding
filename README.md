@@ -20,8 +20,8 @@
 
 - **Backend:** Node.js, Express
 - **Frontend:** React, Vite, TailwindCSS, Storybook
-- **CI/CD:** GitHub Actions, PM2
-- **Тесты:** Jest, ESLint, Prettier
+- **CI/CD:** GitHub Actions, PM2 *(workflow требует настройки)*
+- **Линтинг/Форматирование:** ESLint, Prettier (только backend)
 
 ---
 
@@ -60,9 +60,7 @@ npm run storybook # запуск Storybook (http://localhost:6006)
 
 ## ⚙️ CI/CD
 
-Используйте GitHub Actions для автоматизации тестирования, сборки и деплоя.
-
-Пример workflow (`.github/workflows/ci-cd.yml`):
+*Пример workflow для GitHub Actions приведён ниже. Убедитесь, что файл `.github/workflows/ci-cd.yml` добавлен и настроен в вашем репозитории.*
 
 ```yaml
 name: CI/CD Pipeline
@@ -85,8 +83,6 @@ jobs:
         run: cd backend && npm ci
       - name: Lint backend
         run: cd backend && npm run lint
-      - name: Test backend
-        run: cd backend && npm test
       - name: Install frontend dependencies
         run: cd frontend && npm ci
       - name: Build frontend
@@ -118,28 +114,36 @@ jobs:
 ### Backend
 - `npm run dev` — разработка
 - `npm start` — продакшн
-- `npm test` — тесты
 - `npm run lint` — линтинг
+- `npm run lint:fix` — автоисправление
 - `npm run format` — форматирование
+- `npm run format:check` — проверка форматирования
+- `npm run security:audit` — аудит зависимостей
+- `npm run security:fix` — автоисправление уязвимостей
+- `npm run clean` — очистка логов
+- `npm run logs` — просмотр логов
+- `npm run pm2:*` — управление процессом через PM2
+- `npm run validate` — линтинг + проверка форматирования
 
 ### Frontend
 - `npm run dev` — разработка
 - `npm run build` — сборка
 - `npm run preview` — предпросмотр
 - `npm run storybook` — Storybook
+- `npm run build-storybook` — сборка Storybook
 
 ---
 
 ## 🔌 API
 
 - `GET /api/server-statuses` — статусы серверов
-- `GET /health` — здоровье сервиса
+- `GET /api/health` — здоровье сервиса
 
 Примеры запросов:
 
 ```bash
 curl https://rx-test.ru/api/server-statuses
-curl https://rx-test.ru/health
+curl https://rx-test.ru/api/health
 ```
 
 Примеры ответов:
@@ -194,18 +198,8 @@ curl https://rx-test.ru/health
 ├── .gitignore                # Исключения Git
 ├── deploy.sh                 # Скрипт деплоя
 ├── ecosystem.config.js       # PM2 конфиг
-├── package.json              # Корневой package.json (если есть)
+├── package.json              # Корневой package.json
 ├── README.md                 # Документация
-```
-
----
-
-## 🧪 Тестирование
-
-```bash
-npm test
-npm run test:coverage
-npm run test:watch
 ```
 
 ---
@@ -221,8 +215,7 @@ npm run test:watch
 
 ## 📈 Аналитика и метрики
 
-- Google Analytics 4
-- Core Web Vitals
+*Google Analytics 4, Core Web Vitals — требуют отдельной настройки и интеграции.*
 
 ---
 
