@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CountryFlag from 'react-country-flag';
 import ServerCardSkeleton from './ServerCardSkeleton';
 import { useInView } from '../hooks/useInView';
 
@@ -29,18 +28,18 @@ function formatMem(used: number, total: number): string {
   return `${used} / ${total} Б`;
 }
 
-function getCountryCode(country: string): string | undefined {
+function getCountryFlag(country: string): string {
   switch (country.toLowerCase()) {
-    case 'germany': return 'DE';
-    case 'usa': case 'us': case 'united states': return 'US';
-    case 'finland': return 'FI';
-    default: return undefined;
+    case 'germany': return '🇩🇪';
+    case 'usa': case 'us': case 'united states': return '🇺🇸';
+    case 'finland': return '🇫🇮';
+    default: return '🌍';
   }
 }
 
 const ServerCard = ({ server, index }: { server: Server; index: number }) => {
   const memPercent = Math.round((server.memUsed / server.memTotal) * 100);
-  const countryCode = getCountryCode(server.country);
+  const countryFlag = getCountryFlag(server.country);
   const statusColor = server.status === 'online' ? 'bg-green-400' : 'bg-red-400';
 
   return (
@@ -58,15 +57,12 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
       {/* Контент */}
       <div className="flex flex-col items-center gap-3 w-full">
         <div className="flex items-center gap-3 mb-3">
-          {countryCode && (
-            <CountryFlag
-              countryCode={countryCode}
-              svg
-              style={{ width: '2.5em', height: '2.5em', borderRadius: '0.7em', boxShadow: '0 1px 4px #0002' }}
-              title={server.country}
-              className="group-hover:scale-110 transition-transform duration-300"
-            />
-          )}
+          <div 
+            className="text-4xl group-hover:scale-110 transition-transform duration-300"
+            title={server.country}
+          >
+            {countryFlag}
+          </div>
           <span className="text-xl sm:text-2xl font-bold dark:text-gray-100">{server.country}</span>
         </div>
         <div className="flex items-center gap-3 mb-3">

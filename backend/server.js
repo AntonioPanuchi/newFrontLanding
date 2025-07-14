@@ -617,6 +617,9 @@ app.post('/api/refresh-cache', async (req, res) => {
     }
 });
 
+// Статические файлы из папки public (favicon и др.)
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
+
 // Статические файлы (после API маршрутов)
 app.use(express.static(path.join(__dirname, '..', 'frontend'), {
     setHeaders: (res, filePath) => {

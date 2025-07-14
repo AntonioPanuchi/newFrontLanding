@@ -132,16 +132,16 @@ const Header: React.FC = () => {
               </span>
             )}
           </div>
-          {/* CTA кнопка */}
+          {/* CTA кнопка - скрыта на мобильных, так как есть плавающая кнопка */}
           <a
             href="https://t.me/RX_VPN_Seller_bot"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-green-500 via-blue-500 to-blue-700 text-white font-bold rounded-2xl shadow-xl hover:from-green-600 hover:to-blue-800 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent/60"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-green-500 via-blue-500 to-blue-700 text-white font-bold rounded-2xl shadow-xl hover:from-green-600 hover:to-blue-800 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent/60"
             aria-label="Открыть Telegram-бота"
           >
             <FaTelegramPlane className="text-lg" />
-            <span className="hidden sm:inline">Telegram</span>
+            <span>Telegram</span>
           </a>
           {/* Мобильное меню */}
           <button
