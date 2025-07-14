@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROX.VPN - Glassmorphism дизайн</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .glass-bg {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .glass-button {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .glass-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    
+    .glass-icon {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .floating-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .shape {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .shape:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    
+    .shape:nth-child(2) {
+      width: 120px;
+      height: 120px;
+      top: 60%;
+      right: 10%;
+      animation-delay: 2s;
+    }
+    
+    .shape:nth-child(3) {
+      width: 60px;
+      height: 60px;
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 4s;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .glow {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body class="min-h-screen relative overflow-hidden">
+  <!-- Плавающие формы -->
+  <div class="floating-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+  
+  <!-- Hero Section - Glassmorphism стиль -->
+  <section class="relative py-20 px-4 z-10">
+    <div class="max-w-6xl mx-auto">
+      <!-- Заголовок -->
+      <div class="text-center mb-16">
+        <div class="glass-bg inline-flex items-center px-6 py-3 mb-8 glow">
+          <span class="w-3 h-3 bg-white rounded-full mr-3 animate-pulse"></span>
+          <span class="text-white font-medium">Бесплатный пробный период</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+          <span class="text-white">VPN за</span>
+          <span class="text-gradient">30 секунд</span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto font-light leading-relaxed">
+          Прозрачность и элегантность в каждом элементе
+        </p>
+      </div>
+
+      <!-- Карточки преимуществ -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="glass-card p-8 transition-all duration-500">
+          <div class="glass-icon w-16 h-16 flex items-center justify-center mb-6 mx-auto">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3 text-center">Молниеносная скорость</h3>
+          <p class="text-white/80 leading-relaxed text-center">До 1 Гбит/с без ограничений и задержек</p>
+        </div>
+
+        <div class="glass-card p-8 transition-all duration-500">
+          <div class="glass-icon w-16 h-16 flex items-center justify-center mb-6 mx-auto">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3 text-center">Полная анонимность</h3>
+          <p class="text-white/80 leading-relaxed text-center">Ваши данные под надежной защитой</p>
+        </div>
+
+        <div class="glass-card p-8 transition-all duration-500">
+          <div class="glass-icon w-16 h-16 flex items-center justify-center mb-6 mx-auto">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3 text-center">Настройка в 1 клик</h3>
+          <p class="text-white/80 leading-relaxed text-center">Никаких сложных инструкций</p>
+        </div>
+      </div>
+
+      <!-- CTA кнопка -->
+      <div class="text-center">
+        <a href="#" class="glass-button inline-flex items-center px-10 py-5 text-white font-semibold text-lg glow">
+          Начать бесплатно
+          <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </a>
+        
+        <div class="glass-bg inline-block px-6 py-3 mt-6 glow">
+          <p class="text-sm text-white/90 font-medium">
+            Без регистрации • Без карты • Работает сразу
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html> 

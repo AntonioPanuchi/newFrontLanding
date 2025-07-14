@@ -13,7 +13,7 @@
   <meta name="keywords" content="VPN Telegram, ROX VPN, быстрый VPN, анонимный интернет, VPN бот, обход блокировок, безопасный интернет" />
   <link rel="canonical" href="https://rx-test.ru" />
   <link href="./dist/output.css?v=1.1" rel="stylesheet">
-  <link href="./dist/design-system.css?v=1.1" rel="stylesheet">
+  <link href="./dist/neomorphic-styles.css?v=1.0" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
   <meta property="og:url" content="https://rx-test.ru/" />
   <meta property="og:type" content="website" />
 </head>
-<body class="bg-background text-white font-sans">
+<body class="neo-bg">
 <a href="#main-content" class="skip-link sr-only focus:not-sr-only">Перейти к основному содержимому</a>
 
   <!-- Плавающие частицы -->
@@ -34,99 +34,135 @@
     <div class="particle"></div>
     <div class="particle"></div>
     <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
   </div>
 
-  <!-- Hero Section -->
-  <section id="hero" class="container-section section-spacing text-center relative overflow-hidden bg-gradient-to-b from-background/80 to-transparent rounded-b-3xl shadow-lg text-readable" id="main-content">
-    <button id="dark-mode-toggle" class="fixed top-4 right-4 z-50 p-3 bg-surface backdrop-blur-md rounded-full text-white hover:bg-surface-secondary transition focus-brand" aria-label="Переключить тёмный режим">
-      <i class="fas fa-moon text-lg"></i>
-    </button>
-    <div class="absolute inset-0 opacity-10 parallax-container">
-      <div class="blur-ball blur-blue top-10 left-10 w-20 h-20 parallax-element" data-speed="0.5"></div>
-      <div class="blur-ball blur-green bottom-10 right-10 w-32 h-32 parallax-element" data-speed="0.3"></div>
-      <div class="blur-ball blur-blue top-1/2 left-1/4 w-16 h-16 parallax-element" data-speed="0.7"></div>
+  <!-- Анимированное уведомление -->
+  <div id="notification" class="fixed top-20 right-4 z-[60] transition-transform duration-500 ease-in-out cursor-pointer" style="transform: translateX(100%);">
+    <div class="neo-card-inset inline-flex items-center px-6 py-3 glow-effect shadow-lg">
+      <span class="w-3 h-3 bg-success rounded-full mr-3 animate-pulse"></span>
+      <span class="font-medium">🎉 Бесплатный пробный период!</span>
     </div>
-    <div class="relative z-10 container mx-auto">
-      <div class="inline-block bg-primary-400/20 text-primary-400 px-4 py-2 rounded-full text-sm font-medium mb-4 animate-fade-in-up">
-        🎉 Бесплатный пробный период!
-      </div>
-      <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight animate-fade-in-up tracking-tight">
-        VPN за <span class="text-primary-400 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">30 секунд</span><br />прямо в Telegram
+  </div>
+
+  <!-- Переключатель темы -->
+  <button id="dark-mode-toggle" class="fixed z-50 neo-button p-3 rounded-full hover:scale-105 transition" style="top: 40px; left: 40px;" aria-label="Переключить тёмный режим">
+    <i class="fas fa-moon text-lg"></i>
+  </button>
+
+  <!-- Hero Section -->
+  <section id="hero" class="container-section section-spacing text-center relative overflow-hidden rounded-b-3xl" id="main-content">
+    <div class="relative z-10 container mx-auto px-4">
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-tight animate-fade-in-up tracking-tight">
+        VPN за <span class="text-gradient">30 секунд</span><br />прямо в Telegram
       </h1>
-      <p class="text-lg md:text-xl lg:text-2xl text-secondary-400 mb-8 max-w-3xl mx-auto animate-fade-in-up font-medium leading-relaxed">
+      
+      <p class="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto animate-fade-in-up font-medium leading-relaxed">
         Забудь про сложные настройки! ROX.VPN работает через Telegram-бота — просто нажми кнопку и получи быстрый защищённый интернет.
       </p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-10">
-        <div class="enhanced-server-card animate-fade-in-up">
-          <div class="text-3xl mb-3" aria-hidden="true">⚡</div>
-          <h3 class="font-bold text-lg mb-2">Молниеносная скорость</h3>
-          <p class="text-sm text-secondary-400 leading-relaxed">До 1 Гбит/с без ограничений</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+        <div class="neo-card p-8 transition-all duration-300 hover:scale-105 animate-fade-in-up">
+          <div class="neo-icon mb-4">
+            <span class="text-3xl">⚡</span>
+          </div>
+          <h3 class="font-bold text-xl mb-3">Максимальная скорость</h3>
+          <p class="text-sm leading-relaxed opacity-80">Работает на полной мощности, сколько бы вы ни качали</p>
         </div>
-        <div class="enhanced-server-card animate-fade-in-up">
-          <div class="text-3xl mb-3" aria-hidden="true">🛡️</div>
-          <h3 class="font-bold text-lg mb-2">Полная анонимность</h3>
-          <p class="text-sm text-secondary-400 leading-relaxed">Никто не узнает, что ты делаешь в сети</p>
+
+        <div class="neo-card p-8 transition-all duration-300 hover:scale-105 animate-fade-in-up">
+          <div class="neo-icon mb-4">
+            <span class="text-3xl">🛡️</span>
+          </div>
+          <h3 class="font-bold text-xl mb-3">Полный инкогнито-режим</h3>
+          <p class="text-sm leading-relaxed opacity-80">Данные под надёжным цифровым замком</p>
         </div>
-        <div class="enhanced-server-card animate-fade-in-up">
-          <div class="text-3xl mb-3" aria-hidden="true">🤖</div>
-          <h3 class="font-bold text-lg mb-2">Настройка в 1 клик</h3>
-          <p class="text-sm text-secondary-400 leading-relaxed">Никаких сложных инструкций</p>
+
+        <div class="neo-card p-8 transition-all duration-300 hover:scale-105 animate-fade-in-up">
+          <div class="neo-icon mb-4">
+            <span class="text-3xl">🤖</span>
+          </div>
+          <h3 class="font-bold text-xl mb-3">Подключение за секунды</h3>
+          <p class="text-sm leading-relaxed opacity-80">Автоматическая конфигурация за пару секунд</p>
         </div>
       </div>
-      <div class="space-y-4 animate-fade-in-up">
-        <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="inline-block enhanced-button bg-primary-400 hover:bg-primary-300 text-gray-900 px-8 py-4 rounded-full text-xl font-bold transition shadow-glow focus-brand">
-          🚀 Попробовать бесплатно
+
+      <!-- CTA секция -->
+      <div class="text-center">
+        <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="neo-button inline-flex items-center px-12 py-6 font-bold text-xl glow-effect hover:scale-105 transition-transform">
+          <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Начать бесплатно
+          <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
         </a>
-        <p class="text-primary-400 text-sm">✅ Без регистрации • ✅ Без карты • ✅ Работает сразу</p>
       </div>
     </div>
   </section>
 
   <!-- Server Status Section -->
-  <section id="servers" class="container-section section-spacing bg-surface rounded-xl shadow-inner text-readable">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-8 text-center text-white animate-fade-in-up">Статус наших серверов</h2>
+  <section id="servers" class="container-section section-spacing-xs relative overflow-hidden">
+    <!-- Фоновые элементы -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-green-500/10 rounded-3xl"></div>
+    <div class="absolute top-10 left-10 w-20 h-20 bg-blue-400/20 rounded-full blur-xl animate-pulse"></div>
+    <div class="absolute bottom-10 right-10 w-32 h-32 bg-green-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+    
+    <div class="container mx-auto relative z-10 px-4">
+      <!-- Заголовок секции -->
+      <div class="text-center mb-8">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Статус серверов</h2>
+        <p class="text-lg opacity-70 max-w-2xl mx-auto">Актуальная информация о работе нашей инфраструктуры в реальном времени</p>
+      </div>
 
-      <div id="server-status-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-      <p id="last-updated" class="text-center text-sm text-secondary-400 mt-6">Последнее обновление: Загрузка...</p>
+
+
+      <!-- Карточки серверов -->
+      <div id="server-status-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+      <!-- Информация об обновлении -->
+      <div class="text-center mt-8">
+        <p id="last-updated" class="text-sm opacity-60">Последнее обновление: Загрузка...</p>
+        <div class="flex items-center justify-center gap-2 mt-2">
+          <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span class="text-xs opacity-60">Автообновление каждые 30 секунд</span>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Social Proof Section -->
-  <section id="social-proof" class="container-section section-spacing-sm bg-surface-secondary text-readable">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-12 text-center animate-fade-in-up">Что говорят наши пользователи</h2>
+  <section id="social-proof" class="container-section section-spacing-sm neo-card-inset">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-4 text-center animate-fade-in-up">Что говорят наши пользователи</h2>
+      <p class="text-lg opacity-70 text-center mb-12 animate-fade-in-up">Отзывы реальных пользователей о нашем сервисе</p>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-surface border border-brand rounded-lg p-6 hover-lift">
+        <div class="neo-card p-6 hover:scale-105 transition-transform duration-300">
           <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-primary-400 to-secondary-400 rounded-full flex items-center justify-center text-white font-bold mr-4">А</div>
+            <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold mr-4 bg-gradient-to-br from-accent to-accent-secondary">А</div>
             <div>
               <div class="font-semibold">Алексей</div>
-              <div class="text-sm text-secondary-400">⭐️⭐️⭐️⭐️⭐️</div>
+              <div class="text-sm opacity-60">⭐️⭐️⭐️⭐️⭐️</div>
             </div>
           </div>
           <p class="text-sm">"Настроил за минуту! Скорость отличная, никаких проблем с подключением."</p>
         </div>
-        <div class="bg-surface border border-brand rounded-lg p-6 hover-lift">
+        <div class="neo-card p-6 hover:scale-105 transition-transform duration-300">
           <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold mr-4">М</div>
+            <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold mr-4 bg-gradient-to-br from-accent to-accent-secondary">М</div>
             <div>
               <div class="font-semibold">Мария</div>
-              <div class="text-sm text-secondary-400">⭐️⭐️⭐️⭐️⭐️</div>
+              <div class="text-sm opacity-60">⭐️⭐️⭐️⭐️⭐️</div>
             </div>
           </div>
           <p class="text-sm">"Очень удобно через бота! Поддержка отвечает быстро, всё работает стабильно."</p>
         </div>
-        <div class="bg-surface border border-brand rounded-lg p-6 hover-lift">
+        <div class="neo-card p-6 hover:scale-105 transition-transform duration-300">
           <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-secondary-400 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold mr-4">Д</div>
+            <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold mr-4 bg-gradient-to-br from-accent to-accent-secondary">Д</div>
             <div>
               <div class="font-semibold">Дмитрий</div>
-              <div class="text-sm text-secondary-400">⭐️⭐️⭐️⭐️⭐️</div>
+              <div class="text-sm opacity-60">⭐️⭐️⭐️⭐️⭐️</div>
             </div>
           </div>
           <p class="text-sm">"Лучший VPN из всех что пробовал. Простота настройки и высокая скорость."</p>
@@ -136,58 +172,60 @@
   </section>
 
   <!-- How It Works Section -->
-  <section id="how-it-works" class="container-section section-spacing-sm bg-surface text-readable">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-12 text-center animate-fade-in-up">Как начать пользоваться</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  <section id="how-it-works" class="container-section section-spacing-sm neo-card">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-4 text-center animate-fade-in-up">Как начать пользоваться</h2>
+      <p class="text-lg opacity-70 text-center mb-12 animate-fade-in-up">Простой процесс настройки за несколько кликов</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <div class="text-center animate-fade-in-left">
-          <div class="w-16 h-16 bg-primary-400 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4 shadow-glow">1</div>
+          <div class="neo-icon text-2xl font-bold mx-auto mb-4">1</div>
           <h3 class="text-xl font-semibold mb-3">Открой бота</h3>
-          <p class="text-secondary-400">Нажми кнопку выше — откроется наш Telegram-бот</p>
+          <p class="opacity-60">Нажми кнопку выше — откроется наш Telegram-бот</p>
         </div>
         <div class="text-center animate-fade-in-up">
-          <div class="w-16 h-16 bg-primary-400 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4 shadow-glow">2</div>
+          <div class="neo-icon text-2xl font-bold mx-auto mb-4">2</div>
           <h3 class="text-xl font-semibold mb-3">Выбери тариф</h3>
-          <p class="text-secondary-400">Начни с бесплатного пробного периода</p>
+          <p class="opacity-60">Начни с бесплатного пробного периода</p>
         </div>
         <div class="text-center animate-fade-in-right">
-          <div class="w-16 h-16 bg-primary-400 rounded-full flex items-center justify-center text-2xl font-bold text-black mx-auto mb-4 shadow-glow">3</div>
+          <div class="neo-icon text-2xl font-bold mx-auto mb-4">3</div>
           <h3 class="text-xl font-semibold mb-3">Пользуйся</h3>
-          <p class="text-secondary-400">Получи конфигурацию и наслаждайся быстрым интернетом</p>
+          <p class="opacity-60">Получи конфигурацию и наслаждайся быстрым интернетом</p>
         </div>
       </div>
-      <div class="text-center mt-12 animate-fade-in-up">
-        <p class="text-secondary-400 text-lg">⏱️ Весь процесс займёт меньше минуты</p>
+      <div class="text-center animate-fade-in-up">
+        <p class="opacity-60 text-lg">⏱️ Весь процесс займёт меньше минуты</p>
       </div>
     </div>
   </section>
 
   <!-- FAQ Section -->
-  <section id="faq" class="container-section section-spacing-sm text-readable">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-12 text-center animate-fade-in-up">Частые вопросы</h2>
-      <div class="space-y-6">
-        <details class="faq-enhanced animate-fade-in-up">
+  <section id="faq" class="container-section section-spacing-sm">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-4 text-center animate-fade-in-up">Частые вопросы</h2>
+      <p class="text-lg opacity-70 text-center mb-12 animate-fade-in-up">Ответы на самые популярные вопросы о сервисе</p>
+      <div class="space-y-6 max-w-4xl mx-auto">
+        <details class="neo-card p-6 animate-fade-in-up group">
           <summary class="font-semibold cursor-pointer">Действительно ли это бесплатно?</summary>
-          <div class="faq-content" role="region">
+          <div class="mt-4 opacity-80">
             <p>Да! Мы даём бесплатный пробный период, чтобы ты мог оценить качество. Потом можешь выбрать подходящий тариф.</p>
           </div>
         </details>
-        <details class="faq-enhanced animate-fade-in-up">
+        <details class="neo-card p-6 animate-fade-in-up group">
           <summary class="font-semibold cursor-pointer">На каких устройствах работает?</summary>
-          <div class="faq-content" role="region">
+          <div class="mt-4 opacity-80">
             <p>На всех! iPhone, Android, Windows, Mac, Linux — везде. Получишь универсальную конфигурацию.</p>
           </div>
         </details>
-        <details class="faq-enhanced animate-fade-in-up">
+        <details class="neo-card p-6 animate-fade-in-up group">
           <summary class="font-semibold cursor-pointer">Насколько это безопасно?</summary>
-          <div class="faq-content" role="region">
+          <div class="mt-4 opacity-80">
             <p>Используем современное шифрование REALITY. Твой трафик полностью защищён, логи не ведём.</p>
           </div>
         </details>
-        <details class="faq-enhanced animate-fade-in-up">
+        <details class="neo-card p-6 animate-fade-in-up group">
           <summary class="font-semibold cursor-pointer">А если не понравится?</summary>
-          <div class="faq-content" role="region">
+          <div class="mt-4 opacity-80">
             <p>Просто перестань пользоваться — никаких обязательств. Деньги за неиспользованное время вернём.</p>
           </div>
         </details>
@@ -196,49 +234,82 @@
   </section>
 
   <!-- Final CTA Section -->
-  <section class="container-section section-spacing-sm bg-gradient-to-r from-primary-400 to-secondary-400 text-center rounded-t-3xl shadow-inner">
-    <h2 class="text-3xl font-bold mb-4 animate-fade-in-up">Готов попробовать?</h2>
-    <p class="text-xl mb-8 opacity-90 animate-fade-in-up">Присоединяйся к тысячам пользователей, которые уже оценили удобство ROX.VPN</p>
-    <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" aria-label="Начать использовать VPN прямо сейчас через Telegram-бота" class="inline-block bg-white text-gray-900 px-8 py-4 rounded-full text-xl font-bold hover:bg-gray-100 transition shadow-glow focus-brand animate-fade-in-up">
-      Начать прямо сейчас →
-    </a>
+  <section class="container-section section-spacing-sm neo-card rounded-t-3xl text-center">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-4 animate-fade-in-up">Готов попробовать?</h2>
+      <p class="text-xl mb-8 opacity-90 animate-fade-in-up">Присоединяйся к тысячам пользователей, которые уже оценили удобство ROX.VPN</p>
+      <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="neo-button inline-flex items-center px-8 py-4 text-xl font-bold hover:scale-105 transition glow-effect animate-fade-in-up">
+        Начать прямо сейчас
+        <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+    </div>
   </section>
 
   <!-- Footer -->
-  <footer class="text-center text-sm text-secondary-400 py-8 bg-background border-t border-white/10">
+  <footer class="text-center text-sm py-8 neo-card-inset border-t border-current border-opacity-10">
     <div class="container mx-auto">
-      <p class="mb-4">ROX.VPN — быстрый и удобный VPN через Telegram</p>
+      <p class="mb-4 opacity-60">ROX.VPN — быстрый и удобный VPN через Telegram</p>
       <div class="flex justify-center gap-6 text-xs">
-        <a href="privacy.html" class="hover:text-white transition">Политика конфиденциальности</a>
-        <a href="terms.html" class="hover:text-white transition">Пользовательское соглашение</a>
+        <a href="privacy.html" class="hover:opacity-100 opacity-60 transition">Политика конфиденциальности</a>
+        <a href="terms.html" class="hover:opacity-100 opacity-60 transition">Пользовательское соглашение</a>
       </div>
     </div>
   </footer>
 
-  <!-- Enhanced Features -->
+  <!-- Scripts -->
   <script src="./js/enhanced-features.js" defer></script>
   <script src="./js/enhanced-mobile-nav.js" defer></script>
   <script src="./js/server-status.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-
+      // Инициализация темной темы
+      const darkModeToggle = document.getElementById('dark-mode-toggle');
+      const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
       
+      function setTheme(isDark) {
+        document.body.classList.toggle('dark-mode', isDark);
+        darkModeToggle.innerHTML = isDark ? 
+          '<i class="fas fa-sun text-lg"></i>' : 
+          '<i class="fas fa-moon text-lg"></i>';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      }
+
+      // Проверяем сохраненную тему или системные настройки
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        setTheme(savedTheme === 'dark');
+      } else {
+        setTheme(prefersDarkScheme.matches);
+      }
+
+      // Обработчик переключения темы
+      darkModeToggle.addEventListener('click', () => {
+        setTheme(!document.body.classList.contains('dark-mode'));
+      });
+
+      // Обработчик изменения системной темы
+      prefersDarkScheme.addListener((e) => {
+        if (!localStorage.getItem('theme')) {
+          setTheme(e.matches);
+        }
+      });
+
       // Инициализация улучшенной мобильной навигации
       const mobileNav = new EnhancedMobileNavigation();
       
       // Инициализация статуса серверов
       const serverManager = new ServerStatusManager({
         apiUrl: '/api/server-statuses',
-        updateInterval: 30000, // Обновление каждые 30 секунд
+        updateInterval: 30000,
         enableAnalytics: true
       });
 
-      // Показ уведомления о загрузке
-      if (window.ROXNotifications) {
-        window.ROXNotifications.show('Добро пожаловать в ROX.VPN! 🚀', 'info', 3000);
-      }
+      // Делаем менеджер доступным глобально для функций
+      window.serverManager = serverManager;
 
-      // Добавление классов для анимаций при скролле
+      // Анимации при скролле
       const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -252,247 +323,49 @@
         });
       }, observerOptions);
 
-      document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      document.querySelectorAll('.animate-fade-in-up, .animate-fade-in-left, .animate-fade-in-right').forEach(el => {
         observer.observe(el);
       });
 
-      // Parallax effect for blur balls - OPTIMIZED VERSION
-      // Using CSS transforms with will-change for better performance
-      const parallaxElements = document.querySelectorAll('.parallax-element');
-      
-      // Add will-change property for better performance
-      parallaxElements.forEach(element => {
-        element.style.willChange = 'transform';
-      });
-      
-      // Throttled scroll handler for better performance
-      let ticking = false;
-      function updateParallax() {
-        const scrolled = window.pageYOffset;
-        parallaxElements.forEach(element => {
-          const speed = parseFloat(element.dataset.speed) || 0.5;
-          const yPos = -(scrolled * speed);
-          element.style.transform = `translate3d(0, ${yPos}px, 0)`;
-        });
-        ticking = false;
-      }
-      
-      function requestTick() {
-        if (!ticking) {
-          requestAnimationFrame(updateParallax);
-          ticking = true;
+      // Анимация уведомления
+      const notification = document.getElementById('notification');
+      if (notification) {
+        console.log('Уведомление найдено, запускаем анимацию...');
+        
+        let hideTimeout;
+        let isVisible = false;
+        
+        function showNotification() {
+          console.log('Показываем уведомление');
+          notification.style.transform = 'translateX(0)';
+          isVisible = true;
         }
-      }
-      
-      // Use passive scroll listener for better performance
-      window.addEventListener('scroll', requestTick, { passive: true });
-
-      // Dark mode toggle functionality
-      const darkModeToggle = document.getElementById('dark-mode-toggle');
-      const body = document.body;
-      const icon = darkModeToggle.querySelector('i');
-      
-      // Check for saved dark mode preference
-      const isDarkMode = localStorage.getItem('darkMode') === 'true';
-      if (isDarkMode) {
-        body.classList.add('dark-mode');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-      }
-      
-      darkModeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        const isDark = body.classList.contains('dark-mode');
-        localStorage.setItem('darkMode', isDark);
         
-        if (isDark) {
-          icon.classList.remove('fa-moon');
-          icon.classList.add('fa-sun');
-        } else {
-          icon.classList.remove('fa-sun');
-          icon.classList.add('fa-moon');
+        function hideNotification() {
+          console.log('Скрываем уведомление');
+          notification.style.transform = 'translateX(100%)';
+          isVisible = false;
         }
-      });
-
-      // Smooth scrolling for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        });
-      });
-
-      // Enhanced mobile navigation with swipe gestures
-      let touchStartX = 0;
-      let touchEndX = 0;
-      
-      document.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-      });
-      
-      document.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      });
-      
-      function handleSwipe() {
-        const swipeThreshold = 50;
-        const sections = ['#hero', '#servers', '#social-proof', '#how-it-works', '#faq'];
-        const currentSection = getCurrentSection();
-        const currentIndex = sections.indexOf(currentSection);
         
-        if (touchEndX < touchStartX - swipeThreshold && currentIndex < sections.length - 1) {
-          // Swipe left - go to next section
-          const nextSection = document.querySelector(sections[currentIndex + 1]);
-          if (nextSection) {
-            nextSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        } else if (touchEndX > touchStartX + swipeThreshold && currentIndex > 0) {
-          // Swipe right - go to previous section
-          const prevSection = document.querySelector(sections[currentIndex - 1]);
-          if (prevSection) {
-            prevSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      }
-      
-      function getCurrentSection() {
-        const sections = document.querySelectorAll('section[id]');
-        let currentSection = '#hero';
-        
-        sections.forEach(section => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            currentSection = '#' + section.id;
-          }
-        });
-        
-        return currentSection;
-      }
-
-      // Enhanced user feedback
-      function showNotification(message, type = 'info', duration = 3000) {
-        const notification = document.createElement('div');
-        notification.className = `fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg text-white font-medium transition-all duration-300 ${
-          type === 'success' ? 'bg-green-500' : 
-          type === 'error' ? 'bg-red-500' : 
-          'bg-blue-500'
-        }`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
+        // Показываем уведомление через 1 секунду после загрузки
         setTimeout(() => {
-          notification.style.opacity = '0';
-          notification.style.transform = 'translate(-50%, -100%)';
-          setTimeout(() => notification.remove(), 300);
-        }, duration);
-      }
+          showNotification();
+          
+          // Устанавливаем таймер на скрытие через 5 секунд
+          hideTimeout = setTimeout(hideNotification, 5000);
+        }, 1000);
 
-      // Show welcome notification
-      setTimeout(() => {
-        showNotification('Добро пожаловать в ROX.VPN! 🚀', 'success', 4000);
-      }, 1000);
-
-      // Enhanced loading states
-      function showLoadingState(element) {
-        element.classList.add('loading');
-        element.disabled = true;
-        const originalText = element.textContent;
-        element.textContent = 'Загрузка...';
-        
-        return () => {
-          element.classList.remove('loading');
-          element.disabled = false;
-          element.textContent = originalText;
-        };
-      }
-
-      // Add loading states to CTA buttons
-      const ctaButtons = document.querySelectorAll('a[href*="t.me"]');
-      ctaButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const stopLoading = showLoadingState(this);
-          setTimeout(stopLoading, 2000); // Simulate loading time
+        // Обработчик клика для закрытия уведомления
+        notification.addEventListener('click', () => {
+          console.log('Клик по уведомлению, закрываем...');
+          if (hideTimeout) {
+            clearTimeout(hideTimeout);
+          }
+          hideNotification();
         });
-      });
-
-      document.querySelectorAll('details').forEach(detail => {
-        const summary = detail.querySelector('summary');
-        summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
-        detail.addEventListener('toggle', () => {
-          summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
-        });
-      });
-
-      // Enhanced error handling for API calls
-      function handleApiError(error, context) {
-        console.error(`API Error in ${context}:`, error);
-        showNotification('Ошибка загрузки данных. Попробуйте позже.', 'error', 5000);
+      } else {
+        console.log('Уведомление не найдено!');
       }
-
-      // Fallback data for server status
-      const fallbackServerData = {
-        servers: [
-          { name: "Germany", status: "online", uptime: "5д 12ч 30м", ping: 45, users: 1250 },
-          { name: "USA", status: "online", uptime: "3д 8ч 15м", ping: 65, users: 890 },
-          { name: "Finland", status: "online", uptime: "7д 2ч 45м", ping: 35, users: 1100 }
-        ],
-        lastUpdate: new Date().toISOString()
-      };
-
-      // Enhanced server status with fallback
-      if (window.ServerStatusManager) {
-        const serverManager = new ServerStatusManager({
-          apiUrl: '/api/server-statuses',
-          updateInterval: 30000,
-          enableAnalytics: true,
-          fallbackData: fallbackServerData,
-          onError: (error) => handleApiError(error, 'Server Status')
-        });
-      }
-
-      // OPTIMIZED: Throttled scroll depth tracking
-      let maxScroll = 0;
-      let scrollDepthTicking = false;
-      
-      function updateScrollDepth() {
-        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-        if (scrollPercent > maxScroll && scrollPercent % 25 === 0) {
-          maxScroll = scrollPercent;
-        }
-        scrollDepthTicking = false;
-      }
-      
-      function requestScrollDepthTick() {
-        if (!scrollDepthTicking) {
-          requestAnimationFrame(updateScrollDepth);
-          scrollDepthTicking = true;
-        }
-      }
-      
-      window.addEventListener('scroll', requestScrollDepthTick, { passive: true });
-
-      // Track time on page
-      let startTime = Date.now();
-      window.addEventListener('beforeunload', () => {
-        const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-        console.log('Time on page:', timeOnPage, 'seconds');
-      });
-
-      document.querySelectorAll('details').forEach(detail => {
-        const summary = detail.querySelector('summary');
-        summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
-        detail.addEventListener('toggle', () => {
-          summary.setAttribute('aria-expanded', detail.open ? 'true' : 'false');
-        });
-      });
     });
   </script>
 </body>

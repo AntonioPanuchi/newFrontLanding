@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROX.VPN — Быстрый VPN через бота Telegram | Анонимный интернет</title>
+
+  <!-- ИКОНКИ -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='grad4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233b82f6;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%238b5cf6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='15' fill='url(%23grad4)'/%3E%3Cellipse cx='16' cy='16' rx='10' ry='6' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3Cellipse cx='16' cy='16' rx='6' ry='4' fill='none' stroke='%23ffffff' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E">
+  
+  <!-- SEO и Open Graph -->
+  <meta name="description" content="⚡ Быстрый VPN через Telegram-бота ROX.VPN. Настройка за 30 секунд, высокая скорость, полная анонимность. Попробуйте бесплатно!" />
+  <meta name="keywords" content="VPN Telegram, ROX VPN, быстрый VPN, анонимный интернет, VPN бот, обход блокировок, безопасный интернет" />
+  <link rel="canonical" href="https://rx-test.ru" />
+  
+  <!-- Стили -->
+  <link href="./dist/output.css?v=2.0" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="ROX.VPN — VPN через Telegram за 30 секунд" />
+  <meta property="og:description" content="Никаких сложных настроек! Быстрый и безопасный VPN прямо в Telegram. Попробуй бесплатно!" />
+  <meta property="og:image" content="https://rx-test.ru/og-image.jpg" />
+  <meta property="og:url" content="https://rx-test.ru/" />
+  <meta property="og:type" content="website" />
+
+  <style>
+    /* Новая дизайн-система */
+    :root {
+      /* Цветовая палитра */
+      --color-bg-primary: #0a0a0a;
+      --color-bg-secondary: #1a1a1a;
+      --color-bg-tertiary: #262626;
+      --color-surface: #1f1f1f;
+      --color-surface-hover: #2a2a2a;
+      
+      /* Акцентные цвета */
+      --color-primary: #3b82f6;
+      --color-primary-hover: #2563eb;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-error: #ef4444;
+      
+      /* Градиенты */
+      --gradient-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      --gradient-success: linear-gradient(135deg, #10b981, #059669);
+      --gradient-warning: linear-gradient(135deg, #f59e0b, #d97706);
+      --gradient-error: linear-gradient(135deg, #ef4444, #dc2626);
+      
+      /* Текст */
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #a3a3a3;
+      --color-text-muted: #737373;
+      
+      /* Границы */
+      --color-border: #404040;
+      --color-border-hover: #525252;
+      
+      /* Тени */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      
+      /* Радиусы */
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --radius-2xl: 1.5rem;
+    }
+
+    /* Базовые стили */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Утилиты */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .container-wide {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Кнопки */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-surface-hover);
+      border-color: var(--color-border-hover);
+    }
+
+    /* Карточки */
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--color-border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Прогресс-бары */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--color-bg-tertiary);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: var(--radius-sm);
+      transition: width 0.3s ease;
+    }
+
+    .progress-success { background: var(--gradient-success); }
+    .progress-warning { background: var(--gradient-warning); }
+    .progress-error { background: var(--gradient-error); }
+    .progress-info { background: var(--gradient-primary); }
+
+    /* Статус индикаторы */
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-md);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-online {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--color-success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .status-offline {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--color-error);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .status-error {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--color-warning);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    /* Анимации */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 0.75rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+    }
+
+    /* Специальные стили для карточек серверов */
+    .server-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .server-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .server-card:hover::before {
+      opacity: 1;
+    }
+
+    .server-card.online::before {
+      background: var(--gradient-success);
+    }
+
+    .server-card.offline::before {
+      background: var(--gradient-error);
+    }
+
+    .server-card.error::before {
+      background: var(--gradient-warning);
+    }
+
+    /* Метрики */
+    .metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .metric-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .metric-value {
+      font-weight: 600;
+      font-size: 0.875rem;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+
+    .metric-value.success { color: var(--color-success); }
+    .metric-value.warning { color: var(--color-warning); }
+    .metric-value.error { color: var(--color-error); }
+    .metric-value.info { color: var(--color-primary); }
+
+    /* Фильтры */
+    .filters {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .filter-input {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      color: var(--color-text-primary);
+      font-size: 0.875rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .filter-input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    /* Сводка */
+    .summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .summary-stats {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .summary-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .summary-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .summary-dot.online { background: var(--color-success); }
+    .summary-dot.offline { background: var(--color-error); }
+    .summary-dot.error { background: var(--color-warning); }
+
+    /* Сетка серверов */
+    .servers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .servers-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Заголовки */
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 3rem;
+      max-width: 600px;
+    }
+
+    /* Секции */
+    .section {
+      padding: 4rem 0;
+    }
+
+    .section-hero {
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .section-servers {
+      background: var(--color-bg-secondary);
+    }
+
+    /* Hero секция */
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.125rem;
+      }
+      
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* Уведомления */
+    .notification {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.5rem;
+      box-shadow: var(--shadow-xl);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    /* Переключатель темы */
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--color-surface-hover);
+      transform: scale(1.1);
+    }
+
+    /* Загрузка */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      color: var(--color-text-secondary);
+    }
+
+    .loading-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--color-border);
+      border-top: 2px solid var(--color-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 0.5rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Пустое состояние */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--color-text-secondary);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <!-- Переключатель темы -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- Уведомления -->
+  <div class="notification" id="notification">
+    <div class="flex items-center gap-2">
+      <i class="fas fa-check-circle text-green-500"></i>
+      <span>Данные обновлены</span>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="section section-hero">
+    <div class="container">
+      <h1 class="hero-title animate-fade-in-up">
+        VPN за <span style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">30 секунд</span><br>
+        прямо в Telegram
+      </h1>
+      
+      <p class="hero-subtitle animate-fade-in-up">
+        Забудь про сложные настройки! ROX.VPN работает через Telegram-бота — просто нажми кнопку и получи быстрый защищённый интернет.
+      </p>
+
+      <div class="hero-actions animate-fade-in-up">
+        <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="btn btn-primary">
+          <i class="fab fa-telegram"></i>
+          Начать бесплатно
+        </a>
+        <button class="btn btn-secondary" onclick="scrollToServers()">
+          <i class="fas fa-server"></i>
+          Статус серверов
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Server Status Section -->
+  <section class="section section-servers" id="servers">
+    <div class="container-wide">
+      <div class="text-center mb-8">
+        <h2 class="section-title">Статус серверов</h2>
+        <p class="section-subtitle">Актуальная информация о работе нашей инфраструктуры в реальном времени</p>
+      </div>
+
+      <!-- Сводка статуса -->
+      <div class="summary-card">
+        <div class="summary-stats">
+          <div class="summary-stat">
+            <div class="summary-dot online"></div>
+            <span id="online-count">0</span> онлайн
+          </div>
+          <div class="summary-stat">
+            <div class="summary-dot offline"></div>
+            <span id="offline-count">0</span> офлайн
+          </div>
+          <div class="summary-stat">
+            <div class="summary-dot error"></div>
+            <span id="error-count">0</span> ошибка
+          </div>
+        </div>
+        <button id="refresh-servers" class="btn btn-secondary">
+          <i class="fas fa-sync-alt"></i>
+          Обновить
+        </button>
+      </div>
+
+      <!-- Карточки серверов -->
+      <div id="server-status-container" class="servers-grid">
+        <!-- Карточки будут добавлены через JavaScript -->
+      </div>
+
+      <!-- Информация об обновлении -->
+      <div class="text-center mt-8">
+        <p id="last-updated" class="text-sm text-gray-400">Последнее обновление: Загрузка...</p>
+        <div class="flex items-center justify-center gap-2 mt-2">
+          <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span class="text-xs text-gray-500">Автообновление каждые 30 секунд</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title text-center">Как начать пользоваться</h2>
+      <p class="section-subtitle text-center">Простой процесс настройки за несколько кликов</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">1</div>
+          <h3 class="text-xl font-semibold mb-3">Открой бота</h3>
+          <p class="text-gray-400">Нажми кнопку выше — откроется наш Telegram-бот</p>
+        </div>
+        
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">2</div>
+          <h3 class="text-xl font-semibold mb-3">Выбери тариф</h3>
+          <p class="text-gray-400">Начни с бесплатного пробного периода</p>
+        </div>
+        
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">3</div>
+          <h3 class="text-xl font-semibold mb-3">Пользуйся</h3>
+          <p class="text-gray-400">Получи конфигурацию и наслаждайся быстрым интернетом</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section section-servers">
+    <div class="container">
+      <h2 class="section-title text-center">Частые вопросы</h2>
+      <p class="section-subtitle text-center">Ответы на самые популярные вопросы о сервисе</p>
+      
+      <div class="space-y-4 max-w-4xl mx-auto">
+        <details class="card group">
+          <summary class="font-semibold cursor-pointer flex items-center justify-between">
+            Действительно ли это бесплатно?
+            <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+          </summary>
+          <div class="mt-4 text-gray-400">
+            <p>Да! Мы даём бесплатный пробный период, чтобы ты мог оценить качество. Потом можешь выбрать подходящий тариф.</p>
+          </div>
+        </details>
+        
+        <details class="card group">
+          <summary class="font-semibold cursor-pointer flex items-center justify-between">
+            На каких устройствах работает?
+            <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+          </summary>
+          <div class="mt-4 text-gray-400">
+            <p>На всех! iPhone, Android, Windows, Mac, Linux — везде. Получишь универсальную конфигурацию.</p>
+          </div>
+        </details>
+        
+        <details class="card group">
+          <summary class="font-semibold cursor-pointer flex items-center justify-between">
+            Насколько это безопасно?
+            <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+          </summary>
+          <div class="mt-4 text-gray-400">
+            <p>Используем современное шифрование REALITY. Твой трафик полностью защищён, логи не ведём.</p>
+          </div>
+        </details>
+        
+        <details class="card group">
+          <summary class="font-semibold cursor-pointer flex items-center justify-between">
+            А если не понравится?
+            <i class="fas fa-chevron-down transition-transform group-open:rotate-180"></i>
+          </summary>
+          <div class="mt-4 text-gray-400">
+            <p>Просто перестань пользоваться — никаких обязательств. Деньги за неиспользованное время вернём.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="section text-center">
+    <div class="container">
+      <h2 class="section-title">Готов попробовать?</h2>
+      <p class="section-subtitle">Присоединяйся к тысячам пользователей, которые уже оценили удобство ROX.VPN</p>
+      <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" class="btn btn-primary">
+        Начать прямо сейчас
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="section section-servers border-t border-gray-800">
+    <div class="container text-center">
+      <p class="text-gray-400 mb-4">ROX.VPN — быстрый и удобный VPN через Telegram</p>
+      <div class="flex justify-center gap-6 text-sm">
+        <a href="privacy.html" class="text-gray-400 hover:text-white transition">Политика конфиденциальности</a>
+        <a href="terms.html" class="text-gray-400 hover:text-white transition">Пользовательское соглашение</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./js/enhanced-features.js" defer></script>
+  <script src="./js/enhanced-mobile-nav.js" defer></script>
+  <script src="./js/server-status.js" defer></script>
+  
+  <script>
+    // Функция прокрутки к серверам
+    function scrollToServers() {
+      document.getElementById('servers').scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    }
+
+    // Показ уведомлений
+    function showNotification(message, type = 'info') {
+      const notification = document.getElementById('notification');
+      const icon = notification.querySelector('i');
+      const text = notification.querySelector('span');
+      
+      // Обновляем содержимое
+      text.textContent = message;
+      
+      // Обновляем иконку в зависимости от типа
+      icon.className = type === 'success' ? 'fas fa-check-circle text-green-500' :
+                      type === 'error' ? 'fas fa-exclamation-circle text-red-500' :
+                      'fas fa-info-circle text-blue-500';
+      
+      // Показываем уведомление
+      notification.classList.add('show');
+      
+      // Скрываем через 3 секунды
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Переключение темы
+    document.getElementById('theme-toggle').addEventListener('click', function() {
+      const icon = this.querySelector('i');
+      const isDark = document.body.classList.contains('dark-mode');
+      
+      if (isDark) {
+        document.body.classList.remove('dark-mode');
+        icon.className = 'fas fa-moon';
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.add('dark-mode');
+        icon.className = 'fas fa-sun';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+      // Проверяем сохраненную тему
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.querySelector('#theme-toggle i').className = 'fas fa-sun';
+      }
+
+      // Инициализация статуса серверов
+      if (window.serverManager) {
+        window.serverManager.init();
+      }
+
+      // Показываем приветственное уведомление
+      setTimeout(() => {
+        showNotification('Добро пожаловать! Данные загружаются...', 'info');
+      }, 1000);
+    });
+  </script>
+</body>
+</html> 

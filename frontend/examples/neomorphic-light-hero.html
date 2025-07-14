@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROX.VPN - Неоморфизм (Светлая тема)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #e0e5ec;
+    }
+    
+    .neo-bg {
+      background: #e0e5ec;
+    }
+    
+    .neo-card {
+      background: #e0e5ec;
+      box-shadow: 
+        12px 12px 24px #bec3c9,
+        -12px -12px 24px #ffffff;
+      border-radius: 20px;
+    }
+    
+    .neo-card-inset {
+      background: #e0e5ec;
+      box-shadow: 
+        inset 12px 12px 24px #bec3c9,
+        inset -12px -12px 24px #ffffff;
+      border-radius: 20px;
+    }
+    
+    .neo-button {
+      background: #e0e5ec;
+      box-shadow: 
+        6px 6px 12px #bec3c9,
+        -6px -6px 12px #ffffff;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .neo-button:hover {
+      box-shadow: 
+        inset 6px 6px 12px #bec3c9,
+        inset -6px -6px 12px #ffffff;
+      transform: translateY(2px);
+    }
+    
+    .neo-button:active {
+      box-shadow: 
+        inset 6px 6px 12px #bec3c9,
+        inset -6px -6px 12px #ffffff;
+      transform: translateY(4px);
+    }
+    
+    .neo-icon {
+      background: #e0e5ec;
+      box-shadow: 
+        6px 6px 12px #bec3c9,
+        -6px -6px 12px #ffffff;
+      border-radius: 15px;
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .accent-gradient {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    }
+    
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body class="neo-bg min-h-screen">
+  <!-- Переключатель темы -->
+  <div class="theme-toggle">
+    <button onclick="window.location.href='neomorphic-dark-hero.html'" class="neo-button px-4 py-2 text-gray-700 font-medium">
+      🌙 Темная тема
+    </button>
+  </div>
+
+  <!-- Hero Section - Неоморфизм светлая тема -->
+  <section class="relative overflow-hidden py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <!-- Заголовок -->
+      <div class="text-center mb-16">
+        <div class="neo-card inline-flex items-center px-6 py-3 mb-8">
+          <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+          <span class="text-gray-700 font-medium">Бесплатный пробный период</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight text-gray-800">
+          VPN за
+          <span class="text-gradient">30 секунд</span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed">
+          Мягкость и комфорт в каждом элементе
+        </p>
+      </div>
+
+      <!-- Карточки преимуществ -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="neo-card p-8 transition-all duration-300 hover:scale-105">
+          <div class="neo-icon w-16 h-16 flex items-center justify-center mb-6 mx-auto">
+            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Молниеносная скорость</h3>
+          <p class="text-gray-600 leading-relaxed text-center">До 1 Гбит/с без ограничений и задержек</p>
+        </div>
+
+        <div class="neo-card p-8 transition-all duration-300 hover:scale-105">
+          <div class="neo-icon w-16 h-16 flex items-center justify-center mb-6 mx-auto">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Полная анонимность</h3>
+          <p class="text-gray-600 leading-relaxed text-center">Ваши данные под надежной защитой</p>
+        </div>
+
+        <div class="neo-card p-8 transition-all duration-300 hover:scale-105">
+          <div class="neo-icon w-16 h-16 flex items-center justify-center mb-6 mx-auto">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3 text-center">Настройка в 1 клик</h3>
+          <p class="text-gray-600 leading-relaxed text-center">Никаких сложных инструкций</p>
+        </div>
+      </div>
+
+      <!-- CTA секция -->
+      <div class="text-center">
+        <!-- Основная кнопка -->
+        <div class="mb-6">
+          <a href="#" class="neo-button inline-flex items-center px-12 py-6 text-gray-700 font-bold text-xl">
+            <svg class="w-6 h-6 mr-3 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Начать бесплатно
+            <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </a>
+        </div>
+        
+        <!-- Преимущества -->
+        <div class="neo-card-inset inline-block px-8 py-4">
+          <div class="flex items-center space-x-6 text-sm">
+            <div class="flex items-center">
+              <svg class="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600 font-medium">Без регистрации</span>
+            </div>
+            <div class="w-1 h-1 bg-gray-400 rounded-full"></div>
+            <div class="flex items-center">
+              <svg class="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600 font-medium">Без карты</span>
+            </div>
+            <div class="w-1 h-1 bg-gray-400 rounded-full"></div>
+            <div class="flex items-center">
+              <svg class="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600 font-medium">Работает сразу</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html> 
