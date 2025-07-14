@@ -11,6 +11,7 @@
     "build:css": "npx tailwindcss -i ./frontend/src/input.css -o ./frontend/dist/output.css --minify",
     "build:js": "echo 'JS minification would be added here'",
     "build:prod": "npm run build && echo 'Production build complete'",
+    "update-frontend": "./update-frontend.sh",
     "deploy": "./deploy.sh deploy",
     "deploy:quick": "./deploy.sh quick",
     "logs": "./deploy.sh logs",

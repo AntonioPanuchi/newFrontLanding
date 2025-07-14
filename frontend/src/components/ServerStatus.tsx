@@ -111,22 +111,31 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
 
 const fetchServers = async (): Promise<Server[] | null> => {
   try {
-  const res = await fetch('/api/server-statuses');
+    const res = await fetch('/api/server-statuses');
     if (!res.ok) throw new Error('Network response was not ok');
-  const data = await res.json();
-  if (!Array.isArray(data)) return [];
-  return data.map((s: any) => ({
-    country: s.name,
-    status: s.status,
-    ping: s.ping_ms,
-    users: s.users_online,
-    uptime: s.uptime,
-    traffic: s.traffic_used,
-    cpu: s.cpu_load,
-    memUsed: s.mem_used,
-    memTotal: s.mem_total,
-  }));
+    const data = await res.json();
+    
+    // API возвращает { servers: [...], lastUpdate: "..." }
+    const serversArray = data.servers || data;
+    
+    if (!Array.isArray(serversArray)) {
+      console.error('Unexpected API response format:', data);
+      return [];
+    }
+    
+    return serversArray.map((s: any) => ({
+      country: s.name,
+      status: s.status,
+      ping: s.ping_ms,
+      users: s.users_online,
+      uptime: s.uptime,
+      traffic: s.traffic_used,
+      cpu: s.cpu_load,
+      memUsed: s.mem_used,
+      memTotal: s.mem_total,
+    }));
   } catch (e) {
+    console.error('Error fetching servers:', e);
     return null;
   }
 };
@@ -134,13 +143,32 @@ const fetchServers = async (): Promise<Server[] | null> => {
 const ServerStatus: React.FC = () => {
   const [servers, setServers] = useState<Server[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [ref, inView] = useInView();
 
-  useEffect(() => {
-    fetchServers().then(data => {
+  const loadServers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await fetchServers();
       setServers(data);
+      setLastUpdate(new Date());
+    } catch (err) {
+      setError('Ошибка загрузки серверов');
+      console.error('Failed to load servers:', err);
+    } finally {
       setLoading(false);
-    });
+    }
+  };
+
+  useEffect(() => {
+    loadServers();
+    
+    // Автообновление каждые 30 секунд
+    const interval = setInterval(loadServers, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
@@ -155,14 +183,56 @@ const ServerStatus: React.FC = () => {
       </section>
     );
   }
+  if (error) {
+    return (
+      <section ref={ref} className={`py-20 sm:py-28 dark:bg-slate-900 transition-colors duration-300 transition-opacity ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}>
+        <div className="container mx-auto px-4 max-w-7xl">
+          <h2 className="text-4xl font-bold mb-12 text-center dark:text-gray-100">Статус серверов</h2>
+          <div className="text-center">
+            <div className="text-red-500 text-lg mb-4">{error}</div>
+            <button 
+              onClick={loadServers}
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Попробовать снова
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (!Array.isArray(servers)) {
-    return <div className="p-8 text-center text-red-500">Ошибка загрузки серверов</div>;
+    return (
+      <section ref={ref} className={`py-20 sm:py-28 dark:bg-slate-900 transition-colors duration-300 transition-opacity ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}>
+        <div className="container mx-auto px-4 max-w-7xl">
+          <h2 className="text-4xl font-bold mb-12 text-center dark:text-gray-100">Статус серверов</h2>
+          <div className="text-center text-red-500">Ошибка загрузки серверов</div>
+        </div>
+      </section>
+    );
   }
 
   return (
     <section ref={ref} className={`py-20 sm:py-28 dark:bg-slate-900 transition-colors duration-300 transition-opacity ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}>
       <div className="container mx-auto px-4 max-w-7xl">
-        <h2 className="text-4xl font-bold mb-12 text-center dark:text-gray-100">Статус серверов</h2>
+        <div className="flex justify-between items-center mb-12">
+          <h2 className="text-4xl font-bold dark:text-gray-100">Статус серверов</h2>
+          <div className="flex items-center gap-4">
+            {lastUpdate && (
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Обновлено: {lastUpdate.toLocaleTimeString()}
+              </div>
+            )}
+            <button 
+              onClick={loadServers}
+              disabled={loading}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 transition-colors text-sm"
+            >
+              {loading ? 'Обновление...' : 'Обновить'}
+            </button>
+          </div>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-14">
           {servers.map((server, i) => (
             <ServerCard key={server.country} server={server} index={i} />
