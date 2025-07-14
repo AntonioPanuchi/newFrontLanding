@@ -86,7 +86,7 @@ const Header: React.FC = () => {
             )}
           </div>
           {/* CTA кнопка */}
-          <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105">
+          <a href="https://t.me/RX_VPN_Seller_bot" target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105" aria-label="Открыть Telegram-бота">
             <span className="mr-2">Telegram</span>
           </a>
           {/* Мобильное меню */}

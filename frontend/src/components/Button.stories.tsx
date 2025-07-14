@@ -22,4 +22,31 @@ export const Secondary: Story = {
     children: 'Secondary Button',
     variant: 'secondary',
   },
+};
+
+export const Loading: Story = {
+  args: {
+    children: 'Загрузка...'
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    children: 'Disabled',
+    disabled: true,
+  },
+};
+
+export const LongText: Story = {
+  args: {
+    children: 'Очень длинный текст кнопки для проверки переноса и адаптивности',
+    variant: 'primary',
+  },
+};
+
+export const IconOnly: Story = {
+  args: {
+    children: <span role="img" aria-label="иконка">🔒</span>,
+    'aria-label': 'Заблокировано',
+  },
 }; 

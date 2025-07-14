@@ -26,6 +26,7 @@ const HeroSection: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 text-lg sm:text-xl rounded-3xl font-bold bg-gradient-to-r from-primary to-accent shadow-wow hover:from-green-600 hover:to-blue-600 hover:scale-105 transition-all duration-300 text-white enhanced-button shadow-lg"
+            aria-label="Начать бесплатно в Telegram"
           >
             Начать бесплатно
           </Button>
@@ -34,6 +35,7 @@ const HeroSection: React.FC = () => {
             href="servers"
             variant="secondary"
             className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 text-lg sm:text-xl rounded-3xl font-bold border-2 border-accent text-accent bg-white/80 hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-lg"
+            aria-label="Посмотреть статус серверов"
           >
             Статус серверов
           </Button>

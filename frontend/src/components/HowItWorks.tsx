@@ -71,6 +71,7 @@ const HowItWorks: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-lg sm:text-xl font-bold mb-3 leading-tight text-primary hover:underline focus:underline transition"
+                      aria-label="Открыть Telegram-бота"
                     >
                       {step.title}
                     </a>

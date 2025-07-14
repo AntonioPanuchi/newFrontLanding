@@ -50,6 +50,7 @@ const FaqSection: React.FC = () => {
                 className="w-full flex items-center justify-between gap-4 px-6 py-5 sm:py-6 text-left focus:outline-none"
                 onClick={() => setOpen(open === i ? null : i)}
                 aria-expanded={open === i}
+                aria-label={`Показать ответ на вопрос: ${faq.question}`}
               >
                 <div className="flex items-center gap-3">
                   <FaQuestionCircle className="text-primary text-xl shrink-0" />
