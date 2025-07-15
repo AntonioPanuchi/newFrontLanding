@@ -8,6 +8,7 @@ import Servers from './pages/Servers';
 import Faq from './pages/Faq';
 import TelegramFab from './components/TelegramFab';
 import { logFrontend } from './utils/logger';
+import { ThemeProvider } from './context/ThemeContext';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -27,20 +28,22 @@ function RouteLogger() {
 
 const App: React.FC = () => (
   <HelmetProvider>
-    <Router>
-      <ScrollToTop />
-      <RouteLogger />
-      <Header />
-      <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/servers" element={<Servers />} />
-          <Route path="/faq" element={<Faq />} />
-        </Routes>
-        <TelegramFab />
-      </main>
-      <Footer />
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <ScrollToTop />
+        <RouteLogger />
+        <Header />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/servers" element={<Servers />} />
+            <Route path="/faq" element={<Faq />} />
+          </Routes>
+          <TelegramFab />
+        </main>
+        <Footer />
+      </Router>
+    </ThemeProvider>
   </HelmetProvider>
 );
 

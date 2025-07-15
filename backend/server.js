@@ -23,11 +23,11 @@ const { errorHandler } = require('./middleware/errorHandler');
 
 // --- ОБЯЗАТЕЛЬНЫЕ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ---
 const requiredEnvVars = [
-  'GERMANY_API_URL',
-  'USA_API_URL',
-  'FINLAND_API_URL',
-  'USERNAME',
-  'PASSWORD'
+    'GERMANY_API_URL',
+    'USA_API_URL', 
+    'FINLAND_API_URL',
+    'USERNAME',
+    'PASSWORD'
 ];
 
 // --- СОЗДАНИЕ ДИРЕКТОРИИ ДЛЯ ЛОГОВ ---
@@ -149,10 +149,10 @@ app.get('*', (req, res) => {
         logger.debug(`SPA fallback for path: ${req.path}`);
         res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
     } else {
-        res.status(404).json({
-            error: 'Not Found',
-            message: 'The requested endpoint does not exist'
-        });
+    res.status(404).json({
+        error: 'Not Found',
+        message: 'The requested endpoint does not exist'
+    });
     }
 });
 

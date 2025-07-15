@@ -1,29 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-function getInitialDark() {
-  if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('theme');
-    if (saved) return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-  return false;
-}
+import { useTheme } from '../context/ThemeContext';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 
 const Footer: React.FC = () => {
-  const [dark, setDark] = useState(getInitialDark);
-  const [pop, setPop] = useState(false);
+  const { dark, toggleTheme } = useTheme();
+  const [pop, setPop] = React.useState(false);
 
-  useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
-  }, [dark]);
-
-  useEffect(() => {
+  React.useEffect(() => {
     if (pop) {
       const timeout = setTimeout(() => setPop(false), 180);
       return () => clearTimeout(timeout);
@@ -42,16 +26,16 @@ const Footer: React.FC = () => {
         </div>
         <div className="flex items-center">
           <button
-            onClick={() => { setDark(d => !d); setPop(true); }}
+            onClick={() => { toggleTheme(); setPop(true); }}
             className="p-2 rounded-xl bg-white/20 dark:bg-gray-800/60 hover:bg-accent/20 dark:hover:bg-accent/20 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark shadow"
             aria-label="Переключить тёмный режим"
             type="button"
           >
             <span className={`inline-block transition-transform duration-150 ${pop ? 'scale-125' : 'scale-100'}`}>
               {dark ? (
-                <svg className="w-6 h-6 text-yellow-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-8.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.95 7.07l-.71-.71M4.05 4.93l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <SunIcon className="w-6 h-6 text-yellow-400 transition-colors duration-300" />
               ) : (
-                <svg className="w-6 h-6 text-gray-200 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" /></svg>
+                <MoonIcon className="w-6 h-6 text-gray-200 transition-colors duration-300" />
               )}
             </span>
           </button>
