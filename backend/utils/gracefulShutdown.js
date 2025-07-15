@@ -22,10 +22,10 @@ function setupGracefulShutdown(server, logger) {
     });
     process.on('unhandledRejection', (reason, promise) => {
         logger.error('Unhandled Rejection at:', {
-            promise: promise,
-            reason: reason
+            promise,
+            reason
         });
-        throw reason instanceof Error ? reason : new Error('Unhandled rejection: ' + reason);
+        throw reason instanceof Error ? reason : new Error(`Unhandled rejection: ${  reason}`);
     });
 }
 
