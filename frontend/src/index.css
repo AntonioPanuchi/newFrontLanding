@@ -49,3 +49,12 @@ input, button, textarea, select {
   0%, 100% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-30px) scale(1.2); }
 } 
+
+/* Progressive enhancement: показываем контент без JS */
+.no-js section,
+.no-js .animate-fade-in-up,
+.no-js .animate-fade-in {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+} 
