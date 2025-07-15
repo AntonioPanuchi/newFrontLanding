@@ -43,6 +43,19 @@ check_dependencies() {
         missing_deps+=("npm")
     fi
     
+    # Проверяем версию Node.js
+    if command -v node &> /dev/null; then
+        local node_version=$(node --version)
+        local node_major=$(echo $node_version | sed 's/v//' | cut -d. -f1)
+        
+        if [ "$node_major" -lt 18 ]; then
+            log_warning "Node.js версии $node_version ниже рекомендуемой (18.x)"
+            log_info "Будет использован полифилл node-fetch"
+        else
+            log_success "Node.js версии $node_version поддерживает нативный fetch API"
+        fi
+    fi
+    
     if ! command -v pm2 &> /dev/null; then
         log_warning "PM2 не установлен. Устанавливаем..."
         npm install -g pm2

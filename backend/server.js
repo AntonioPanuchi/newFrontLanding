@@ -8,6 +8,20 @@ const ping = require('ping');
 const DailyRotateFile = require('winston-daily-rotate-file');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
+// --- ПОЛИФИЛЛ ДЛЯ FETCH ---
+// Проверяем версию Node.js и добавляем полифилл если нужно
+const nodeVersion = process.version;
+const majorVersion = parseInt(nodeVersion.slice(1).split('.')[0], 10);
+
+if (majorVersion < 18) {
+    // Для Node.js < 18 используем node-fetch как полифилл
+    const fetch = require('node-fetch');
+    global.fetch = fetch;
+    console.log(`Node.js ${nodeVersion} detected, using node-fetch polyfill for fetch API`);
+} else {
+    console.log(`Node.js ${nodeVersion} detected, using native fetch API`);
+}
+
 const app = express();
 
 // --- ВАЛИДАЦИЯ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ ---
