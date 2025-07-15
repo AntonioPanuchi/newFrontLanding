@@ -1,6 +1,11 @@
 ---
-
-## name: "Руководство по разработке ROX VPN API и Landing Page" description: "Полное техническое руководство для проекта ROX VPN, включающее обзор, стек технологий, структуру, настройку окружения и описание ключевых компонентов" category: "Веб-приложение" author: "Antonio Panuchi" authorUrl: "[https://github.com/AntonioPanuchi](https://github.com/AntonioPanuchi)" tags: ["nodejs","express","react","vite","tailwindcss","storybook","vpn"] lastUpdated: "July 15, 2025"
+name: "Руководство по разработке ROX VPN API и Landing Page" 
+description: "Полное техническое руководство для проекта ROX VPN, включающее обзор, стек технологий, структуру, настройку окружения и описание ключевых компонентов" 
+category: "Веб-приложение" 
+author: "Antonio Panuchi" 
+authorUrl: "[https://github.com/AntonioPanuchi]" 
+tags: ["nodejs","express","react","vite","tailwindcss","storybook","vpn"] 
+lastUpdated: "July 15, 2025"
 
 # Руководство по разработке ROX VPN API и Landing Page
 
