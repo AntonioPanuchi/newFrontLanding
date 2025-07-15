@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/AntonioPanuchi/newFrontLanding#readme",
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.11",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {

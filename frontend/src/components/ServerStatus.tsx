@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ServerCardSkeleton from './ServerCardSkeleton';
 import { useInView } from '../hooks/useInView';
+import AnimatedCounter from './AnimatedCounter';
 
 type Server = {
   country: string;
@@ -120,7 +121,9 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
             <div className="text-gray-500 dark:text-gray-300 italic font-medium">Пинг</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="text-3xl font-bold dark:text-gray-100">{server.users}</div>
+            <div className="text-3xl font-bold dark:text-gray-100">
+              <AnimatedCounter to={server.users} />
+            </div>
             <div className="text-gray-500 dark:text-gray-300 italic font-medium">Пользователей</div>
           </div>
           <div className="flex flex-col items-center">
