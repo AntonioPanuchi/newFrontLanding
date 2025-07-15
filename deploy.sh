@@ -161,7 +161,7 @@ health_check() {
     local attempt=1
     
     while [ $attempt -le $max_attempts ]; do
-        if curl -f -s http://localhost:3000/health > /dev/null; then
+        if curl -f -s http://localhost:3000/api/health > /dev/null; then
             log_success "API сервис работает"
             break
         fi
