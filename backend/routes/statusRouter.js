@@ -21,7 +21,11 @@ router.get('/server-statuses', async (req, res) => {
   }
   logger && logger.info && logger.info('Fetching fresh server statuses...');
   try {
-    const statusPromises = SERVER_CONFIGS.map(server => getServerStatus(server, cookieCache, logger));
+    const prevStatuses = {};
+    (statusCache.get() || []).forEach(s => { prevStatuses[s.name] = s.status; });
+    const statusPromises = SERVER_CONFIGS.map(server =>
+      getServerStatus(server, cookieCache, logger, prevStatuses[server.name])
+    );
     const statuses = await Promise.all(statusPromises);
     statusCache.set(statuses);
     logger && logger.info && logger.info('Successfully fetched server statuses', {

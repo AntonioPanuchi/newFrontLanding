@@ -71,8 +71,9 @@ async function getCookie(server, cookieCache, logger) {
     }
 }
 
-async function fetchDataWithRetry(url, cookie, method = 'GET', retries = 3) {
+async function fetchDataWithRetry(url, cookie, method = 'GET', retries = 3, logger, serverName, apiName) {
     for (let i = 0; i < retries; i++) {
+        const start = Date.now();
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -87,6 +88,14 @@ async function fetchDataWithRetry(url, cookie, method = 'GET', retries = 3) {
                 signal: controller.signal
             });
             clearTimeout(timeoutId);
+            const duration = Date.now() - start;
+            if (logger && logger.info) {
+                logger.info(`API response time: ${serverName} ${apiName} ${duration}ms`, {
+                    server: serverName,
+                    api: apiName,
+                    duration
+                });
+            }
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
@@ -115,16 +124,17 @@ async function fetchDataWithRetry(url, cookie, method = 'GET', retries = 3) {
     }
 }
 
-async function getServerStatus(server, cookieCache, logger) {
+async function getServerStatus(server, cookieCache, logger, prevStatus = null) {
+    let currentStatus = 'offline';
     try {
         const cookie = await getCookie(server, cookieCache, logger);
         const STATUS_PATH = '/server/status';
         const INBOUNDS_PATH = '/panel/inbound/list';
         const ONLINE_USERS_PATH = '/panel/inbound/onlines';
         const [systemStatus, inboundList, onlineUsers, pingResult] = await Promise.all([
-            fetchDataWithRetry(`${server.baseUrl}${STATUS_PATH}`, cookie, 'POST'),
-            fetchDataWithRetry(`${server.baseUrl}${INBOUNDS_PATH}`, cookie, 'POST'),
-            fetchDataWithRetry(`${server.baseUrl}${ONLINE_USERS_PATH}`, cookie, 'POST'),
+            fetchDataWithRetry(`${server.baseUrl}${STATUS_PATH}`, cookie, 'POST', 3, logger, server.name, 'status'),
+            fetchDataWithRetry(`${server.baseUrl}${INBOUNDS_PATH}`, cookie, 'POST', 3, logger, server.name, 'inbound-list'),
+            fetchDataWithRetry(`${server.baseUrl}${ONLINE_USERS_PATH}`, cookie, 'POST', 3, logger, server.name, 'online-users'),
             pingServer(server.pingHost || new URL(server.baseUrl).hostname)
         ]);
         if (!systemStatus || !inboundList) {
@@ -146,9 +156,14 @@ async function getServerStatus(server, cookieCache, logger) {
             cpuLoad = systemStatus.cpu;
         }
         cpuLoad = Number(Math.min(cpuLoad, 100).toFixed(2));
+        currentStatus = 'online';
+        // Логирование смены статуса
+        if (prevStatus && prevStatus !== currentStatus && logger && logger.info) {
+            logger.info(`Server status changed: ${server.name} ${prevStatus} → ${currentStatus}`);
+        }
         return {
             name: server.name,
-            status: 'online',
+            status: currentStatus,
             uptime: formatUptime(systemStatus.uptime),
             users_online: Array.isArray(onlineUsers) ? onlineUsers.length : 0,
             traffic_used: trafficUsed,
@@ -164,6 +179,10 @@ async function getServerStatus(server, cookieCache, logger) {
                 stack: error.stack,
                 server: server.name
             });
+        }
+        // Логирование смены статуса
+        if (prevStatus && prevStatus !== 'offline' && logger && logger.warn) {
+            logger.warn(`Server status changed: ${server.name} ${prevStatus} → offline`);
         }
         return {
             name: server.name,
