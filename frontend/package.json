@@ -7,12 +7,16 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@storybook/cli": "^9.0.16",
-    "@storybook/react": "^9.0.16",
-    "@storybook/react-vite": "^9.0.16",
+    "@storybook/cli": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-links": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.0.0"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
