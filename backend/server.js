@@ -1,17 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const winston = require('winston');
-const rateLimit = require('express-rate-limit');
+// eslint-disable-next-line node/no-unpublished-require
 const fs = require('fs');
 const path = require('path');
-const ping = require('ping');
-const DailyRotateFile = require('winston-daily-rotate-file');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const { router: statusRouter, initStatusRouter } = require('./routes/statusRouter');
 const { router: healthRouter, initHealthRouter } = require('./routes/healthRouter');
 const { router: cacheRouter, initCacheRouter } = require('./routes/cacheRouter');
-const vpnService = require('./vpnService');
-const { validateUrl, validateCredentials, validateOptionalVars } = require('./config/validation');
+const { validateOptionalVars } = require('./config/validation');
 const { createLogger } = require('./config/logger');
 const { createCorsOptions } = require('./middleware/cors');
 const { createApiRateLimiter } = require('./middleware/rateLimit');
@@ -21,14 +17,6 @@ const { getServerConfigs } = require('./config/serverConfigs');
 const { StatusCache, CookieCache } = require('./utils/cache');
 const { errorHandler } = require('./middleware/errorHandler');
 
-// --- ОБЯЗАТЕЛЬНЫЕ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ---
-const requiredEnvVars = [
-    'GERMANY_API_URL',
-    'USA_API_URL', 
-    'FINLAND_API_URL',
-    'USERNAME',
-    'PASSWORD'
-];
 
 // --- СОЗДАНИЕ ДИРЕКТОРИИ ДЛЯ ЛОГОВ ---
 const logsDir = path.join(__dirname, 'logs');
@@ -62,39 +50,26 @@ const app = express();
 // (удалить функции validateUrl, validateCredentials, validateOptionalVars)
 
 // Выполняем валидацию
-let germanyUrl, usaUrl, finlandUrl, credentials, optionalVars;
+let optionalVars;
+let SERVER_CONFIGS;
 
 try {
     logger.info('Starting environment variables validation...');
     
-    // Проверяем наличие обязательных переменных
-    const missingVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
-    if (missingVars.length > 0) {
-        throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
-    }
-    
-    // Валидируем URL серверов
-    germanyUrl = validateUrl(process.env.GERMANY_API_URL, 'GERMANY_API_URL');
-    usaUrl = validateUrl(process.env.USA_API_URL, 'USA_API_URL');
-    finlandUrl = validateUrl(process.env.FINLAND_API_URL, 'FINLAND_API_URL');
-    
-    // Валидируем учетные данные
-    credentials = validateCredentials(process.env.USERNAME, process.env.PASSWORD);
-    
-    // Валидируем опциональные переменные
+    // Валидируем опциональные переменные и конфигурацию серверов
     optionalVars = validateOptionalVars();
+    SERVER_CONFIGS = getServerConfigs();
     
     logger.info('Environment variables validation completed successfully');
     
 } catch (error) {
     logger.error('Environment variables validation failed:', { error: error.message });
-    throw new Error('Environment variables validation failed: ' + error.message);
+    throw new Error(`Environment variables validation failed: ${  error.message}`);
 }
 
 const port = optionalVars.PORT;
 
 // --- КОНФИГУРАЦИЯ СЕРВЕРОВ ---
-const SERVER_CONFIGS = getServerConfigs();
 // --- КЭШИРОВАНИЕ И СОСТОЯНИЕ ---
 const statusCache = new StatusCache(process.env.CACHE_DURATION ? parseInt(process.env.CACHE_DURATION, 10) : 60 * 1000);
 const cookieCache = new CookieCache(process.env.COOKIE_CACHE_DURATION ? parseInt(process.env.COOKIE_CACHE_DURATION, 10) : 55 * 60 * 1000);
@@ -162,7 +137,7 @@ app.use(errorHandler(logger));
 // --- ЗАПУСК СЕРВЕРА ---
 const server = app.listen(port, () => {
     logger.info(`ROX VPN API server started on port ${port}`, {
-        port: port,
+        port,
         environment: process.env.NODE_ENV || 'development',
         serversConfigured: SERVER_CONFIGS.length
     });
