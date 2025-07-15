@@ -6,7 +6,7 @@ author: "Antonio Panuchi"
 authorUrl: "[https://github.com/AntonioPanuchi]" 
 tags: ["nodejs","express","react","vite","tailwindcss","storybook","vpn"] 
 lastUpdated: "July 15, 2025"
-
+---
 # Руководство по разработке ROX VPN API и Landing Page
 
 ## Обзор проекта
