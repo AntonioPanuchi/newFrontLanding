@@ -9,16 +9,7 @@ module.exports = {
   safelist: [
     'dark',
     'animate-fade-in',
-    'animate-fade-in-up',
-    'animate-scale-in',
-    'hover-lift',
-    'focus-brand',
-    'text-readable',
-    'bg-surface',
-    'bg-surface-secondary',
-    'border-brand',
-    'shadow-glow',
-    'shadow-glow-lg'
+    'animate-fade-in-up'
   ],
   theme: {
     extend: {
