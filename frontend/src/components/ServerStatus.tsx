@@ -37,10 +37,58 @@ function getCountryFlag(country: string): string {
   }
 }
 
+// Круговой прогрессбар SVG
+const CircleProgress: React.FC<{ percent: number; color: string; label: string; value: string; }> = ({ percent, color, label, value }) => {
+  const size = 64;
+  const stroke = 7;
+  const radius = (size - stroke) / 2;
+  const circ = 2 * Math.PI * radius;
+  const offset = circ * (1 - percent / 100);
+  return (
+    <div className="flex flex-col items-center">
+      <svg width={size} height={size} className="mb-1" style={{ display: 'block' }}>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#e5e7eb"
+          strokeWidth={stroke}
+          fill="none"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={color}
+          strokeWidth={stroke}
+          fill="none"
+          strokeDasharray={circ}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1)' }}
+        />
+        <text
+          x="50%"
+          y="54%"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize="1.1rem"
+          fontWeight="bold"
+          fill={color}
+        >
+          {value}
+        </text>
+      </svg>
+      <span className="text-xs text-gray-500 dark:text-gray-300 italic font-medium mt-0.5">{label}</span>
+    </div>
+  );
+};
+
 const ServerCard = ({ server, index }: { server: Server; index: number }) => {
-  const memPercent = Math.round((server.memUsed / server.memTotal) * 100);
+  const memPercent = server.memTotal > 0 ? Math.round((server.memUsed / server.memTotal) * 100) : 0;
   const countryFlag = getCountryFlag(server.country);
   const statusColor = server.status === 'online' ? 'bg-green-400' : 'bg-red-400';
+  const statusTextColor = server.status === 'online' ? 'text-green-600' : 'text-red-500';
 
   return (
     <div
@@ -55,49 +103,35 @@ const ServerCard = ({ server, index }: { server: Server; index: number }) => {
       {/* Вертикальный цветной индикатор */}
       <span className={`absolute left-0 top-0 h-full w-2 ${statusColor} rounded-l-3xl`} />
       {/* Контент */}
-      <div className="flex flex-col items-center gap-3 w-full">
-        <div className="flex items-center gap-3 mb-3">
-          <div 
-            className="text-4xl group-hover:scale-110 transition-transform duration-300"
-            title={server.country}
-          >
-            {countryFlag}
+      <div className="flex flex-col items-center gap-2 w-full">
+        {/* Название и статус */}
+        <div className="flex items-center gap-3 mb-2">
+          <div className="text-5xl group-hover:scale-110 transition-transform duration-300" title={server.country}>{countryFlag}</div>
+          <span className="text-2xl sm:text-3xl font-extrabold dark:text-gray-100">{server.country}</span>
+        </div>
+        <div className="flex items-center gap-3 mb-2">
+          <span className={`font-bold text-lg ${statusTextColor}`}>{server.status === 'online' ? '🟢 Онлайн' : '🔴 Оффлайн'}</span>
+          <span className="text-gray-400 text-base italic">({server.uptime})</span>
+        </div>
+        {/* Сетка 2x2 */}
+        <div className="grid grid-cols-2 gap-4 w-full my-2">
+          <div className="flex flex-col items-center">
+            <div className="text-3xl font-bold dark:text-gray-100">{server.ping} <span className="text-lg font-normal">мс</span></div>
+            <div className="text-gray-500 dark:text-gray-300 italic font-medium">Пинг</div>
           </div>
-          <span className="text-xl sm:text-2xl font-bold dark:text-gray-100">{server.country}</span>
-        </div>
-        <div className="flex items-center gap-3 mb-3">
-          <span className={`font-semibold ${server.status === 'online' ? 'text-green-600' : 'text-red-500'}`}>{server.status === 'online' ? '🟢 Онлайн' : '🔴 Оффлайн'}</span>
-          <span className="text-gray-400 text-sm sm:text-base">({server.uptime})</span>
-        </div>
-        {/* Минимализм + большие цифры */}
-        <div className="flex flex-col items-center gap-1 my-3">
-          <div className="text-4xl sm:text-5xl font-black dark:text-gray-100">{server.ping} <span className="text-lg font-normal">мс</span></div>
-          <div className="text-lg sm:text-xl text-gray-500 dark:text-gray-300">Пинг</div>
-        </div>
-        <div className="flex flex-col items-center gap-1 my-3">
-          <div className="text-3xl sm:text-4xl font-bold dark:text-gray-100">{server.users}</div>
-          <div className="text-lg sm:text-xl text-gray-500 dark:text-gray-300">Пользователей</div>
-        </div>
-        {/* Прогресс-бары */}
-        <div className="w-full mt-3">
-          <div className="flex justify-between text-sm text-gray-500 dark:text-gray-300">
-            <span>CPU</span>
-            <span>{server.cpu}%</span>
+          <div className="flex flex-col items-center">
+            <div className="text-3xl font-bold dark:text-gray-100">{server.users}</div>
+            <div className="text-gray-500 dark:text-gray-300 italic font-medium">Пользователей</div>
           </div>
-          <div className="w-full h-3 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div className="h-3 bg-gradient-to-r from-green-400 to-blue-400 transition-all duration-1000 ease-out" style={{ width: `${Math.min(server.cpu, 100)}%` }} />
+          <div className="flex flex-col items-center">
+            <CircleProgress percent={server.cpu} color="#22c55e" label="CPU" value={`${server.cpu}%`} />
+          </div>
+          <div className="flex flex-col items-center">
+            <CircleProgress percent={memPercent} color="#0ea5e9" label="Память" value={`${memPercent}%`} />
           </div>
         </div>
-        <div className="w-full mt-3">
-          <div className="flex justify-between text-sm text-gray-500 dark:text-gray-300">
-            <span>Память</span>
-            <span>{formatMem(server.memUsed, server.memTotal)}</span>
-          </div>
-          <div className="w-full h-3 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div className="h-3 bg-gradient-to-r from-blue-400 to-indigo-400 transition-all duration-1000 ease-out" style={{ width: `${memPercent}%` }} />
-          </div>
-        </div>
-        <div className="w-full mt-3 flex items-center gap-3 text-gray-500 dark:text-gray-300">
+        {/* Трафик */}
+        <div className="w-full mt-2 flex items-center gap-3 text-gray-500 dark:text-gray-300 justify-center">
           ⇅ <span>Трафик:</span> <span className="font-semibold">{formatBytes(server.traffic)}</span>
         </div>
       </div>
