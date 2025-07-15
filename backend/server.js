@@ -631,29 +631,22 @@ app.post('/api/refresh-cache', async (req, res) => {
     }
 });
 
-// Статические файлы из папки public (favicon и др.)
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
+// Статические файлы из папки dist (собранные файлы)
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 
-// Статические файлы (после API маршрутов)
-app.use(express.static(path.join(__dirname, '..', 'frontend'), {
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        }
+// SPA Fallback - отдаем index.html для всех GET-запросов, которые не являются API
+app.get('*', (req, res) => {
+    // Проверяем, что это GET-запрос и путь не начинается с /api
+    if (req.method === 'GET' && !req.path.startsWith('/api')) {
+        logger.debug(`SPA fallback for path: ${req.path}`);
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+    } else {
+        // Для не-GET запросов или API маршрутов возвращаем 404
+        res.status(404).json({
+            error: 'Not Found',
+            message: 'The requested endpoint does not exist'
+        });
     }
-}));
-
-// Serve index.html for root path
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
-});
-
-// 404 handler
-app.use('*', (req, res) => {
-    res.status(404).json({
-        error: 'Not Found',
-        message: 'The requested endpoint does not exist'
-    });
 });
 
 // Global error handler
