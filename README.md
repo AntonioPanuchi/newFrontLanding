@@ -132,6 +132,9 @@ jobs:
 - `npm run storybook` — Storybook
 - `npm run build-storybook` — сборка Storybook
 
+### Управление зависимостями
+- `./clean-dependencies.sh` — очистка неиспользуемых зависимостей
+
 ---
 
 ## 🔌 API

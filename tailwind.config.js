@@ -120,6 +120,8 @@ module.exports = {
         'slide-in-right': 'slideInRight 0.5s ease-out',
         'slide-in-left': 'slideInLeft 0.5s ease-out',
         'bounce-gentle': 'bounceGentle 2s infinite',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       
       keyframes: {
@@ -150,6 +152,10 @@ module.exports = {
         bounceGentle: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '.5' },
         },
       },
     },

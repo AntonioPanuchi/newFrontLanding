@@ -39,17 +39,12 @@
   },
   "homepage": "https://github.com/AntonioPanuchi/newFrontLanding#readme",
   "dependencies": {
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "dotenv": "^16.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-helmet-async": "^2.0.5",
-    "tailwind-merge": "^3.3.1",
-    "tailwindcss-animate": "^1.0.7"
+    "react-helmet-async": "^2.0.5"
   },
   "devDependencies": {
-    "@headlessui/react": "^2.2.4",
     "@storybook/addon-a11y": "^9.0.16",
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/builder-vite": "^9.0.16",
@@ -61,7 +56,6 @@
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
     "autoprefixer": "^10.4.21",
-    "framer-motion": "^12.23.5",
     "postcss": "^8.5.6",
     "react-router-dom": "^7.6.3",
     "tailwindcss": "^4.1.11",
