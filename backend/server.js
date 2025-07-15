@@ -21,6 +21,27 @@ const { getServerConfigs } = require('./config/serverConfigs');
 const { StatusCache, CookieCache } = require('./utils/cache');
 const { errorHandler } = require('./middleware/errorHandler');
 
+// --- ОБЯЗАТЕЛЬНЫЕ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ---
+const requiredEnvVars = [
+  'GERMANY_API_URL',
+  'USA_API_URL',
+  'FINLAND_API_URL',
+  'USERNAME',
+  'PASSWORD'
+];
+
+// --- СОЗДАНИЕ ДИРЕКТОРИИ ДЛЯ ЛОГОВ ---
+const logsDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+}
+
+// --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
+// Для fetch-полифилла logger нужен уже здесь, поэтому создаём с дефолтными значениями
+const defaultLogLevel = process.env.LOG_LEVEL || 'info';
+const defaultNodeEnv = process.env.NODE_ENV || 'development';
+const logger = createLogger(logsDir, defaultLogLevel, defaultNodeEnv, 'backend');
+
 // --- ПОЛИФИЛЛ ДЛЯ FETCH ---
 // Проверяем версию Node.js и добавляем полифилл если нужно
 const nodeVersion = process.version;
@@ -30,9 +51,9 @@ if (majorVersion < 18) {
     // Для Node.js < 18 используем node-fetch как полифилл
     const fetch = require('node-fetch');
     global.fetch = fetch;
-    console.log(`Node.js ${nodeVersion} detected, using node-fetch polyfill for fetch API`);
+    logger.info(`Node.js ${nodeVersion} detected, using node-fetch polyfill for fetch API`);
 } else {
-    console.log(`Node.js ${nodeVersion} detected, using native fetch API`);
+    logger.info(`Node.js ${nodeVersion} detected, using native fetch API`);
 }
 
 const app = express();
@@ -44,42 +65,33 @@ const app = express();
 let germanyUrl, usaUrl, finlandUrl, credentials, optionalVars;
 
 try {
-    console.log('Starting environment variables validation...');
-
+    logger.info('Starting environment variables validation...');
+    
     // Проверяем наличие обязательных переменных
     const missingVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
     if (missingVars.length > 0) {
         throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
     }
-
+    
     // Валидируем URL серверов
     germanyUrl = validateUrl(process.env.GERMANY_API_URL, 'GERMANY_API_URL');
     usaUrl = validateUrl(process.env.USA_API_URL, 'USA_API_URL');
     finlandUrl = validateUrl(process.env.FINLAND_API_URL, 'FINLAND_API_URL');
-
+    
     // Валидируем учетные данные
     credentials = validateCredentials(process.env.USERNAME, process.env.PASSWORD);
-
+    
     // Валидируем опциональные переменные
     optionalVars = validateOptionalVars();
-
-    console.log('Environment variables validation completed successfully');
-
+    
+    logger.info('Environment variables validation completed successfully');
+    
 } catch (error) {
-    console.error('Environment variables validation failed:', error.message);
+    logger.error('Environment variables validation failed:', { error: error.message });
     throw new Error('Environment variables validation failed: ' + error.message);
 }
 
 const port = optionalVars.PORT;
-
-// --- СОЗДАНИЕ ДИРЕКТОРИИ ДЛЯ ЛОГОВ ---
-const logsDir = path.join(__dirname, 'logs');
-if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
-}
-
-// --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
-const logger = createLogger(logsDir, optionalVars.LOG_LEVEL, optionalVars.NODE_ENV);
 
 // --- КОНФИГУРАЦИЯ СЕРВЕРОВ ---
 const SERVER_CONFIGS = getServerConfigs();
@@ -118,6 +130,18 @@ app.use('/api', statusRouter);
 app.use('/api', healthRouter);
 app.use('/api', cacheRouter);
 
+// --- FRONTEND LOGGING ENDPOINT ---
+const frontendLogger = createLogger(logsDir, optionalVars.LOG_LEVEL, optionalVars.NODE_ENV, 'frontend');
+app.post('/api/log', express.json({ limit: '100kb' }), (req, res) => {
+    const { level = 'info', message, ...meta } = req.body || {};
+    if (typeof frontendLogger[level] === 'function') {
+        frontendLogger[level](message, meta);
+    } else {
+        frontendLogger.info(message, meta);
+    }
+    res.status(204).end();
+});
+
 // --- СТАТИКА и SPA fallback ---
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 app.get('*', (req, res) => {
@@ -146,5 +170,10 @@ const server = app.listen(port, () => {
 
 // --- GRACEFUL SHUTDOWN ---
 setupGracefulShutdown(server, logger);
+
+// Логируем остановку сервера
+process.on('exit', (code) => {
+    logger.info('Process exit', { code });
+});
 
 module.exports = app;

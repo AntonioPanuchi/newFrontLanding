@@ -4,7 +4,13 @@ function errorHandler(logger) {
             error: err.message,
             stack: err.stack,
             url: req.url,
-            method: req.method
+            method: req.method,
+            status: res.statusCode,
+            body: req.body,
+            query: req.query,
+            headers: req.headers,
+            userAgent: req.get('User-Agent'),
+            ip: req.ip || req.connection.remoteAddress
         });
         res.status(500).json({
             error: 'Internal Server Error',

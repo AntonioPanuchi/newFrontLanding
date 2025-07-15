@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Servers from './pages/Servers';
 import Faq from './pages/Faq';
 import TelegramFab from './components/TelegramFab';
+import { logFrontend } from './utils/logger';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -16,10 +17,19 @@ function ScrollToTop() {
   return null;
 }
 
+function RouteLogger() {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    logFrontend('info', 'User navigated', { path: pathname, ts: new Date().toISOString() });
+  }, [pathname]);
+  return null;
+}
+
 const App: React.FC = () => (
   <HelmetProvider>
     <Router>
       <ScrollToTop />
+      <RouteLogger />
       <Header />
       <main className="flex-1">
         <Routes>
