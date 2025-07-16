@@ -24,6 +24,7 @@ __tests__/
 *.test.js
 *.spec.js
 coverage/
+frontend/storybook-static/
 .nyc_output/
 
 # IDE и редакторы
