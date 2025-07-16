@@ -167,9 +167,8 @@ jobs:
 - `GET /api/server-statuses` — статусы серверов
 - `POST /api/refresh-cache` — принудительное обновление кэша
 - `GET /api/health` — здоровье сервиса
+- `POST /api/refresh-cache` — ручное обновление кэша статусов
 - `POST /api/log` — фронтенд‑логирование
-
-- Подробное описание всех маршрутов смотрите в [API_ROUTES.md](./docs/API_ROUTES.md)
 
 
 Примеры запросов:
@@ -178,7 +177,7 @@ jobs:
 curl https://rx-test.ru/api/server-statuses
 curl https://rx-test.ru/api/health
 curl -X POST https://rx-test.ru/api/refresh-cache
-curl -X POST -H "Content-Type: application/json" -d '{"message":"hi"}' https://rx-test.ru/api/log
+curl -X POST https://rx-test.ru/api/log -d '{"level":"info","message":"hi"}' -H "Content-Type: application/json"
 ```
 
 Примеры ответов:
