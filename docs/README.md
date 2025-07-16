@@ -6,6 +6,7 @@
 - [FETCH_COMPATIBILITY_FIX.md](FETCH_COMPATIBILITY_FIX.md) — подробности исправления проблем с Fetch API.
 - [SEO_IMPROVEMENTS.md](SEO_IMPROVEMENTS.md) — шаги по улучшению SEO и использования компонента `PageHead`.
 - [SEO_SUMMARY.md](SEO_SUMMARY.md) — итоговое резюме проведённых SEO‑улучшений.
+- [API_ROUTES.md](API_ROUTES.md) — описание всех HTTP‑эндпойнтов backend‑сервера.
 - [STORYBOOK_FIX.md](STORYBOOK_FIX.md) — описание решения проблем со Storybook и зависимостями.
 
 Документация пополняется по мере развития проекта.
