@@ -240,8 +240,8 @@ GitHub Actions, Appleboy SSH, PM2, deploy.sh
 - Деплой фронта и бэка на push в `main`
 
 **Связанные файлы:**
-- `.github/workflows/ci.yml`
-- `scripts/deploy.sh`
+- `.github/workflows/ci.yml` *(пример конфигурации)*
+- `deploy.sh`
 
 **Контрольные точки:**
 - Успешные билды ≥ 95%
@@ -275,7 +275,7 @@ Node.js, assert, собственные скрипты
 - Запуск `test-fetch.js` после обновления API
 
 **Связанные файлы:**
-- `backend/test/test-fetch.js`
+- `test-fetch.js`
 
 **Контрольные точки:**
 - Покрытие кода ≥ 80%
