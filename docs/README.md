@@ -7,5 +7,7 @@
 - [SEO_IMPROVEMENTS.md](SEO_IMPROVEMENTS.md) — шаги по улучшению SEO и использования компонента `PageHead`.
 - [SEO_SUMMARY.md](SEO_SUMMARY.md) — итоговое резюме проведённых SEO‑улучшений.
 - [STORYBOOK_FIX.md](STORYBOOK_FIX.md) — описание решения проблем со Storybook и зависимостями.
+- [API_REFERENCE.md](API_REFERENCE.md) — описание доступных HTTP‑эндпоинтов.
+- [DEPLOYMENT.md](DEPLOYMENT.md) — инструкция по использованию скриптов деплоя.
 
 Документация пополняется по мере развития проекта.
