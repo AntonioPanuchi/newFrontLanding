@@ -5,6 +5,8 @@
 Этот документ описывает программных агентов, участвующих в разработке проекта [newFrontLanding](https://github.com/AntonioPanuchi/newFrontLanding). Каждый агент выполняет специализированные задачи в рамках архитектуры проекта. Документация служит живым контекстом и будет дополняться по мере развития системы.
 
 Полное собрание технических документов перемещено в каталог [docs](./docs).
+Дополнительные инструкции смотрите в [API_REFERENCE.md](docs/API_REFERENCE.md) и
+[DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 # ROX VPN API
 
@@ -75,7 +77,7 @@ npm run storybook # запуск Storybook (http://localhost:6006)
 
 ## ⚙️ CI/CD
 
-*Пример workflow для GitHub Actions приведён ниже. Убедитесь, что файл `.github/workflows/ci-cd.yml` добавлен и настроен в вашем репозитории.*
+*Ниже приведён пример workflow для GitHub Actions. Создайте файл `.github/workflows/ci-cd.yml` в своём репозитории и адаптируйте его под свои нужды.*
 
 ```yaml
 name: CI/CD Pipeline
@@ -341,8 +343,8 @@ GitHub Actions, Appleboy SSH, PM2, deploy.sh
 - Деплой фронта и бэка на push в `main`
 
 **Связанные файлы:**
-- `.github/workflows/ci.yml`
-- `scripts/deploy.sh`
+- `.github/workflows/ci.yml` *(пример конфигурации)*
+- `deploy.sh`
 
 **Контрольные точки:**
 - Успешные билды ≥ 95%
@@ -376,7 +378,7 @@ Node.js, assert, собственные скрипты
 - Запуск `test-fetch.js` после обновления API
 
 **Связанные файлы:**
-- `backend/test/test-fetch.js`
+- `test-fetch.js`
 
 **Контрольные точки:**
 - Покрытие кода ≥ 80%
