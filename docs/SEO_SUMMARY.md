@@ -12,6 +12,7 @@
 - Автоматическое форматирование заголовков
 - Поддержка Open Graph и Twitter Card
 - TypeScript типизация
+- Генерация canonical URL и опциональная директива `noindex`
 
 ### 3. Обновленные файлы
 - `frontend/src/pages/Home.tsx` - добавлен PageHead

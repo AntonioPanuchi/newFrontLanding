@@ -7,5 +7,7 @@
 - [SEO_IMPROVEMENTS.md](SEO_IMPROVEMENTS.md) — шаги по улучшению SEO и использования компонента `PageHead`.
 - [SEO_SUMMARY.md](SEO_SUMMARY.md) — итоговое резюме проведённых SEO‑улучшений.
 - [STORYBOOK_FIX.md](STORYBOOK_FIX.md) — описание решения проблем со Storybook и зависимостями.
+- [ENVIRONMENT.md](ENVIRONMENT.md) — список переменных окружения и их назначение.
+- [API_ENDPOINTS.md](API_ENDPOINTS.md) — описание всех API‑эндпоинтов.
 
 Документация пополняется по мере развития проекта.

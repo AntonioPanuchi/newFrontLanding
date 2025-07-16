@@ -162,12 +162,16 @@ jobs:
 
 - `GET /api/server-statuses` — статусы серверов
 - `GET /api/health` — здоровье сервиса
+- `POST /api/refresh-cache` — ручное обновление кэша статусов
+- `POST /api/log` — приём логов от фронтенда
 
 Примеры запросов:
 
 ```bash
 curl https://rx-test.ru/api/server-statuses
 curl https://rx-test.ru/api/health
+curl -X POST https://rx-test.ru/api/refresh-cache
+curl -X POST https://rx-test.ru/api/log -d '{"level":"info","message":"hi"}' -H "Content-Type: application/json"
 ```
 
 Примеры ответов:
