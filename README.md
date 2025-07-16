@@ -160,14 +160,20 @@ jobs:
 
 ## 🔌 API
 
+Полное описание эндпоинтов приведено в [docs/API_REFERENCE.md](docs/API_REFERENCE.md).
+
 - `GET /api/server-statuses` — статусы серверов
+- `POST /api/refresh-cache` — принудительное обновление кэша
 - `GET /api/health` — здоровье сервиса
+- `POST /api/log` — фронтенд‑логирование
 
 Примеры запросов:
 
 ```bash
 curl https://rx-test.ru/api/server-statuses
 curl https://rx-test.ru/api/health
+curl -X POST https://rx-test.ru/api/refresh-cache
+curl -X POST -H "Content-Type: application/json" -d '{"message":"hi"}' https://rx-test.ru/api/log
 ```
 
 Примеры ответов:
