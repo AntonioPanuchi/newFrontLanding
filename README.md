@@ -167,6 +167,9 @@ jobs:
 - `GET /api/health` — здоровье сервиса
 - `POST /api/log` — фронтенд‑логирование
 
+- Подробное описание всех маршрутов смотрите в [API_ROUTES.md](./docs/API_ROUTES.md)
+
+
 Примеры запросов:
 
 ```bash
@@ -216,14 +219,15 @@ curl -X POST -H "Content-Type: application/json" -d '{"message":"hi"}' https://r
 │   ├── tsconfig.json         # TypeScript конфиг
 │   └── vite.config.ts        # Vite конфиг
 ├── backend/                  # Бэкенд (Node.js)
+│   ├── config/               # Конфигурация и сервисы
+│   ├── middleware/           # Middleware Express
+│   ├── routes/               # Маршруты API
+│   ├── utils/                # Вспомогательные модули
 │   ├── logs/                 # Логи
-│   ├── node_modules/         # Зависимости
-│   ├── src/                  # Исходный код
 │   ├── env.example           # Пример .env
 │   ├── eslint.config.js      # ESLint конфиг
 │   ├── package.json          # Скрипты и зависимости
 │   ├── server.js             # Точка входа
-│   ├── utils.js              # Утилиты
 │   └── .prettierrc           # Prettier конфиг
 ├── .gitignore                # Исключения Git
 ├── deploy.sh                 # Скрипт деплоя
@@ -440,6 +444,7 @@ Markdown, Helmet, Storybook
 **Связанные файлы:**
 - `frontend/src/components/PageHead.tsx`
 - `docs/SEO_SUMMARY.md`
+- `docs/API_ROUTES.md`
 
 **Контрольные точки:**
 - Lighthouse SEO ≥ 90
