@@ -5,8 +5,7 @@
 Этот документ описывает программных агентов, участвующих в разработке проекта [newFrontLanding](https://github.com/AntonioPanuchi/newFrontLanding). Каждый агент выполняет специализированные задачи в рамках архитектуры проекта. Документация служит живым контекстом и будет дополняться по мере развития системы.
 
 Полное собрание технических документов перемещено в каталог [docs](./docs).
-Дополнительные инструкции смотрите в [API_REFERENCE.md](docs/API_REFERENCE.md) и
-[DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Дополнительные инструкции смотрите в [API_REFERENCE.md](docs/API_REFERENCE.md), [DEPLOYMENT.md](docs/DEPLOYMENT.md) и [SEO_SUMMARY.md](docs/SEO_SUMMARY.md).
 
 # ROX VPN API
 
@@ -167,7 +166,6 @@ jobs:
 - `GET /api/server-statuses` — статусы серверов
 - `POST /api/refresh-cache` — принудительное обновление кэша
 - `GET /api/health` — здоровье сервиса
-- `POST /api/refresh-cache` — ручное обновление кэша статусов
 - `POST /api/log` — фронтенд‑логирование
 
 
