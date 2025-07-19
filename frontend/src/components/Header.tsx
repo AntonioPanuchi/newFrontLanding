@@ -131,10 +131,10 @@ const Header: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-green-500 via-blue-500 to-blue-700 text-white font-bold rounded-2xl shadow-xl hover:from-green-600 hover:to-blue-800 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent/60"
-            aria-label="Открыть Telegram-бота"
+            aria-label="Контакты в Telegram"
           >
             <FaTelegramPlane className="text-lg" />
-            <span>Telegram</span>
+            <span>Контакты</span>
           </a>
           {/* Мобильное меню */}
           <button
@@ -187,7 +187,7 @@ const Header: React.FC = () => {
                     className="flex items-center gap-2 justify-center bg-gradient-to-r from-green-500 via-blue-500 to-blue-700 text-white font-bold rounded-2xl px-4 py-4 text-lg mt-2 shadow-xl hover:from-green-600 hover:to-blue-800 hover:scale-105 transition-all duration-300"
                   >
                     <FaTelegramPlane className="text-xl" />
-                    <span>Telegram</span>
+                    <span>Контакты</span>
                   </a>
                 </nav>
               </div>

@@ -10,8 +10,8 @@ import SectionDivider from '../components/SectionDivider';
 const Home: React.FC = () => (
     <>
       <PageHead
-        title="ROX.VPN – VPN за 30 секунд прямо в Telegram"
-        description="Забудь про сложные настройки! ROX.VPN работает через Telegram-бота — просто нажми кнопку и получи быстрый защищённый интернет."
+        title="ROX.VPN – мониторинг серверов"
+        description="Сервис предоставляет информацию о доступности VPN-серверов. Данные носят технический характер и не являются рекламой."
         path="/"
       />
     <main className="relative z-10">
