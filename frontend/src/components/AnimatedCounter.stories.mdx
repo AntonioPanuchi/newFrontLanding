@@ -1,0 +1,8 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import * as Stories from './AnimatedCounter.stories';
+
+<Meta of={Stories.default} />
+
+<Canvas>
+  <Story name="Default" args={Stories.Default.args} />
+</Canvas>
