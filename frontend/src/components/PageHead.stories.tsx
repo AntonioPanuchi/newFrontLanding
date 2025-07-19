@@ -19,8 +19,8 @@ type Story = StoryObj<typeof PageHead>;
 
 export const HomePage: Story = {
   args: {
-    title: 'ROX.VPN – VPN за 30 секунд прямо в Telegram',
-    description: 'Забудь про сложные настройки! ROX.VPN работает через Telegram-бота — просто нажми кнопку и получи быстрый защищённый интернет.',
+    title: 'ROX.VPN – мониторинг серверов',
+    description: 'Сервис предоставляет информацию о доступности VPN-серверов. Данные носят технический характер и не являются рекламой.',
     path: '/'
   }
 };
@@ -28,7 +28,7 @@ export const HomePage: Story = {
 export const ServersPage: Story = {
   args: {
     title: 'Статус серверов',
-    description: 'Мониторинг статуса VPN серверов ROX.VPN в реальном времени. Проверьте доступность серверов в Германии, США и Финляндии.',
+    description: 'Мониторинг доступности серверов ROX.VPN. Информация используется исключительно в технических целях.',
     path: '/servers'
   }
 };
@@ -36,7 +36,7 @@ export const ServersPage: Story = {
 export const FaqPage: Story = {
   args: {
     title: 'Часто задаваемые вопросы',
-    description: 'Ответы на часто задаваемые вопросы о ROX.VPN. Узнайте как начать пользоваться VPN, о безопасности, поддерживаемых устройствах и способах оплаты.',
+    description: 'Ответы на вопросы о системе мониторинга ROX.VPN. Сервис не предназначен для продвижения VPN-услуг.',
     path: '/faq'
   }
 };

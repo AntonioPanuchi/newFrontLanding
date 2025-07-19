@@ -28,7 +28,7 @@ export const NoDescription: Story = {
   render: () => (
     <div className="bg-hero-gradient p-8">
       <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black mb-8 sm:mb-12 leading-tight tracking-tight text-white drop-shadow-lg">
-        VPN за <span className="text-primary">30 секунд</span><br />прямо в Telegram
+        Мониторинг <span className="text-primary">VPN</span>-серверов
       </h1>
       {/* Нет описания */}
     </div>
@@ -38,7 +38,7 @@ export const NoDescription: Story = {
 export const OneButton: Story = {
   render: () => (
     <div className="bg-hero-gradient p-8 text-center">
-      <button className="px-8 py-4 rounded-3xl font-bold bg-gradient-to-r from-primary to-accent text-white shadow-wow">Начать бесплатно</button>
+      <button className="px-8 py-4 rounded-3xl font-bold bg-gradient-to-r from-primary to-accent text-white shadow-wow">Статус серверов</button>
     </div>
   ),
 }; 
