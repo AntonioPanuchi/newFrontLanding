@@ -28,22 +28,12 @@ const HeroSection: React.FC = () => {
         {/* Левый блок: текст и CTA */}
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black mb-8 sm:mb-12 leading-tight tracking-tight text-white drop-shadow-lg">
-            VPN за <span className="text-primary">30 секунд</span><br />прямо в Telegram
+            Мониторинг <span className="text-primary">VPN</span>-серверов
           </h1>
           <p className="text-lg sm:text-2xl md:text-3xl mb-8 sm:mb-12 max-w-3xl mx-auto md:mx-0 text-white/90">
-            Забудь про сложные настройки! ROX.VPN работает через Telegram-бота — просто нажми кнопку и получи быстрый защищённый интернет.
+            Данные предоставляются исключительно в информационных целях и не являются рекламой сервисов VPN.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center md:justify-start items-center mb-10 sm:mb-14">
-            <Button
-              as="a"
-              href="https://t.me/RX_VPN_Seller_bot"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 text-lg sm:text-xl rounded-3xl font-bold bg-gradient-to-r from-primary to-accent shadow-wow hover:from-green-600 hover:to-blue-600 hover:scale-105 transition-all duration-300 text-white enhanced-button shadow-lg"
-              aria-label="Начать бесплатно в Telegram"
-            >
-              Начать бесплатно
-            </Button>
             <Button
               as="a"
               href="servers"
@@ -59,7 +49,7 @@ const HeroSection: React.FC = () => {
         <div className="flex-1 flex items-center justify-center mt-12 md:mt-0 w-full max-w-md">
           <img
             src={heroSecurityUrl}
-            alt="Человек с ноутбуком и щитом VPN"
+            alt="Иллюстрация мониторинга VPN"
             className={animated ? 'animated' : ''}
             style={{ maxWidth: 400, width: '100%', height: 'auto' }}
             aria-hidden="true"
