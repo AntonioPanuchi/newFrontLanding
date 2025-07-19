@@ -4,7 +4,7 @@ category: "Веб-приложение"
 author: "Antonio Panuchi" 
 authorUrl: "[https://github.com/AntonioPanuchi]" 
 tags: ["nodejs","express","react","vite","tailwindcss","storybook","vpn"] 
-lastUpdated: "July 15, 2025"
+lastUpdated: "July 19, 2025"
 
 # Руководство по разработке ROX VPN API и Landing Page
 
@@ -108,8 +108,11 @@ cd newFrontLanding
 cd backend
 npm install
 cp env.example .env
+# Не добавляйте реальные ключи в репозиторий. Используйте `.env.example` как шаблон.
 npm run dev
 ```
+
+> **Важно:** в репозиторий помещается только файл `env.example`. Настоящие ключи и токены хранятся локально в `.env` и не коммитятся.
 
 **Frontend:**
 
@@ -295,17 +298,19 @@ Node.js, assert, собственные скрипты
 - Отчёты линтинга и аудита
 
 **Основные действия:**
-- ESLint, Prettier, npm audit
-- Исправление проблем
+- ESLint, Prettier, npm audit и npm outdated
+- Статический анализ уязвимостей (например, Snyk)
+- Исправление найденных проблем
 
 **Инструменты:**
-ESLint, Prettier, npm audit
+ESLint, Prettier, npm audit, npm outdated, Snyk
 
 **Зависимости:**
 - DevOps-агент (для CI)
 
 **Примеры взаимодействия:**
 - CI отклоняет PR с ошибками линтера
+- Husky запускает линт и тесты перед коммитом
 
 **Связанные файлы:**
 - `.eslintrc`, `.prettierrc`
@@ -313,6 +318,7 @@ ESLint, Prettier, npm audit
 **Контрольные точки:**
 - Ошибки линтера = 0
 - Актуальность зависимостей ≥ 95%
+- npm audit без критических уязвимостей
 
 ---
 
