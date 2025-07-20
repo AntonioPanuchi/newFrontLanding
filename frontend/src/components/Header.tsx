@@ -5,6 +5,7 @@ import {
   FaQuestionCircle,
   FaTelegramPlane,
   FaUser,
+  FaCogs
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
@@ -28,6 +29,7 @@ const Header: React.FC = () => {
     () => [
       { href: '/', label: 'Главная', icon: <FaHome />, ariaLabel: 'Главная' },
       { href: '/servers', label: 'Серверы', icon: <FaServer />, ariaLabel: 'Серверы' },
+      { href: '/xui', label: '3x-ui', icon: <FaCogs />, ariaLabel: '3x-ui' },
       { href: '/faq', label: 'FAQ', icon: <FaQuestionCircle />, ariaLabel: 'FAQ' },
       { href: '/account', label: username || 'Аккаунт', icon: <FaUser />, ariaLabel: 'Аккаунт' },
     ],
