@@ -17,6 +17,9 @@ const {
   initCacheRouter
 } = require('./routes/cacheRouter');
 const { router: xuiRouter, initXuiRouter } = require('./routes/xuiRouter');
+const { router: authRouter, initAuthRouter } = require('./routes/authRouter');
+const { initAuth } = require('./utils/auth');
+const { authMiddleware } = require('./middleware/authMiddleware');
 const { validateOptionalVars } = require('./config/validation');
 const { createLogger } = require('./config/logger');
 const { createCorsOptions } = require('./middleware/cors');
@@ -84,6 +87,9 @@ try {
   throw new Error(`Environment variables validation failed: ${error.message}`);
 }
 
+initAuth();
+initAuthRouter();
+
 const port = optionalVars.PORT;
 
 // --- КОНФИГУРАЦИЯ СЕРВЕРОВ ---
@@ -136,10 +142,11 @@ initXuiRouter({
   logger
 });
 // --- ПОДКЛЮЧЕНИЕ РОУТЕРОВ ---
+app.use('/api', authRouter);
 app.use('/api', statusRouter);
 app.use('/api', healthRouter);
 app.use('/api', cacheRouter);
-app.use('/api', xuiRouter);
+app.use('/api', authMiddleware(['admin']), xuiRouter);
 
 // --- FRONTEND LOGGING ENDPOINT ---
 const frontendLogger = createLogger(

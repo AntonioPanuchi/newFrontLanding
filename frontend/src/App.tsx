@@ -14,6 +14,7 @@ import Faq from "./pages/Faq";
 import Account from "./pages/Account";
 import ProfilePage from "./pages/ProfilePage";
 import XuiDashboard from "./pages/XuiDashboard";
+import LoginPage from "./pages/LoginPage";
 import TelegramFab from "./components/TelegramFab";
 import { logFrontend } from "./utils/logger";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -53,6 +54,7 @@ const App: React.FC = () => (
                 <Route path="/" element={<Home />} />
                 <Route path="/servers" element={<Servers />} />
                 <Route path="/faq" element={<Faq />} />
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="/account" element={<Account />}>
                   <Route index element={<ProfilePage />} />
                   <Route path="profile" element={<ProfilePage />} />

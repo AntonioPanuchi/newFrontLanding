@@ -13,7 +13,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 
 const Account: React.FC = () => {
   const { state } = useAccount();
-  const { username } = useUser();
+  const { username, role } = useUser();
 
   return (
     <>
@@ -36,6 +36,11 @@ const Account: React.FC = () => {
           <NavLink to="profile" className={linkClass}>
             Профиль
           </NavLink>
+          {role === 'admin' && (
+            <NavLink to="xui" className={linkClass}>
+              3x-ui
+            </NavLink>
+          )}
         </nav>
         <Outlet />
       </div>

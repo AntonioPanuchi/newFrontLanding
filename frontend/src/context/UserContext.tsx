@@ -2,40 +2,60 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface UserContextProps {
   username: string | null;
-  login: (name: string) => void;
+  role: string | null;
+  token: string | null;
+  login: (name: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
 const UserContext = createContext<UserContextProps>({
   username: null,
-  login: () => {},
+  role: null,
+  token: null,
+  login: async () => {},
   logout: () => {},
 });
 
-function getInitialUser(): string | null {
+function getInitialState() {
   if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('username');
-    return saved || null;
+    return {
+      username: localStorage.getItem('username'),
+      role: localStorage.getItem('role'),
+      token: localStorage.getItem('token'),
+    };
   }
-  return null;
+  return { username: null, role: null, token: null };
 }
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [username, setUsername] = useState<string | null>(getInitialUser);
+  const [state, setState] = useState(getInitialState);
 
   useEffect(() => {
-    if (username) {
-      localStorage.setItem('username', username);
+    if (state.username) {
+      localStorage.setItem('username', state.username);
+      localStorage.setItem('role', state.role || '');
+      localStorage.setItem('token', state.token || '');
     } else {
       localStorage.removeItem('username');
+      localStorage.removeItem('role');
+      localStorage.removeItem('token');
     }
-  }, [username]);
+  }, [state]);
 
-  const login = (name: string) => setUsername(name);
-  const logout = () => setUsername(null);
+  const login = async (name: string, password: string) => {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: name, password }),
+    });
+    if (!res.ok) throw new Error('Auth failed');
+    const data = await res.json();
+    setState({ username: name, role: data.role, token: data.token });
+  };
+  const logout = () => setState({ username: null, role: null, token: null });
 
   return (
-    <UserContext.Provider value={{ username, login, logout }}>
+    <UserContext.Provider value={{ ...state, login, logout }}>
       {children}
     </UserContext.Provider>
   );
