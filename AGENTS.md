@@ -1,119 +1,217 @@
 ---
-name: "ROX VPN — разработка и деплой"
-description: "Инструкция для людей и OpenAI Codex: как писать код, запускать тесты, проверять style‑guide и выкатывать релизы."
-author: "Antonio Panuchi"
+name: "ROX VPN — development, testing & deployment"
+description: "Comprehensive guide for the engineering team and OpenAI Codex: architecture, standards, CI/CD agents, commands, and quality gates."
+category: "Web Application"
+author: "Antonio Panuchi"
 authorUrl: "https://github.com/AntonioPanuchi"
-tags:
-  - nodejs
-  - react
-  - vite
-  - tailwindcss
-  - storybook
-  - vpn
-lastUpdated: "2025‑07‑20"
+tags: ["nodejs","express","react","vite","tailwindcss","storybook","vpn"]
+lastUpdated: "2025-07-20"
 ---
 
-# Глобальные правила
+# ROX VPN API & Landing Page Developer Guide
 
-- **Любые изменения должны**  
-  1. проходить `npm run validate` (линт + форматирование)  
-  2. проходить все тесты `npm test` (см. секцию «Тесты»)  
-  3. оформляться PR c шаблоном `[Feat|Fix] Короткое описание`  
+**ROX VPN API** is an end‑to‑end solution for monitoring VPN servers and exposing their status through a modern web interface.
 
-- **Никаких сетевых вызовов** внутри sand‑box Codex — все зависимости уже в repo. Если нужен новый пакет ‑ правьте `package.json`, но не запускайте `npm i`.
+## Key Capabilities
 
-- **Code style**  
-  - Backend – ESLint + Prettier (конфиг уже в repo)  
-  - Frontend – ESLint + Tailwind prettier‑plugin  
-  - TypeScript: strict true, никаких `any`, используйте `zod` для runtime‑валидации.  
+- Real‑time server status monitoring with result caching.
+- Centralized logging (Winston + DailyRotateFile).
+- Rate limiting, CORS, optional JWT auth.
+- Responsive React + TypeScript + Tailwind client.
+- Storybook for visual UI documentation.
+- SEO metadata (Open Graph, Twitter Card) per page.
 
 ---
 
-# Быстрый старт
+## Global Rules
+
+1. **Every pull request MUST pass**  
+   `npm run validate` (ESLint + Prettier) **and** `npm test`.  
+2. **Commit convention:** `[type] Scope: Short description`.  
+3. **No outbound network calls** inside the Codex sandbox. All deps are vendored in the repo.  
+4. **TypeScript strict:** no `any`; use `zod` for runtime validation.  
+5. **Docs parity:** update documentation (including this AGENTS.md) alongside code changes.
+
+---
+
+## Quick Start
 
 ```bash
-# backend
-cd backend
-npm run dev        # локальная разработка
-npm run validate   # линт + формат
-npm test           # юнит‑тесты
+git clone https://github.com/AntonioPanuchi/newFrontLanding.git
+cd newFrontLanding
 
-# frontend
+# Backend
+cd backend
+npm run dev        # local development
+npm run validate   # lint + format
+npm test           # unit + integration
+
+# Frontend
 cd ../frontend
 npm run dev        # vite dev server :5173
 npm run validate   # eslint + prettier
-npm run storybook  # UI‑дока :6006
+npm run storybook  # UI docs :6006
 ```
 
 ---
 
-# Тесты
+## Tech Stack
 
-| Папка      | Запустить | Цель                |
-|------------|-----------|---------------------|
-| backend    | `npm test`| unit + интеграция   |
-| frontend   | `npm run test` (в будущем) | react‑testing‑library |
+| Layer        | Technologies / Tools                                                                 |
+|--------------|---------------------------------------------------------------------------------------|
+| Backend      | Node.js 18+, Express, `cors`, `express-rate-limit`, `node-fetch`, `ping`, Winston    |
+| Frontend     | React 18+, TypeScript, Vite, React Router, Tailwind CSS, Framer Motion               |
+| UI Docs      | Storybook 8.x                                                                        |
+| SEO          | `react-helmet-async`, `<PageHead />`                                                 |
+| CI/CD        | GitHub Actions + Appleboy SSH + PM2                                                  |
+| Code Quality | ESLint, Prettier, strict TS                                                          |
 
-Codex **обязан** вызвать тесты после каждой модификации — PR без зелёных тестов отклоняется.
+---
+
+## Project Structure
+
+```bash
+├── frontend/
+│   ├── .storybook/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   └── utils/
+│   ├── index.html
+│   ├── tailwind.config.js
+│   └── vite.config.ts
+├── backend/
+│   ├── src/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── utils/
+│   ├── server.js
+│   └── env.example
+├── docs/
+├── tests/
+├── deploy.sh
+└── .github/workflows/
+```
+
+---
+
+## Naming Conventions
+
+| Pattern         | Usage                                  |
+|-----------------|----------------------------------------|
+| **PascalCase**  | React components, pages                |
+| **camelCase**   | Vars, functions, hooks                 |
+| **UPPER_SNAKE** | Env vars, constants                    |
+| **kebab-case**  | Filenames, URL routes                  |
+
+---
+
+## Directory Rules
+
+- **`/backend`** — entry `server.js`; services → `services/`; routes → `routes/`.
+- **`/frontend`** — functional components only; styling → Tailwind; stories → `*.stories.tsx`.
+- **`/docs`** — Markdown docs, SEO summaries.
+- **`/tests`** — all unit & integration tests; run with a single `npm test`.
+
+---
+
+# Agents
+
+> Codex reads this table to drive automation.
+
+| id                | when to trigger                                  | run command                                   | notes                                  |
+|-------------------|--------------------------------------------------|-----------------------------------------------|----------------------------------------|
+| **lint-backend**  | PR touches files in `/backend/**`                | `cd backend && npm run validate`              | ESLint + Prettier                      |
+| **test-backend**  | after `lint-backend`                             | `cd backend && npm test`                      | jest + supertest                       |
+| **lint-frontend** | PR touches files in `/frontend/**`               | `cd frontend && npm run validate`             | eslint-plugin-react + Prettier         |
+| **test-frontend** | after `lint-frontend`                            | `cd frontend && npm run test`                 | vitest / react-testing-library         |
+| **storybook**     | branch `feat/ui-*` OR label `ui-preview`         | `cd frontend && npm run storybook`            | spins up UI preview                    |
+| **deploy**        | after merge to `main`                            | `./deploy.sh`                                 | ssh + rsync to staging                 |
+| **audit**         | nightly CRON (03:00 UTC)                         | `npm run audit`                               | npm audit + Snyk                       |
+
+---
+
+## Agent Profiles
+
+### 🟦 Frontend Agent (`lint-frontend`, `test-frontend`, `storybook`)
+**Role:** Build UI components & SEO metadata.  
+**Checkpoints:** render time < 100ms; Storybook coverage ≥ 90%.
+
+### 🟥 Backend Agent (`lint-backend`, `test-backend`)
+**Role:** Provide API, cache, logging.  
+**Checkpoints:** API latency < 300ms; uptime ≥ 99.9%.
+
+### 🟨 DevOps Agent (`deploy`)
+**Role:** CI/CD & PM2 releases.  
+**Checkpoints:** deploy time < 60s; build success ≥ 95%.
+
+### 🟪 Test Agent (part of `test-*`)
+**Role:** Run unit & integration suites.  
+**Checkpoints:** code coverage ≥ 80%.
+
+### 🟫 Quality & Security Agent (`audit`)
+**Role:** lint, security scan, dependency freshness.  
+**Checkpoints:** 0 critical vulns.
+
+### 🟩 Docs & SEO Agent (manual trigger on content changes)
+**Role:** README & SEO tagging.  
+**Checkpoints:** Lighthouse SEO ≥ 90.
 
 ---
 
 # CI/CD
 
-- Workflow: `.github/workflows/ci-cd.yml`  
-- На push в `main`: build + deploy через `deploy.sh`  
-- Ожидаемое время деплоя < 60 сек.  
+- Workflow: `.github/workflows/ci.yml`.
+- On push to `main` run: `lint-*`, `test-*`, then `deploy`.
+- Required secrets: `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `DEPLOY_PATH`.
 
 ---
 
-# Правила по папкам
+## Environment Variables & Secrets
 
-## `/backend`
-- Точка входа `server.js`; маршруты в `routes/`.
-- Новые сервисы кладём в `services/`; не захламляем `utils/`.
-- Перед PR выполните:  
-  ```bash
-  npm run validate && npm test
-  ```
+| Variable | Default | Scope | Description |
+|----------|---------|-------|-------------|
+| `PORT` | 3000 | Backend | Express listening port |
+| `NODE_ENV` | development | All | Runtime environment flag |
+| `FRONTEND_URL` | http://localhost:5173 | Backend | Allowed CORS origin |
+| `RATE_LIMIT_WINDOW` | 60 | Backend | Rate‑limit window (seconds) |
+| `RATE_LIMIT_MAX` | 3000 | Backend | Requests per window per IP |
+| `PING_TIMEOUT` | 5 | Backend | Ping timeout (seconds) |
+| `JWT_SECRET` | — | Backend | Secret for auth tokens (keep private) |
+| `SSH_HOST` | — | CI | Deployment host |
+| `SSH_USER` | — | CI | SSH user |
+| `SSH_KEY` | — | CI | Base64‑encoded private key |
+| `DEPLOY_PATH` | /var/www/roxvpn | CI | Remote app directory |
 
-## `/frontend`
-- Только **функциональные** компоненты React.
-- Стили — Tailwind; общие utility‑классы в `src/styles`.
-- Для новых компонентов создаём story в `*.stories.tsx`.
+> **Never commit real secrets.** Store them in CI secrets or a local `.env` ignored by Git.
 
-## `/docs`
-- Обновляем, если затронуты публичные API или SEO‑мета.  
-- Генерация метатегов — компонент `PageHead`.
+## Codex Sandbox Guidelines
 
----
+1. **No external network calls.** Rely only on repository‑vendored dependencies.
+2. **No `npm install`.** All packages are pre‑installed in `node_modules` for sandbox execution.
+3. **Relative paths only.** Sandbox root is the repository checkout folder.
+4. **Restricted syscalls.** Avoid opening raw sockets or binding ports.
+5. **Mandatory quality gates:** run `npm run validate && npm test` before committing code or opening a PR.
 
-# Шаблон коммита
+# Security Policy
 
-```
-[type] Scope: Краткое описание
-
-Body (опционально) — что изменилось и зачем.
-```
-
----
-
-# Политика безопасности
-
-- Rate‑limit: 3 000 r/min — **не изменять** без согласования.  
-- Никогда не логируйте токены; используйте маскирование в Winston.  
+- **Rate limit:** 3,000 r/min (change only with approval).
+- Real secrets live in `.env` (git‑ignored); commit `.env.example` only.
+- Mask tokens in logs via Winston custom formatter.
 
 ---
 
-# Часто задаваемые вопросы (FAQ)
+# FAQ
 
 <details>
-<summary>Как добавить новый VPN‑сервер?</summary>
+<summary>How do I add a new VPN server?</summary>
 
-1. Добавьте запись в `servers.json`.  
-2. Используйте helper `pingService.addServer()` для первичной проверки.  
-3. Запустите `npm test` — должны пройти `ping‑integration` кейсы.  
+1. Add the server to `backend/src/config/servers.json`.  
+2. Run `npm test` — `ping-integration` cases must pass.  
+3. Update Storybook if new UI states are required.  
 </details>
 
 ---
 
-> Документ живой: если вы добавляете новую папку или скрипт — обновите секцию «Правила по папкам».
+> **Living document.** Update sections when adding folders, agents, or workflows.
