@@ -26,7 +26,6 @@
 | `RATE_LIMIT_WINDOW_MS` | Окно ограничения запросов (мс) |
 | `RATE_LIMIT_MAX_REQUESTS` | Максимум запросов в окне |
 | `LOGIN_TIMEOUT` | Таймаут авторизации (мс) |
-| `XUI_BASE_URL` | Адрес панели 3x-ui |
 | `TOKEN_SECRET` | Секрет для подписи токенов |
 | `DB_FILE` | Путь к файлу SQLite базы данных |
 | `PING_TIMEOUT` | Таймаут пинга серверов (мс) |
