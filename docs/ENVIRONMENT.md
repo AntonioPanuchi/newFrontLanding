@@ -26,6 +26,7 @@
 | `RATE_LIMIT_WINDOW_MS` | Окно ограничения запросов (мс) |
 | `RATE_LIMIT_MAX_REQUESTS` | Максимум запросов в окне |
 | `LOGIN_TIMEOUT` | Таймаут авторизации (мс) |
+| `TOKEN_SECRET` | Секрет для подписи токенов |
 | `PING_TIMEOUT` | Таймаут пинга серверов (мс) |
 | `FETCH_TIMEOUT` | Таймаут HTTP-запросов (мс) |
 | `LOG_FILE_MAX_SIZE` | Максимальный размер файла логов |

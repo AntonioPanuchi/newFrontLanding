@@ -25,6 +25,11 @@
 - **Тело запроса**: `{ level?: string, message: string, ...meta }`
 - **Ответ**: `204 No Content` при успешном приёме.
 
+### `POST /api/login`
+Авторизация пользователя и получение токена.
+- **Тело запроса**: `{ username: string, password: string }`
+- **Ответ**: `{ token: string, role: string }`
+
 ### `GET /api/xui/inbounds`
 Возвращает список инбаундов из 3x-ui.
 - **Ответ**: `{ inbounds: Inbound[] }`
