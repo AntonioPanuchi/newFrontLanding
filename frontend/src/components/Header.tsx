@@ -35,12 +35,6 @@ const Header: React.FC = () => {
         ariaLabel: "Серверы",
       },
       {
-        href: "/account/xui",
-        label: "3x-ui",
-        icon: <FaCogs />,
-        ariaLabel: "3x-ui",
-      },
-      {
         href: "/faq",
         label: "FAQ",
         icon: <FaQuestionCircle />,

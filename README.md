@@ -168,7 +168,7 @@ jobs:
 - `POST /api/refresh-cache` — принудительное обновление кэша
 - `GET /api/health` — здоровье сервиса
 - `POST /api/log` — фронтенд‑логирование
-- `GET /api/xui/inbounds` — список инбаундов 3x-ui
+- `GET /api/xui/inbounds` — список инбаундов 3x-ui (id, remark, enable, port, protocol, up, down, total, expiryTime)
 
 
 Примеры запросов:

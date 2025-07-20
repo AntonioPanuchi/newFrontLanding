@@ -27,7 +27,10 @@
 
 ### `GET /api/xui/inbounds`
 Возвращает список инбаундов из 3x-ui.
-- **Ответ**: `{ inbounds: any[] }`
+- **Ответ**: `{ inbounds: Inbound[] }`
+
+Поля `Inbound` соответствуют объектам 3x-ui и включают `id`, `remark`, `enable`,
+`port`, `protocol`, `up`, `down`, `total` и `expiryTime`.
 
 ## Формат `ServerStatus`
 ```json

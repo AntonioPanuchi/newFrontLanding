@@ -5,6 +5,12 @@ interface Inbound {
   id: number;
   remark?: string;
   enable?: boolean;
+  port?: number;
+  protocol?: string;
+  up?: number;
+  down?: number;
+  total?: number;
+  expiryTime?: number;
 }
 
 interface Server {
@@ -179,11 +185,30 @@ const XuiDashboard: React.FC = () => {
             {error && <p className="text-red-500">{error}</p>}
             <ul className="space-y-2">
               {inbounds.map((inb) => (
-                <li key={inb.id} className="border rounded p-2">
+                <li key={inb.id} className="border rounded p-2 space-y-1">
                   <div className="font-semibold">{inb.remark || inb.id}</div>
                   <div className="text-sm">
                     {inb.enable ? "Включен" : "Выключен"}
                   </div>
+                  {inb.port && (
+                    <div className="text-sm text-gray-500">Порт: {inb.port}</div>
+                  )}
+                  {inb.protocol && (
+                    <div className="text-sm text-gray-500">Протокол: {inb.protocol}</div>
+                  )}
+                  {(inb.up || inb.down) && (
+                    <div className="text-sm text-gray-500">
+                      Трафик: {((inb.up || 0) + (inb.down || 0)) / (1024 * 1024)} MB
+                    </div>
+                  )}
+                  {inb.total && (
+                    <div className="text-sm text-gray-500">Лимит: {inb.total / (1024 * 1024)} MB</div>
+                  )}
+                  {inb.expiryTime && (
+                    <div className="text-sm text-gray-500">
+                      Истекает: {new Date(inb.expiryTime * 1000).toLocaleDateString()}
+                    </div>
+                  )}
                 </li>
               ))}
               {inbounds.length === 0 && !loading && <li>Нет данных</li>}
