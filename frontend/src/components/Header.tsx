@@ -3,12 +3,12 @@ import { FaHome, FaServer, FaQuestionCircle, FaTelegramPlane, FaUser } from 'rea
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { useUser } from '../context/UserContext';
 
 const navLinks = [
   { href: '/', label: 'Главная', icon: <FaHome />, ariaLabel: 'Главная' },
   { href: '/servers', label: 'Серверы', icon: <FaServer />, ariaLabel: 'Серверы' },
   { href: '/faq', label: 'FAQ', icon: <FaQuestionCircle />, ariaLabel: 'FAQ' },
-  { href: '/account', label: 'Аккаунт', icon: <FaUser />, ariaLabel: 'Аккаунт' },
 ];
 
 function getInitialDark() {
@@ -23,6 +23,11 @@ function getInitialDark() {
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { dark, toggleTheme } = useTheme();
+  const { username } = useUser();
+  const links = [
+    ...navLinks,
+    { href: '/account', label: username || 'Аккаунт', icon: <FaUser />, ariaLabel: 'Аккаунт' },
+  ];
   const [showTooltip, setShowTooltip] = useState(false);
   const [pop, setPop] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -86,7 +91,7 @@ const Header: React.FC = () => {
         </NavLink>
         {/* Навигация (десктоп) */}
         <nav className="hidden lg:flex items-center space-x-2 xl:space-x-4">
-          {navLinks.map(link => (
+          {links.map(link => (
             <NavLink
               key={link.href}
               to={link.href}
@@ -168,7 +173,7 @@ const Header: React.FC = () => {
             <div className="bg-white/95 dark:bg-gray-900/95 border-t border-gray-200 dark:border-gray-700 shadow-2xl rounded-b-3xl">
               <div className="container mx-auto px-4 py-6">
                 <nav className="flex flex-col space-y-3">
-                  {navLinks.map((link, idx) => (
+                  {links.map((link, idx) => (
                     <NavLink
                       key={link.href}
                       to={link.href}
