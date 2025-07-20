@@ -120,15 +120,15 @@ npm run storybook  # UI docs :6006
 
 > Codex reads this table to drive automation.
 
-| id                | when to trigger                                  | run command                                   | notes                                  |
-|-------------------|--------------------------------------------------|-----------------------------------------------|----------------------------------------|
-| **lint-backend**  | PR touches files in `/backend/**`                | `cd backend && npm run validate`              | ESLint + Prettier                      |
-| **test-backend**  | after `lint-backend`                             | `cd backend && npm test`                      | jest + supertest                       |
-| **lint-frontend** | PR touches files in `/frontend/**`               | `cd frontend && npm run validate`             | eslint-plugin-react + Prettier         |
-| **test-frontend** | after `lint-frontend`                            | `cd frontend && npm run test`                 | vitest / react-testing-library         |
-| **storybook**     | branch `feat/ui-*` OR label `ui-preview`         | `cd frontend && npm run storybook`            | spins up UI preview                    |
-| **deploy**        | after merge to `main`                            | `./deploy.sh`                                 | ssh + rsync to staging                 |
-| **audit**         | nightly CRON (03:00 UTC)                         | `npm run audit`                               | npm audit + Snyk                       |
+| id                | when to trigger               | run command                     | notes                          |
+| ----------------- | ----------------------------- | ------------------------------- | ------------------------------ |
+| **lint-backend**  | PR touches `/backend/**`      | `npm run validate -w backend`   | ESLint + Prettier              |
+| **test-backend**  | after `lint-backend`          | `npm test       -w backend`     | jest + supertest               |
+| **lint-frontend** | PR touches `/frontend/**`     | `npm run validate -w frontend`  | eslint‑plugin‑react + Prettier |
+| **test-frontend** | after `lint-frontend`         | `npm test       -w frontend`    | vitest / RTL                   |
+| **storybook**     | branch `feat/ui-*` or label … | `npm run storybook -w frontend` | UI preview                     |
+| **deploy**        | after merge to `main`         | `./deploy.sh`                   | —                              |
+
 
 ---
 
@@ -170,19 +170,20 @@ npm run storybook  # UI docs :6006
 
 ## Environment Variables & Secrets
 
-| Variable | Default | Scope | Description |
-|----------|---------|-------|-------------|
-| `PORT` | 3000 | Backend | Express listening port |
-| `NODE_ENV` | development | All | Runtime environment flag |
-| `FRONTEND_URL` | http://localhost:5173 | Backend | Allowed CORS origin |
-| `RATE_LIMIT_WINDOW` | 60 | Backend | Rate‑limit window (seconds) |
-| `RATE_LIMIT_MAX` | 3000 | Backend | Requests per window per IP |
-| `PING_TIMEOUT` | 5 | Backend | Ping timeout (seconds) |
-| `JWT_SECRET` | — | Backend | Secret for auth tokens (keep private) |
-| `SSH_HOST` | — | CI | Deployment host |
-| `SSH_USER` | — | CI | SSH user |
-| `SSH_KEY` | — | CI | Base64‑encoded private key |
-| `DEPLOY_PATH` | /var/www/roxvpn | CI | Remote app directory |
+| Variable            | Scope    | Description                       |
+|---------------------|----------|-----------------------------------|
+| `GERMANY_API_URL`   | Backend  | X‑UI panel (Germany)              |
+| `USA_API_URL`       | Backend  | X‑UI panel (USA)                  |
+| `FINLAND_API_URL`   | Backend  | X‑UI panel (Finland)              |
+| `USERNAME`          | Backend  | X‑UI admin login                  |
+| `PASSWORD`          | Backend  | X‑UI admin password               |
+| `PORT`              | Backend  | Express port (default 3000)       |
+| `JWT_SECRET`        | Backend  | Secret for auth tokens            |
+| `SSH_HOST`          | CI/CD    | Server for deploy                 |
+| `SSH_USER`          | CI/CD    | SSH username                      |
+| `SSH_KEY`           | CI/CD    | Base64‑encoded SSH private key    |
+| `DEPLOY_PATH`       | CI/CD    | Remote dir `/var/www/roxvpn`      |
+
 
 > **Never commit real secrets.** Store them in CI secrets or a local `.env` ignored by Git.
 
