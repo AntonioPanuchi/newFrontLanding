@@ -2,7 +2,7 @@
 
 # Скрипт для обновления фронтенда ROX VPN
 set -e
-
+chown rx_test_ru_usr:rx_test_ru_usr -R /var/www/rx_test_ru_usr/data/www/rx-test.ru/newFrontLanding/
 echo "🔄 Обновление фронтенда ROX VPN..."
 
 # Переходим в директорию фронтенда
