@@ -3,7 +3,9 @@ html {
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
@@ -19,16 +21,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
 
 .particle {
   position: absolute;
@@ -39,16 +48,41 @@ input, button, textarea, select {
   opacity: 0.3;
   animation: float 6s infinite ease-in-out;
 }
-.particle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
-.particle:nth-child(2) { top: 30%; left: 70%; animation-delay: 1s; }
-.particle:nth-child(3) { top: 60%; left: 40%; animation-delay: 2s; }
-.particle:nth-child(4) { top: 80%; left: 80%; animation-delay: 3s; }
-.particle:nth-child(5) { top: 50%; left: 10%; animation-delay: 4s; }
+.particle:nth-child(1) {
+  top: 10%;
+  left: 20%;
+  animation-delay: 0s;
+}
+.particle:nth-child(2) {
+  top: 30%;
+  left: 70%;
+  animation-delay: 1s;
+}
+.particle:nth-child(3) {
+  top: 60%;
+  left: 40%;
+  animation-delay: 2s;
+}
+.particle:nth-child(4) {
+  top: 80%;
+  left: 80%;
+  animation-delay: 3s;
+}
+.particle:nth-child(5) {
+  top: 50%;
+  left: 10%;
+  animation-delay: 4s;
+}
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-30px) scale(1.2); }
-} 
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.2);
+  }
+}
 
 /* Progressive enhancement: показываем контент без JS */
 .no-js section,
@@ -57,4 +91,4 @@ input, button, textarea, select {
   opacity: 1 !important;
   transform: none !important;
   animation: none !important;
-} 
+}

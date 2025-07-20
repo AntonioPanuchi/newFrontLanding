@@ -1,15 +1,15 @@
-import React from 'react';
-import Button from './Button';
-import { useInView } from '../hooks/useInView';
+import React from "react";
+import Button from "./Button";
+import { useInView } from "../hooks/useInView";
 // @ts-ignore
-import heroSecurityUrl from '../assets/hero-security.svg';
+import heroSecurityUrl from "../assets/hero-security.svg";
 
 const HeroSection: React.FC = () => {
   const [ref, inView] = useInView();
   const [animated, setAnimated] = React.useState(false);
 
   React.useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setAnimated(false);
     } else {
       setAnimated(true);
@@ -19,7 +19,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className={`relative overflow-hidden py-24 sm:py-32 bg-hero-gradient dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-900 dark:to-gray-900 transition-colors duration-300 transition-opacity ${inView ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}
+      className={`relative overflow-hidden py-24 sm:py-32 bg-hero-gradient dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-900 dark:to-gray-900 transition-colors duration-300 transition-opacity ${inView ? "opacity-100 animate-fade-in-up" : "opacity-0"}`}
     >
       {/* Фоновые blur-элементы */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-accent dark:bg-blue-900 opacity-20 blur-3xl rounded-full pointer-events-none z-0 transition-colors duration-300" />
@@ -31,7 +31,8 @@ const HeroSection: React.FC = () => {
             Мониторинг <span className="text-primary">VPN</span>-серверов
           </h1>
           <p className="text-lg sm:text-2xl md:text-3xl mb-8 sm:mb-12 max-w-3xl mx-auto md:mx-0 text-white/90">
-            Данные предоставляются исключительно в информационных целях и не являются рекламой сервисов VPN.
+            Данные предоставляются исключительно в информационных целях и не
+            являются рекламой сервисов VPN.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center md:justify-start items-center mb-10 sm:mb-14">
             <Button
@@ -50,8 +51,8 @@ const HeroSection: React.FC = () => {
           <img
             src={heroSecurityUrl}
             alt="Иллюстрация мониторинга VPN"
-            className={animated ? 'animated' : ''}
-            style={{ maxWidth: 400, width: '100%', height: 'auto' }}
+            className={animated ? "animated" : ""}
+            style={{ maxWidth: 400, width: "100%", height: "auto" }}
             aria-hidden="true"
             loading="lazy"
           />
@@ -62,4 +63,4 @@ const HeroSection: React.FC = () => {
   );
 };
 
-export default HeroSection; 
+export default HeroSection;

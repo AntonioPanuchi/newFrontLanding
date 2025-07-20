@@ -5,16 +5,16 @@
  */
 function formatUptime(seconds) {
   if (!seconds || seconds <= 0) return 'N/A';
-  
+
   const d = Math.floor(seconds / (3600 * 24));
-  const h = Math.floor(seconds % (3600 * 24) / 3600);
-  const m = Math.floor(seconds % 3600 / 60);
-  
+  const h = Math.floor((seconds % (3600 * 24)) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+
   let result = '';
   if (d > 0) result += `${d}д `;
   if (h > 0) result += `${h}ч `;
   if (m > 0) result += `${m}м`;
-  
+
   return result.trim() || 'Только что';
 }
 
@@ -33,9 +33,10 @@ function sleep(ms) {
  * @returns {boolean} true если IP валидный
  */
 function isValidIP(ip) {
-  const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  const ipv4Regex =
+    /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
   const ipv6Regex = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
-  
+
   return ipv4Regex.test(ip) || ipv6Regex.test(ip);
 }
 
@@ -65,7 +66,7 @@ function createApiResponse(success, data = null, message = '') {
     success,
     data,
     message,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   };
 }
 
@@ -74,5 +75,5 @@ module.exports = {
   sleep,
   isValidIP,
   cleanCache,
-  createApiResponse
-}; 
+  createApiResponse,
+};

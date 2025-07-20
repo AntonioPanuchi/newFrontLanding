@@ -36,7 +36,7 @@ const Account: React.FC = () => {
           <NavLink to="profile" className={linkClass}>
             Профиль
           </NavLink>
-          {role === 'admin' && (
+          {role === "admin" && (
             <NavLink to="xui" className={linkClass}>
               3x-ui
             </NavLink>

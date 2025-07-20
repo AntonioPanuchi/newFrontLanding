@@ -3,6 +3,7 @@
 ## 🐛 Проблема
 
 Storybook не запускался из-за конфликта версий:
+
 - Storybook 9.0.16 требовал аддоны 9.x, которые еще не выпущены
 - Storybook 8.6.14 не поддерживал Vite 7.x (требовал Vite 4.x, 5.x или 6.x)
 
@@ -16,6 +17,7 @@ Storybook не запускался из-за конфликта версий:
 ### 2. Обновленные файлы
 
 #### `package.json` (корневой)
+
 ```json
 {
   "devDependencies": {
@@ -31,6 +33,7 @@ Storybook не запускался из-за конфликта версий:
 ```
 
 #### `frontend/package.json`
+
 ```json
 {
   "devDependencies": {
@@ -82,5 +85,4 @@ cd frontend && npm run storybook
 
 - [Storybook Compatibility Matrix](https://storybook.js.org/docs/8.0/get-started/setup)
 - [Vite Compatibility](https://vitejs.dev/guide/migration.html)
-- [Storybook 9.x Migration](https://storybook.js.org/docs/9.0/get-started/migration-guide) 
-
+- [Storybook 9.x Migration](https://storybook.js.org/docs/9.0/get-started/migration-guide)

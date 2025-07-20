@@ -5,7 +5,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "validate": "echo \"Frontend validation skipped\""
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.14",

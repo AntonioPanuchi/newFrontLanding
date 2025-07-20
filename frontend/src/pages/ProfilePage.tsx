@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useAccount } from '../context/AccountContext';
+import React, { useState } from "react";
+import { useAccount } from "../context/AccountContext";
 
 const ProfilePage: React.FC = () => {
   const { state, updateProfile } = useAccount();
@@ -21,7 +21,7 @@ const ProfilePage: React.FC = () => {
           <input
             className="w-full px-3 py-2 border rounded-md"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
         </label>
         <label className="block">
@@ -30,7 +30,7 @@ const ProfilePage: React.FC = () => {
             type="password"
             className="w-full px-3 py-2 border rounded-md"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </label>
         <label className="block">
@@ -38,7 +38,7 @@ const ProfilePage: React.FC = () => {
           <select
             className="w-full px-3 py-2 border rounded-md"
             value={subscription}
-            onChange={e => setSubscription(e.target.value)}
+            onChange={(e) => setSubscription(e.target.value)}
           >
             <option value="Free">Free</option>
             <option value="Pro">Pro</option>
@@ -56,7 +56,7 @@ const ProfilePage: React.FC = () => {
         <div>
           <h3 className="font-semibold mb-2">История платежей</h3>
           <ul className="space-y-1">
-            {state.profile.payments.map(p => (
+            {state.profile.payments.map((p) => (
               <li key={p.id} className="text-sm border-b pb-1">
                 {new Date(p.date).toLocaleDateString()} — {p.amount}₽
               </li>

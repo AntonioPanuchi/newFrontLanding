@@ -4,7 +4,7 @@ description: "Comprehensive guide for the engineering team and OpenAI Codex: arc
 category: "Web Application"
 author: "Antonio Panuchi"
 authorUrl: "https://github.com/AntonioPanuchi"
-tags: ["nodejs","express","react","vite","tailwindcss","storybook","vpn"]
+tags: ["nodejs", "express", "react", "vite", "tailwindcss", "storybook", "vpn"]
 lastUpdated: "2025-07-20"
 ---
 
@@ -26,10 +26,10 @@ lastUpdated: "2025-07-20"
 ## Global Rules
 
 1. **Every pull request MUST pass**  
-   `npm run validate` (ESLint + Prettier) **and** `npm test`.  
-2. **Commit convention:** `[type] Scope: Short description`.  
-3. **No outbound network calls** inside the Codex sandbox. All deps are vendored in the repo.  
-4. **TypeScript strict:** no `any`; use `zod` for runtime validation.  
+   `npm run validate` (ESLint + Prettier) **and** `npm test`.
+2. **Commit convention:** `[type] Scope: Short description`.
+3. **No outbound network calls** inside the Codex sandbox. All deps are vendored in the repo.
+4. **TypeScript strict:** no `any`; use `zod` for runtime validation.
 5. **Docs parity:** update documentation (including this AGENTS.md) alongside code changes.
 
 ---
@@ -57,14 +57,14 @@ npm run storybook  # UI docs :6006
 
 ## Tech Stack
 
-| Layer        | Technologies / Tools                                                                 |
-|--------------|---------------------------------------------------------------------------------------|
-| Backend      | Node.js 18+, Express, `cors`, `express-rate-limit`, `node-fetch`, `ping`, Winston    |
-| Frontend     | React 18+, TypeScript, Vite, React Router, Tailwind CSS, Framer Motion               |
-| UI Docs      | Storybook 8.x                                                                        |
-| SEO          | `react-helmet-async`, `<PageHead />`                                                 |
-| CI/CD        | GitHub Actions + Appleboy SSH + PM2                                                  |
-| Code Quality | ESLint, Prettier, strict TS                                                          |
+| Layer        | Technologies / Tools                                                              |
+| ------------ | --------------------------------------------------------------------------------- |
+| Backend      | Node.js 18+, Express, `cors`, `express-rate-limit`, `node-fetch`, `ping`, Winston |
+| Frontend     | React 18+, TypeScript, Vite, React Router, Tailwind CSS, Framer Motion            |
+| UI Docs      | Storybook 8.x                                                                     |
+| SEO          | `react-helmet-async`, `<PageHead />`                                              |
+| CI/CD        | GitHub Actions + Appleboy SSH + PM2                                               |
+| Code Quality | ESLint, Prettier, strict TS                                                       |
 
 ---
 
@@ -98,12 +98,12 @@ npm run storybook  # UI docs :6006
 
 ## Naming Conventions
 
-| Pattern         | Usage                                  |
-|-----------------|----------------------------------------|
-| **PascalCase**  | React components, pages                |
-| **camelCase**   | Vars, functions, hooks                 |
-| **UPPER_SNAKE** | Env vars, constants                    |
-| **kebab-case**  | Filenames, URL routes                  |
+| Pattern         | Usage                   |
+| --------------- | ----------------------- |
+| **PascalCase**  | React components, pages |
+| **camelCase**   | Vars, functions, hooks  |
+| **UPPER_SNAKE** | Env vars, constants     |
+| **kebab-case**  | Filenames, URL routes   |
 
 ---
 
@@ -113,6 +113,14 @@ npm run storybook  # UI docs :6006
 - **`/frontend`** — functional components only; styling → Tailwind; stories → `*.stories.tsx`.
 - **`/docs`** — Markdown docs, SEO summaries.
 - **`/tests`** — all unit & integration tests; run with a single `npm test`.
+
+---
+
+## Tests
+
+- Every workspace must have an **npm run test** script.
+- Minimum structure: `tests/*.test.js`, executed with the built‑in `node --test`.
+- Codex: when adding new code, create or update the corresponding tests. A PR without passing tests is not accepted.
 
 ---
 
@@ -129,32 +137,37 @@ npm run storybook  # UI docs :6006
 | **storybook**     | branch `feat/ui-*` or label … | `npm run storybook -w frontend` | UI preview                     |
 | **deploy**        | after merge to `main`         | `./deploy.sh`                   | —                              |
 
-
 ---
 
 ## Agent Profiles
 
 ### 🟦 Frontend Agent (`lint-frontend`, `test-frontend`, `storybook`)
+
 **Role:** Build UI components & SEO metadata.  
 **Checkpoints:** render time < 100ms; Storybook coverage ≥ 90%.
 
 ### 🟥 Backend Agent (`lint-backend`, `test-backend`)
+
 **Role:** Provide API, cache, logging.  
 **Checkpoints:** API latency < 300ms; uptime ≥ 99.9%.
 
 ### 🟨 DevOps Agent (`deploy`)
+
 **Role:** CI/CD & PM2 releases.  
 **Checkpoints:** deploy time < 60s; build success ≥ 95%.
 
 ### 🟪 Test Agent (part of `test-*`)
+
 **Role:** Run unit & integration suites.  
 **Checkpoints:** code coverage ≥ 80%.
 
 ### 🟫 Quality & Security Agent (`audit`)
+
 **Role:** lint, security scan, dependency freshness.  
 **Checkpoints:** 0 critical vulns.
 
 ### 🟩 Docs & SEO Agent (manual trigger on content changes)
+
 **Role:** README & SEO tagging.  
 **Checkpoints:** Lighthouse SEO ≥ 90.
 
@@ -170,20 +183,19 @@ npm run storybook  # UI docs :6006
 
 ## Environment Variables & Secrets
 
-| Variable            | Scope    | Description                       |
-|---------------------|----------|-----------------------------------|
-| `GERMANY_API_URL`   | Backend  | X‑UI panel (Germany)              |
-| `USA_API_URL`       | Backend  | X‑UI panel (USA)                  |
-| `FINLAND_API_URL`   | Backend  | X‑UI panel (Finland)              |
-| `USERNAME`          | Backend  | X‑UI admin login                  |
-| `PASSWORD`          | Backend  | X‑UI admin password               |
-| `PORT`              | Backend  | Express port (default 3000)       |
-| `JWT_SECRET`        | Backend  | Secret for auth tokens            |
-| `SSH_HOST`          | CI/CD    | Server for deploy                 |
-| `SSH_USER`          | CI/CD    | SSH username                      |
-| `SSH_KEY`           | CI/CD    | Base64‑encoded SSH private key    |
-| `DEPLOY_PATH`       | CI/CD    | Remote dir `/var/www/roxvpn`      |
-
+| Variable          | Scope   | Description                    |
+| ----------------- | ------- | ------------------------------ |
+| `GERMANY_API_URL` | Backend | X‑UI panel (Germany)           |
+| `USA_API_URL`     | Backend | X‑UI panel (USA)               |
+| `FINLAND_API_URL` | Backend | X‑UI panel (Finland)           |
+| `USERNAME`        | Backend | X‑UI admin login               |
+| `PASSWORD`        | Backend | X‑UI admin password            |
+| `PORT`            | Backend | Express port (default 3000)    |
+| `JWT_SECRET`      | Backend | Secret for auth tokens         |
+| `SSH_HOST`        | CI/CD   | Server for deploy              |
+| `SSH_USER`        | CI/CD   | SSH username                   |
+| `SSH_KEY`         | CI/CD   | Base64‑encoded SSH private key |
+| `DEPLOY_PATH`     | CI/CD   | Remote dir `/var/www/roxvpn`   |
 
 > **Never commit real secrets.** Store them in CI secrets or a local `.env` ignored by Git.
 
@@ -208,9 +220,9 @@ npm run storybook  # UI docs :6006
 <details>
 <summary>How do I add a new VPN server?</summary>
 
-1. Add the server to `backend/src/config/servers.json`.  
-2. Run `npm test` — `ping-integration` cases must pass.  
-3. Update Storybook if new UI states are required.  
+1. Add the server to `backend/src/config/servers.json`.
+2. Run `npm test` — `ping-integration` cases must pass.
+3. Update Storybook if new UI states are required.
 </details>
 
 ---

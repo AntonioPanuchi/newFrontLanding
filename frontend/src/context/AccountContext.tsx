@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 export interface Payment {
   id: number;
@@ -18,7 +18,7 @@ export interface MessageItem {
   text: string;
   fileName?: string;
   date: string;
-  from: 'user' | 'support';
+  from: "user" | "support";
 }
 
 export interface NotificationPrefs {
@@ -52,9 +52,9 @@ interface AccountContextProps {
 
 const defaultState: AccountState = {
   profile: {
-    name: 'Гость',
-    password: '',
-    subscription: 'Free',
+    name: "Гость",
+    password: "",
+    subscription: "Free",
     payments: [],
   },
   documents: [],
@@ -71,33 +71,45 @@ const AccountContext = createContext<AccountContextProps>({
   updateNotifications: () => {},
 });
 
-export const AccountProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AccountProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [state, setState] = useState<AccountState>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('account');
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("account");
       if (saved) return JSON.parse(saved) as AccountState;
     }
     return defaultState;
   });
 
   useEffect(() => {
-    localStorage.setItem('account', JSON.stringify(state));
+    localStorage.setItem("account", JSON.stringify(state));
   }, [state]);
 
   const updateProfile = (profile: Partial<Profile>) =>
-    setState(s => ({ ...s, profile: { ...s.profile, ...profile } }));
+    setState((s) => ({ ...s, profile: { ...s.profile, ...profile } }));
   const addPayment = (payment: Payment) =>
-    setState(s => ({ ...s, profile: { ...s.profile, payments: [payment, ...s.profile.payments] } }));
+    setState((s) => ({
+      ...s,
+      profile: { ...s.profile, payments: [payment, ...s.profile.payments] },
+    }));
   const addDocument = (doc: DocumentItem) =>
-    setState(s => ({ ...s, documents: [doc, ...s.documents] }));
+    setState((s) => ({ ...s, documents: [doc, ...s.documents] }));
   const addMessage = (msg: MessageItem) =>
-    setState(s => ({ ...s, messages: [...s.messages, msg] }));
+    setState((s) => ({ ...s, messages: [...s.messages, msg] }));
   const updateNotifications = (n: NotificationPrefs) =>
-    setState(s => ({ ...s, notifications: n }));
+    setState((s) => ({ ...s, notifications: n }));
 
   return (
     <AccountContext.Provider
-      value={{ state, updateProfile, addPayment, addDocument, addMessage, updateNotifications }}
+      value={{
+        state,
+        updateProfile,
+        addPayment,
+        addDocument,
+        addMessage,
+        updateNotifications,
+      }}
     >
       {children}
     </AccountContext.Provider>
@@ -107,4 +119,3 @@ export const AccountProvider: React.FC<{ children: React.ReactNode }> = ({ child
 export function useAccount() {
   return useContext(AccountContext);
 }
-

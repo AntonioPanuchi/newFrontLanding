@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const ServerCardSkeleton = () => (
   <div className="relative flex flex-col items-center min-h-[280px] sm:min-h-[360px] bg-gray-100 dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-pulse px-6 sm:px-10 md:px-14 py-8 sm:py-12 transition-colors duration-300">
@@ -11,4 +11,4 @@ const ServerCardSkeleton = () => (
   </div>
 );
 
-export default ServerCardSkeleton; 
+export default ServerCardSkeleton;

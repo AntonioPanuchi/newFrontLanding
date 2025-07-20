@@ -191,22 +191,30 @@ const XuiDashboard: React.FC = () => {
                     {inb.enable ? "Включен" : "Выключен"}
                   </div>
                   {inb.port && (
-                    <div className="text-sm text-gray-500">Порт: {inb.port}</div>
+                    <div className="text-sm text-gray-500">
+                      Порт: {inb.port}
+                    </div>
                   )}
                   {inb.protocol && (
-                    <div className="text-sm text-gray-500">Протокол: {inb.protocol}</div>
+                    <div className="text-sm text-gray-500">
+                      Протокол: {inb.protocol}
+                    </div>
                   )}
                   {(inb.up || inb.down) && (
                     <div className="text-sm text-gray-500">
-                      Трафик: {((inb.up || 0) + (inb.down || 0)) / (1024 * 1024)} MB
+                      Трафик:{" "}
+                      {((inb.up || 0) + (inb.down || 0)) / (1024 * 1024)} MB
                     </div>
                   )}
                   {inb.total && (
-                    <div className="text-sm text-gray-500">Лимит: {inb.total / (1024 * 1024)} MB</div>
+                    <div className="text-sm text-gray-500">
+                      Лимит: {inb.total / (1024 * 1024)} MB
+                    </div>
                   )}
                   {inb.expiryTime && (
                     <div className="text-sm text-gray-500">
-                      Истекает: {new Date(inb.expiryTime * 1000).toLocaleDateString()}
+                      Истекает:{" "}
+                      {new Date(inb.expiryTime * 1000).toLocaleDateString()}
                     </div>
                   )}
                 </li>

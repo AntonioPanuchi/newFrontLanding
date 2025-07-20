@@ -1,6 +1,6 @@
-import React from 'react';
-import PageHead from '../components/PageHead';
-import FaqSection from '../components/FaqSection';
+import React from "react";
+import PageHead from "../components/PageHead";
+import FaqSection from "../components/FaqSection";
 
 const Faq: React.FC = () => (
   <>
@@ -13,4 +13,4 @@ const Faq: React.FC = () => (
   </>
 );
 
-export default Faq; 
+export default Faq;

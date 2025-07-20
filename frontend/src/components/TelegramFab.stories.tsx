@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import TelegramFab from './TelegramFab';
+import type { Meta, StoryObj } from "@storybook/react";
+import TelegramFab from "./TelegramFab";
 
 const meta: Meta<typeof TelegramFab> = {
-  title: 'Components/TelegramFab',
+  title: "Components/TelegramFab",
   component: TelegramFab,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 export default meta;
 

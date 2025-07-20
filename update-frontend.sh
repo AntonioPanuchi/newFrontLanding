@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+chown rx_test_ru_usr:rx_test_ru_usr -R /var/www/rx_test_ru_usr/data/www/rx-test.ru/newFrontLanding/
 # Скрипт для обновления фронтенда ROX VPN
 set -e
 

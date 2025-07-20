@@ -1,6 +1,6 @@
-import React from 'react';
-import PageHead from '../components/PageHead';
-import ServerStatus from '../components/ServerStatus';
+import React from "react";
+import PageHead from "../components/PageHead";
+import ServerStatus from "../components/ServerStatus";
 
 const Servers: React.FC = () => (
   <>
@@ -13,4 +13,4 @@ const Servers: React.FC = () => (
   </>
 );
 
-export default Servers; 
+export default Servers;
