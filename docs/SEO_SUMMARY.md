@@ -6,6 +6,7 @@
 - **Главная** (`/`): `ROX.VPN – VPN за 30 секунд прямо в Telegram`
 - **Серверы** (`/servers`): `Статус серверов – ROX.VPN`
 - **FAQ** (`/faq`): `Часто задаваемые вопросы – ROX.VPN`
+- **Аккаунт** (`/account`): `Личный кабинет – ROX.VPN` – форма входа и информация о пользователе
 
 ### 2. Компонент PageHead
 - Создан переиспользуемый компонент `frontend/src/components/PageHead.tsx`
@@ -18,6 +19,7 @@
 - `frontend/src/pages/Home.tsx` - добавлен PageHead
 - `frontend/src/pages/Servers.tsx` - добавлен PageHead
 - `frontend/src/pages/Faq.tsx` - добавлен PageHead
+- `frontend/src/pages/Account.tsx` - добавлен PageHead
 - `frontend/index.html` - улучшены базовые мета-теги
 - `frontend/src/components/PageHead.stories.tsx` - Storybook документация
 
