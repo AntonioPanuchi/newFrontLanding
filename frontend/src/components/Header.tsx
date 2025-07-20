@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/', label: 'Главная', icon: <FaHome />, ariaLabel: 'Главная' },
   { href: '/servers', label: 'Серверы', icon: <FaServer />, ariaLabel: 'Серверы' },
   { href: '/faq', label: 'FAQ', icon: <FaQuestionCircle />, ariaLabel: 'FAQ' },
+  { href: '/account', label: 'Аккаунт', icon: <FaUser />, ariaLabel: 'Аккаунт' },
 ];
 
 function getInitialDark() {
