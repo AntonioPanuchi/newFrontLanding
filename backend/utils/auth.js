@@ -1,5 +1,5 @@
 const { createHash, createHmac } = require('crypto');
-const { init, query, run } = require('./database');
+const { read, write } = require('./database');
 
 const SECRET = process.env.TOKEN_SECRET || 'change_this_secret';
 
@@ -7,23 +7,50 @@ function hashPassword(password) {
   return createHash('sha256').update(password).digest('hex');
 }
 
+function loadUsers() {
+  return read('users', []);
+}
+
+function saveUsers(users) {
+  write('users', users);
+}
+
 function initAuth() {
-  init();
   const adminUser = process.env.USERNAME || 'admin';
   const adminPass = process.env.PASSWORD || 'admin';
-  const rows = query(`SELECT id FROM users WHERE username='${adminUser}'`);
-  if (rows.length === 0) {
-    run(
-      `INSERT INTO users (username, password, role) VALUES ('${adminUser}','${hashPassword(adminPass)}','admin')`
-    );
+  const users = loadUsers();
+  if (!users.find(u => u.username === adminUser)) {
+    users.push({
+      id: Date.now(),
+      username: adminUser,
+      password: hashPassword(adminPass),
+      role: 'admin',
+    });
+    saveUsers(users);
   }
 }
 
 function verifyUser(username, password) {
-  const rows = query(`SELECT id, username, password, role FROM users WHERE username='${username}'`);
-  if (rows.length === 0) return null;
-  const user = rows[0];
+  const users = loadUsers();
+  const user = users.find(u => u.username === username);
+  if (!user) return null;
   if (user.password !== hashPassword(password)) return null;
+  return user;
+}
+
+function registerUser(username, password, role = 'user') {
+  const users = loadUsers();
+  if (users.find(u => u.username === username)) {
+    return null;
+  }
+  const user = {
+    id: Date.now(),
+    username,
+    password: hashPassword(password),
+    role,
+  };
+  users.push(user);
+  saveUsers(users);
   return user;
 }
 
@@ -46,4 +73,10 @@ function verifyToken(token) {
   return data;
 }
 
-module.exports = { initAuth, verifyUser, generateToken, verifyToken };
+module.exports = {
+  initAuth,
+  verifyUser,
+  registerUser,
+  generateToken,
+  verifyToken,
+};

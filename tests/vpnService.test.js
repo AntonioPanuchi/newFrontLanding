@@ -25,7 +25,7 @@ test('sleep waits at least the specified time', async () => {
 });
 
 test('fetchDataWithRetry and getCookie', async () => {
-  const ping = require('../backend/node_modules/ping');
+  const ping = require('ping');
   ping.promise.probe = async () => ({ alive: true, time: 10 });
   delete require.cache[require.resolve('../backend/vpnService')];
 
@@ -74,7 +74,7 @@ test('fetchDataWithRetry and getCookie', async () => {
 });
 
 test('pingServer returns result', async () => {
-  const ping = require('../backend/node_modules/ping');
+  const ping = require('ping');
   ping.promise.probe = async () => ({ alive: true, time: 5 });
   delete require.cache[require.resolve('../backend/vpnService')];
   const { pingServer } = require('../backend/vpnService');
@@ -83,7 +83,7 @@ test('pingServer returns result', async () => {
 });
 
 test('fetchDataWithRetry handles http error', async () => {
-  const ping = require('../backend/node_modules/ping');
+  const ping = require('ping');
   ping.promise.probe = async () => ({ alive: false, time: -1 });
   delete require.cache[require.resolve('../backend/vpnService')];
   global.fetch = async () => ({ ok: false, status: 500, statusText: 'Server error', text: async () => 'err' });
@@ -92,7 +92,7 @@ test('fetchDataWithRetry handles http error', async () => {
 });
 
 test('getServerStatus handles failure', async () => {
-  const ping = require('../backend/node_modules/ping');
+  const ping = require('ping');
   ping.promise.probe = async () => { throw new Error('fail'); };
   delete require.cache[require.resolve('../backend/vpnService')];
   global.fetch = async () => { throw new Error('network'); };

@@ -10,14 +10,16 @@ const rateLimit = require('express-rate-limit');
 
 const { createLogger } = require('./config/logger');
 const { router: healthRouter, initHealthRouter } = require('./routes/healthRouter');
-const { router: statusRouter } = require('./routes/statusRouter');
-const { router: cacheRouter } = require('./routes/cacheRouter');
-const { router: authRouter } = require('./routes/authRouter');
-const { router: xuiRouter } = require('./routes/xuiRouter');
+const { router: statusRouter, initStatusRouter } = require('./routes/statusRouter');
+const { router: cacheRouter, initCacheRouter } = require('./routes/cacheRouter');
+const { router: authRouter, initAuthRouter } = require('./routes/authRouter');
+const { router: xuiRouter, initXuiRouter } = require('./routes/xuiRouter');
 
 const { errorHandler } = require('./middleware/errorHandler');
 const { setupGracefulShutdown } = require('./utils/gracefulShutdown');
-const { statusCache } = require('./utils/cache');
+const { StatusCache, CookieCache } = require('./utils/cache');
+const { getServerConfigs } = require('./config/serverConfigs');
+const { initAuth } = require('./utils/auth');
 
 const LOG_DIR = path.resolve(__dirname, '../logs');
 if (!fs.existsSync(LOG_DIR)) {
@@ -27,6 +29,12 @@ if (!fs.existsSync(LOG_DIR)) {
 const logger = createLogger(LOG_DIR, process.env.LOG_LEVEL || 'info', process.env.NODE_ENV);
 
 const app = express();
+
+const statusCache = new StatusCache(Number(process.env.CACHE_DURATION) || 60_000);
+const cookieCache = new CookieCache(Number(process.env.COOKIE_CACHE_DURATION) || 55 * 60_000);
+const SERVER_CONFIGS = getServerConfigs();
+
+initAuth();
 
 /* ------------------ middleware ------------------ */
 
@@ -49,8 +57,12 @@ app.use(
 
 /* ------------------ routes ------------------ */
 
-// инициализируем зависимости health‑роутера
+// initialize routers with dependencies
 initHealthRouter({ statusCache });
+initStatusRouter({ SERVER_CONFIGS, statusCache, cookieCache, logger });
+initCacheRouter({ SERVER_CONFIGS, statusCache, cookieCache, logger });
+initAuthRouter({ logger });
+initXuiRouter({ XUI_CONFIG: SERVER_CONFIGS[0], cookieCache, logger });
 
 app.use('/api', healthRouter);
 app.use('/api', statusRouter);
