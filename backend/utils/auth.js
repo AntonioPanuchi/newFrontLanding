@@ -19,6 +19,7 @@ function initAuth() {
   const adminUser = process.env.USERNAME || 'admin';
   const adminPass = process.env.PASSWORD || 'admin';
   const users = loadUsers();
+
   if (!users.find(u => u.username === adminUser)) {
     users.push({
       id: Date.now(),
@@ -26,8 +27,20 @@ function initAuth() {
       password: hashPassword(adminPass),
       role: 'admin',
     });
-    saveUsers(users);
   }
+
+  // create additional Administrator account for clarity
+  const adminAlt = 'Administrator';
+  if (!users.find(u => u.username === adminAlt)) {
+    users.push({
+      id: Date.now(),
+      username: adminAlt,
+      password: hashPassword(adminPass),
+      role: 'admin',
+    });
+  }
+
+  saveUsers(users);
 }
 
 function verifyUser(username, password) {

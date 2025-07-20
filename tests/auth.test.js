@@ -16,6 +16,9 @@ test('initAuth creates admin user and verifies token', () => {
   const token = auth.generateToken({ username: user.username, role: user.role });
   const payload = auth.verifyToken(token);
   assert.strictEqual(payload.username, 'admin');
+
+  const altUser = auth.verifyUser('Administrator', 'secret');
+  assert.ok(altUser);
 });
 
 test('registerUser adds new user', () => {
