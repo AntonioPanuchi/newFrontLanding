@@ -1,32 +1,24 @@
 function setupGracefulShutdown(server, logger) {
-    process.on('SIGTERM', () => {
-        logger.info('SIGTERM received, shutting down gracefully');
-        server.close(() => {
-            logger.info('Process terminated');
-            process.exit(0);
-        });
+  const shutdown = signal => {
+    logger.info(`${signal} received — graceful shutdown`);
+    server.close(() => {
+      logger.info('Server closed');
+      process.exitCode = 0; // no-process-exit compliant
     });
-    process.on('SIGINT', () => {
-        logger.info('SIGINT received, shutting down gracefully');
-        server.close(() => {
-            logger.info('Process terminated');
-            process.exit(0);
-        });
-    });
-    process.on('uncaughtException', (error) => {
-        logger.error('Uncaught Exception:', {
-            error: error.message,
-            stack: error.stack
-        });
-        throw error;
-    });
-    process.on('unhandledRejection', (reason, promise) => {
-        logger.error('Unhandled Rejection at:', {
-            promise,
-            reason
-        });
-        throw reason instanceof Error ? reason : new Error(`Unhandled rejection: ${  reason}`);
-    });
+  };
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
+
+  process.on('uncaughtException', err => {
+    logger.error('Uncaught Exception:', { error: err.message, stack: err.stack });
+    throw err;
+  });
+
+  process.on('unhandledRejection', (reason, p) => {
+    logger.error('Unhandled Rejection:', { promise: p, reason });
+    throw reason instanceof Error ? reason : new Error(String(reason));
+  });
 }
 
-module.exports = { setupGracefulShutdown }; 
+module.exports = { setupGracefulShutdown };

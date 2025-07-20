@@ -1,30 +1,29 @@
-const { spawnSync } = require('child_process');
-const fs = require('fs');
+/* eslint-disable no-sync */
 const path = require('path');
+const fs = require('fs');
+const DB_DIR = path.resolve(__dirname, '../../data');
 
-const DB_PATH = process.env.DB_FILE || path.join(__dirname, 'data.sqlite');
-
-function run(sql) {
-  const result = spawnSync('sqlite3', [DB_PATH, sql], { encoding: 'utf8' });
-  if (result.error) throw result.error;
-  if (result.stderr) throw new Error(result.stderr.trim());
-  return result.stdout.trim();
+if (!fs.existsSync(DB_DIR)) {
+  fs.mkdirSync(DB_DIR, { recursive: true });
 }
 
-function query(sql) {
-  const result = spawnSync('sqlite3', ['-json', DB_PATH, sql], { encoding: 'utf8' });
-  if (result.error) throw result.error;
-  if (result.stderr) throw new Error(result.stderr.trim());
-  const out = result.stdout.trim();
-  return out ? JSON.parse(out) : [];
-}
+/**
+ * Простая обёртка над JSON‑файлом как KV‑хранилищем.
+ * Для продакшена замените на нормальную БД.
+ */
+const dbPath = file => path.join(DB_DIR, `${file}.json`);
 
-function init() {
-  if (!fs.existsSync(DB_PATH)) {
-    run(
-      'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, role TEXT);'
-    );
+function read(file, fallback = {}) {
+  try {
+    return JSON.parse(fs.readFileSync(dbPath(file), 'utf8'));
+  } catch {
+    return fallback;
   }
 }
 
-module.exports = { init, run, query, DB_PATH };
+function write(file, data) {
+  fs.writeFileSync(dbPath(file), JSON.stringify(data, null, 2), 'utf8');
+}
+
+module.exports = { read, write };
+/* eslint-enable no-sync */

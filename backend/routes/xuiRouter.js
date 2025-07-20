@@ -15,8 +15,8 @@ function initXuiRouter(deps) {
       name: cfg.name || 'Default',
       baseUrl: cfg.baseUrl,
       username: cfg.username,
-      password: cfg.password
-    }
+      password: cfg.password,
+    },
   ];
 }
 
@@ -54,9 +54,7 @@ router.get('/xui/inbounds/:id', async (req, res) => {
     const inbounds = await getInbounds(server, cookieCache, logger);
     res.json({ inbounds });
   } catch (error) {
-    logger &&
-      logger.error &&
-      logger.error('Failed to get xui inbounds', { error: error.message });
+    logger && logger.error && logger.error('Failed to get xui inbounds', { error: error.message });
     res.status(500).json({ error: 'Failed to fetch xui inbounds' });
   }
 });

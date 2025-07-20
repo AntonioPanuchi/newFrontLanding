@@ -13,7 +13,9 @@ function initAuth() {
   const adminPass = process.env.PASSWORD || 'admin';
   const rows = query(`SELECT id FROM users WHERE username='${adminUser}'`);
   if (rows.length === 0) {
-    run(`INSERT INTO users (username, password, role) VALUES ('${adminUser}','${hashPassword(adminPass)}','admin')`);
+    run(
+      `INSERT INTO users (username, password, role) VALUES ('${adminUser}','${hashPassword(adminPass)}','admin')`
+    );
   }
 }
 
