@@ -2,22 +2,36 @@
   "name": "rox-vpn-landing",
   "version": "1.0.0",
   "description": "ROX VPN Landing Page with API Backend",
+  "private": true,
   "main": "backend/server.js",
+
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+
   "scripts": {
-    "start": "cd backend && npm start",
-    "dev": "cd backend && npm run dev",
-    "install:backend": "cd backend && npm install",
+    "start": "npm run start --workspace backend",
+    "dev": "npm run dev --workspace backend",
+
+    "validate": "npm run validate --workspace backend && npm run validate --workspace frontend || true",
+    "test": "npm run test --workspace backend || npm run test:root",
+
+    "test:root": "c8 --reporter=text --reporter=lcov --include=backend/** node --test tests",
+
     "build": "npm run build:css && npm run build:js",
     "build:css": "npx tailwindcss -i ./frontend/src/input.css -o ./frontend/dist/output.css --minify",
     "build:js": "echo 'JS minification would be added here'",
     "build:prod": "npm run build && echo 'Production build complete'",
+
     "update-frontend": "./update-frontend.sh",
+
     "deploy": "./deploy.sh deploy",
     "deploy:quick": "./deploy.sh quick",
     "logs": "./deploy.sh logs",
-    "status": "./deploy.sh health",
-    "test": "c8 --reporter=text --reporter=lcov --include=backend/** node --test tests"
+    "status": "./deploy.sh health"
   },
+
   "keywords": [
     "vpn",
     "landing-page",
@@ -25,12 +39,15 @@
     "express",
     "nodejs"
   ],
+
   "author": "Antonio Panuchi <antonio@example.com>",
   "license": "ISC",
+
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AntonioPanuchi/newFrontLanding.git"
@@ -39,6 +56,7 @@
     "url": "https://github.com/AntonioPanuchi/newFrontLanding/issues"
   },
   "homepage": "https://github.com/AntonioPanuchi/newFrontLanding#readme",
+
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
     "dotenv": "^16.3.1"
