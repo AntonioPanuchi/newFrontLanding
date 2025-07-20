@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import MyDataPage from './pages/MyDataPage';
 import SupportPage from './pages/SupportPage';
 import NotificationsPage from './pages/NotificationsPage';
+import XuiDashboard from './pages/XuiDashboard';
 import TelegramFab from './components/TelegramFab';
 import { logFrontend } from './utils/logger';
 import { ThemeProvider } from './context/ThemeContext';
@@ -46,6 +47,7 @@ const App: React.FC = () => (
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/servers" element={<Servers />} />
+              <Route path="/xui" element={<XuiDashboard />} />
               <Route path="/faq" element={<Faq />} />
             <Route path="/account" element={<Account />}>
               <Route index element={<ProfilePage />} />

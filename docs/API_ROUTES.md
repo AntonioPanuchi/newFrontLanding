@@ -25,6 +25,10 @@
 - **Тело запроса**: `{ level?: string, message: string, ...meta }`
 - **Ответ**: `204 No Content` при успешном приёме.
 
+### `GET /api/xui/inbounds`
+Возвращает список инбаундов из 3x-ui.
+- **Ответ**: `{ inbounds: any[] }`
+
 ## Формат `ServerStatus`
 ```json
 {

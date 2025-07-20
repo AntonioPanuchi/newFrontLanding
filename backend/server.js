@@ -7,6 +7,7 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 const { router: statusRouter, initStatusRouter } = require('./routes/statusRouter');
 const { router: healthRouter, initHealthRouter } = require('./routes/healthRouter');
 const { router: cacheRouter, initCacheRouter } = require('./routes/cacheRouter');
+const { router: xuiRouter, initXuiRouter } = require('./routes/xuiRouter');
 const { validateOptionalVars } = require('./config/validation');
 const { createLogger } = require('./config/logger');
 const { createCorsOptions } = require('./middleware/cors');
@@ -100,10 +101,20 @@ initCacheRouter({
   cookieCache: cookieCache.cache,
   logger
 });
+initXuiRouter({
+  XUI_CONFIG: {
+    baseUrl: process.env.XUI_BASE_URL,
+    username: process.env.XUI_USERNAME,
+    password: process.env.XUI_PASSWORD
+  },
+  cookieCache: cookieCache.cache,
+  logger
+});
 // --- ПОДКЛЮЧЕНИЕ РОУТЕРОВ ---
 app.use('/api', statusRouter);
 app.use('/api', healthRouter);
 app.use('/api', cacheRouter);
+app.use('/api', xuiRouter);
 
 // --- FRONTEND LOGGING ENDPOINT ---
 const frontendLogger = createLogger(logsDir, optionalVars.LOG_LEVEL, optionalVars.NODE_ENV, 'frontend');
