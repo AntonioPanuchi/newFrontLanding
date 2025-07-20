@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaHome, FaServer, FaQuestionCircle, FaTelegramPlane } from 'react-icons/fa';
+import { FaHome, FaServer, FaQuestionCircle, FaTelegramPlane, FaUser } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
@@ -8,6 +8,7 @@ const navLinks = [
   { href: '/', label: 'Главная', icon: <FaHome />, ariaLabel: 'Главная' },
   { href: '/servers', label: 'Серверы', icon: <FaServer />, ariaLabel: 'Серверы' },
   { href: '/faq', label: 'FAQ', icon: <FaQuestionCircle />, ariaLabel: 'FAQ' },
+  { href: '/account', label: 'Аккаунт', icon: <FaUser />, ariaLabel: 'Аккаунт' },
 ];
 
 function getInitialDark() {

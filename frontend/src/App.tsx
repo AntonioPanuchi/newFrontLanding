@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Servers from './pages/Servers';
 import Faq from './pages/Faq';
+import Account from './pages/Account';
 import TelegramFab from './components/TelegramFab';
 import { logFrontend } from './utils/logger';
 import { ThemeProvider } from './context/ThemeContext';
@@ -38,6 +39,7 @@ const App: React.FC = () => (
             <Route path="/" element={<Home />} />
             <Route path="/servers" element={<Servers />} />
             <Route path="/faq" element={<Faq />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
           <TelegramFab />
         </main>
