@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FaHome, FaServer, FaQuestionCircle, FaTelegramPlane, FaUser } from 'react-icons/fa';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import {
+  FaHome,
+  FaServer,
+  FaQuestionCircle,
+  FaTelegramPlane,
+  FaUser,
+} from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import { useUser } from '../context/UserContext';
-
-const navLinks = [
-  { href: '/', label: 'Главная', icon: <FaHome />, ariaLabel: 'Главная' },
-  { href: '/servers', label: 'Серверы', icon: <FaServer />, ariaLabel: 'Серверы' },
-  { href: '/faq', label: 'FAQ', icon: <FaQuestionCircle />, ariaLabel: 'FAQ' },
-];
 
 function getInitialDark() {
   if (typeof window !== 'undefined') {
@@ -24,10 +24,15 @@ const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { dark, toggleTheme } = useTheme();
   const { username } = useUser();
-  const links = [
-    ...navLinks,
-    { href: '/account', label: username || 'Аккаунт', icon: <FaUser />, ariaLabel: 'Аккаунт' },
-  ];
+  const links = useMemo(
+    () => [
+      { href: '/', label: 'Главная', icon: <FaHome />, ariaLabel: 'Главная' },
+      { href: '/servers', label: 'Серверы', icon: <FaServer />, ariaLabel: 'Серверы' },
+      { href: '/faq', label: 'FAQ', icon: <FaQuestionCircle />, ariaLabel: 'FAQ' },
+      { href: '/account', label: username || 'Аккаунт', icon: <FaUser />, ariaLabel: 'Аккаунт' },
+    ],
+    [username],
+  );
   const [showTooltip, setShowTooltip] = useState(false);
   const [pop, setPop] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
