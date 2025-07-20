@@ -135,8 +135,8 @@ initXuiRouter({
   XUI_CONFIG: {
     name: 'Default',
     baseUrl: process.env.XUI_BASE_URL,
-    username: process.env.XUI_USERNAME,
-    password: process.env.XUI_PASSWORD
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD
   },
   cookieCache: cookieCache.cache,
   logger
