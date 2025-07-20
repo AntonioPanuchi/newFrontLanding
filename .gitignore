@@ -58,4 +58,5 @@ build/
 # Другие
 *.pid
 *.seed
-*.pid.lock 
+*.pid.lock
+backend/utils/data.sqlite

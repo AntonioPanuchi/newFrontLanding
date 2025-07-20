@@ -88,7 +88,7 @@ try {
 }
 
 initAuth();
-initAuthRouter();
+initAuthRouter({ logger });
 
 const port = optionalVars.PORT;
 

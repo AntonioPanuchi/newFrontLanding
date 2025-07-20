@@ -2,7 +2,7 @@ const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, 'data.sqlite');
+const DB_PATH = process.env.DB_FILE || path.join(__dirname, 'data.sqlite');
 
 function run(sql) {
   const result = spawnSync('sqlite3', [DB_PATH, sql], { encoding: 'utf8' });
