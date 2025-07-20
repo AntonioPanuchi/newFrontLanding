@@ -76,7 +76,13 @@
     {
       "id": 1,
       "remark": "Example",
-      "enable": true
+      "enable": true,
+      "port": 443,
+      "protocol": "vless",
+      "up": 1024,
+      "down": 2048,
+      "total": 1048576,
+      "expiryTime": 1893456000
     }
   ]
 }
