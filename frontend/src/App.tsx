@@ -36,7 +36,7 @@ const App: React.FC = () => (
           <ScrollToTop />
           <RouteLogger />
           <Header />
-        <main className="flex-1">
+        <main className="flex-1 pt-16 lg:pt-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/servers" element={<Servers />} />
