@@ -7,10 +7,15 @@ import Home from './pages/Home';
 import Servers from './pages/Servers';
 import Faq from './pages/Faq';
 import Account from './pages/Account';
+import ProfilePage from './pages/ProfilePage';
+import MyDataPage from './pages/MyDataPage';
+import SupportPage from './pages/SupportPage';
+import NotificationsPage from './pages/NotificationsPage';
 import TelegramFab from './components/TelegramFab';
 import { logFrontend } from './utils/logger';
 import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider } from './context/UserContext';
+import { AccountProvider } from './context/AccountContext';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -32,21 +37,29 @@ const App: React.FC = () => (
   <HelmetProvider>
     <ThemeProvider>
       <UserProvider>
-        <Router>
+        <AccountProvider>
+          <Router>
           <ScrollToTop />
           <RouteLogger />
           <Header />
-        <main className="flex-1 pt-16 lg:pt-20">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/servers" element={<Servers />} />
-            <Route path="/faq" element={<Faq />} />
-            <Route path="/account" element={<Account />} />
-          </Routes>
-          <TelegramFab />
-        </main>
-        <Footer />
+          <main className="flex-1 pt-16 lg:pt-20">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/servers" element={<Servers />} />
+              <Route path="/faq" element={<Faq />} />
+            <Route path="/account" element={<Account />}>
+              <Route index element={<ProfilePage />} />
+              <Route path="profile" element={<ProfilePage />} />
+              <Route path="data" element={<MyDataPage />} />
+              <Route path="support" element={<SupportPage />} />
+              <Route path="notifications" element={<NotificationsPage />} />
+            </Route>
+            </Routes>
+            <TelegramFab />
+          </main>
+          <Footer />
         </Router>
+        </AccountProvider>
       </UserProvider>
     </ThemeProvider>
   </HelmetProvider>
