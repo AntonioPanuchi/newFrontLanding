@@ -41,8 +41,8 @@ const Header: React.FC = () => {
         ariaLabel: "FAQ",
       },
       {
-        href: "/account",
-        label: username || "Аккаунт",
+        href: username ? "/account" : "/login",
+        label: username || "Войти",
         icon: <FaUser />,
         ariaLabel: "Аккаунт",
       },
