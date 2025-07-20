@@ -12,6 +12,7 @@
 - [ENVIRONMENT.md](ENVIRONMENT.md) — список переменных окружения и их назначение.
 - [API_ENDPOINTS.md](API_ENDPOINTS.md) — описание всех API‑эндпоинтов.
 - [DEPLOYMENT.md](DEPLOYMENT.md) — инструкция по использованию скриптов деплоя.
+- [ACCOUNT_FEATURES.md](ACCOUNT_FEATURES.md) — функциональные и UX‑улучшения личного кабинета.
 
 
 Документация пополняется по мере развития проекта.
