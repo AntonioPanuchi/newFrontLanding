@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret123'
-console.log('[DEBUG] JWT_SECRET:', JWT_SECRET)
 
 export function authMiddleware(req, res, next) {
   const token = req.cookies?.auth_token
