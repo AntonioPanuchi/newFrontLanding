@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret123'
 export function authMiddleware(req, res, next) {
   const header = req.headers.authorization || ''
   const bearer = header.startsWith('Bearer ') ? header.slice(7) : null
-  const token = bearer || req.cookies?.auth_token
+  const token = bearer || req.cookies?.access_token
 
   if (!token) {
     return res.status(401).json({ error: 'Not authenticated' })

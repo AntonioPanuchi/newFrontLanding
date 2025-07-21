@@ -119,12 +119,6 @@ app.post('/api/log', express.json({ limit: '100kb' }), (req, res) => {
   res.status(204).end()
 })
 
-// --- Logout ---
-app.get('/api/auth/logout', (req, res) => {
-  res.clearCookie('auth_token')
-  res.status(200).json({ ok: true })
-})
-
 // --- SPA fallback ---
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')))
 app.get('*', (req, res) => {
