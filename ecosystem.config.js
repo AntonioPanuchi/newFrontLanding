@@ -16,8 +16,6 @@ module.exports = {
         USERNAME: process.env.USERNAME,
         PASSWORD: process.env.PASSWORD,
 
-        TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
-        TELEGRAM_BOT_USERNAME: process.env.TELEGRAM_BOT_USERNAME,
 
         JWT_SECRET: process.env.JWT_SECRET,
 

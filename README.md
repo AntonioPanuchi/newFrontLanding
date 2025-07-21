@@ -55,8 +55,8 @@
 ```bash
 cd backend
 npm install
+# копируем пример переменных и редактируем под свои значения
 cp env.example .env
-# внесите реальные значения в .env (API URL, TELEGRAM_BOT_TOKEN, JWT_SECRET и др.)
 # подробнее о переменных смотрите в [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)
 npm run dev      # запуск в режиме разработки
 npm start        # запуск в продакшн
