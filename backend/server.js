@@ -100,7 +100,6 @@ initCacheRouter({ SERVER_CONFIGS, statusCache, cookieCache: cookieCache.cache, l
 app.use('/api', statusRouter)
 app.use('/api', healthRouter)
 app.use('/api', cacheRouter)
-app.use('/api', adminRouter)
 import authRouter from './src/api/auth.js'
 app.use('/api/auth', authRouter)
 import adminRouter from './src/api/admin.js'
