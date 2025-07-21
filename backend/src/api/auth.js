@@ -5,7 +5,11 @@ import crypto from 'crypto'
 import db from '../db/db.js'
 
 const router = Router()
-const JWT_SECRET = process.env.JWT_SECRET || 'secret123'
+const JWT_SECRET = process.env.JWT_SECRET
+if (!JWT_SECRET) {
+  console.error('JWT_SECRET environment variable is required')
+  process.exit(1)
+}
 const ACCESS_EXPIRES_IN = '15m'
 const ACCESS_MAX_AGE = 15 * 60 * 1000 // 15 minutes
 const REFRESH_MAX_AGE = 7 * 24 * 60 * 60 * 1000 // 7 days
