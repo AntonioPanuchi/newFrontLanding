@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -8,9 +8,9 @@ export default function LoginPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setError('')
     setLoading(true)
-    const res = await fetch('/api/auth/login', {
+    setError('')
+    const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -21,13 +21,13 @@ export default function LoginPage() {
       window.location.href = '/admin/learning-insights'
     } else {
       const data = await res.json().catch(() => null)
-      setError(data?.error || 'Login failed')
+      setError(data?.error || 'Registration failed')
     }
   }
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">Войти в ROX.VPN</h1>
+      <h1 className="text-3xl font-bold mb-6">Регистрация</h1>
       <form onSubmit={handleSubmit} className="space-y-4 w-64">
         <input
           type="text"
@@ -49,12 +49,12 @@ export default function LoginPage() {
           disabled={loading}
           className="w-full p-2 bg-blue-500 text-white rounded disabled:opacity-50"
         >
-          {loading ? 'Загрузка...' : 'Войти'}
+          {loading ? 'Загрузка...' : 'Создать аккаунт'}
         </button>
         <p className="text-sm text-center">
-          Нет аккаунта?{' '}
-          <a href="/register" className="text-blue-600 underline">
-            Регистрация
+          Уже есть аккаунт?{' '}
+          <a href="/login" className="text-blue-600 underline">
+            Войти
           </a>
         </p>
       </form>
