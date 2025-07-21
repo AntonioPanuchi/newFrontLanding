@@ -11,6 +11,7 @@ import { logFrontend } from './utils/logger';
 import { ThemeProvider } from './context/ThemeContext';
 import LearningInsightsDashboard from './pages/admin/learning-insights';
 import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
 
 
 function ScrollToTop() {
@@ -43,6 +44,7 @@ const App: React.FC = () => (
             <Route path="/faq" element={<Faq />} />
             <Route path="/admin/learning-insights" element={<LearningInsightsDashboard />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
           </Routes>
           <TelegramFab />
         </main>
