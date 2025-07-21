@@ -11,6 +11,9 @@
 | `FINLAND_API_URL` | URL сервера в Финляндии |
 | `USERNAME` | Имя пользователя для админ-доступа |
 | `PASSWORD` | Пароль для админ-доступа |
+| `JWT_SECRET` | Секретный ключ для JWT |
+| `TELEGRAM_BOT_TOKEN` | Токен Telegram-бота |
+| `TELEGRAM_BOT_USERNAME` | Имя Telegram-бота |
 
 ## Опциональные параметры
 

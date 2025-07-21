@@ -56,7 +56,7 @@
 cd backend
 npm install
 cp env.example .env
-# настройте .env
+# внесите реальные значения в .env (API URL, TELEGRAM_BOT_TOKEN, JWT_SECRET и др.)
 # подробнее о переменных смотрите в [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)
 npm run dev      # запуск в режиме разработки
 npm start        # запуск в продакшн
