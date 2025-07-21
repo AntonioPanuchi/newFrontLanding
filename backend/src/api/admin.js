@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { authMiddleware } from '../../middleware/authMiddleware.js'
+import { authMiddleware, requireRole } from '../../middleware/authMiddleware.js'
 
 const router = Router()
 
-router.get('/me', authMiddleware, (req, res) => {
+router.get('/me', authMiddleware, requireRole('admin'), (req, res) => {
   res.json({ user: req.user })
 })
 

@@ -121,7 +121,7 @@ app.post('/api/log', express.json({ limit: '100kb' }), (req, res) => {
 
 // --- Logout ---
 app.get('/api/auth/logout', (req, res) => {
-  res.setHeader('Set-Cookie', 'auth_token=deleted; Path=/; Max-Age=0')
+  res.clearCookie('auth_token')
   res.status(200).json({ ok: true })
 })
 

@@ -4,25 +4,13 @@ export default function AdminPage() {
   const [message, setMessage] = useState('Загрузка...')
 
   useEffect(() => {
-    const token = localStorage.getItem('jwt_token')
-
-    if (!token) {
-      window.location.href = '/login'
-      return
-    }
-
-    fetch('/api/admin/profile', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    fetch('/api/admin/me', { credentials: 'include' })
       .then(res => {
         if (res.status === 401) throw new Error('Unauthorized')
         return res.json()
       })
-      .then(data => setMessage(data.message))
+      .then(data => setMessage(`Привет, ${data.user.username}`))
       .catch(() => {
-        localStorage.removeItem('jwt_token')
         window.location.href = '/login'
       })
   }, [])

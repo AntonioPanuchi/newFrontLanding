@@ -7,8 +7,11 @@ export default function LearningInsightsDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = document.cookie.includes("auth_token");
-    if (!token) navigate("/login");
+    fetch("/api/user/me", { credentials: 'include' })
+      .then(res => {
+        if (res.status === 401) throw new Error('unauth')
+      })
+      .catch(() => navigate("/login"));
   }, [navigate]);
 
   useEffect(() => {
