@@ -73,6 +73,12 @@ npm run preview  # предпросмотр сборки
 npm run storybook # запуск Storybook (http://localhost:6006)
 ```
 
+После установки зависимостей `backend` и `frontend` установите инструменты разработки в корне репозитория:
+
+```bash
+npm install # устанавливаются c8 и другие dev-инструменты
+```
+
 ---
 
 ## ⚙️ CI/CD
