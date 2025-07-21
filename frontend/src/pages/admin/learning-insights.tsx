@@ -12,7 +12,8 @@ export default function LearningInsightsDashboard() {
   }, [navigate]);
 
   useEffect(() => {
-    const ws = new WebSocket("wss://rx-test.ru/ws/insights");
+    const baseUrl = import.meta.env.VITE_WS_URL || "wss://rx-test.ru";
+    const ws = new WebSocket(`${baseUrl}/ws/insights`);
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setLogs((prev) => [data, ...prev.slice(0, 100)]);
