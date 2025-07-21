@@ -33,5 +33,6 @@
 | `FETCH_TIMEOUT` | Таймаут HTTP-запросов (мс) |
 | `LOG_FILE_MAX_SIZE` | Максимальный размер файла логов |
 | `LOG_FILE_MAX_FILES` | Количество файлов логов |
+| `VITE_WS_URL` | Базовый URL WebSocket для фронтенда |
 
 Дополнительные детали смотрите в примере `backend/env.example`.
