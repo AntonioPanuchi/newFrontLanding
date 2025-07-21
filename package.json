@@ -16,7 +16,7 @@
     "deploy:quick": "./deploy.sh quick",
     "logs": "./deploy.sh logs",
     "status": "./deploy.sh health",
-    "test": "c8 --reporter=text --reporter=lcov --include=backend/** node --test tests"
+    "test": "c8 --reporter=text --reporter=lcov --include=backend/** node --test tests/*.js"
   },
   "keywords": [
     "vpn",

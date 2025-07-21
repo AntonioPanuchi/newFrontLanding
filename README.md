@@ -161,6 +161,12 @@ jobs:
 - `./check-node-version.sh` — проверка совместимости Node.js
 
 ### Тестирование
+- Перед запуском тестов установите зависимости в `backend`:
+
+```bash
+cd backend && npm install
+```
+- `npm test` — юнит-тесты из каталога `tests`
 - `node test-fetch.js` — тестирование fetch API
 - `node test-polyfill-logic.js` — тестирование логики полифилла
 
