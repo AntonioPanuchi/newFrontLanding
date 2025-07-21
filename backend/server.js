@@ -1,154 +1,227 @@
-const express = require('express');
-const cors = require('cors');
-// eslint-disable-next-line node/no-unpublished-require
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-const { router: statusRouter, initStatusRouter } = require('./routes/statusRouter');
-const { router: healthRouter, initHealthRouter } = require('./routes/healthRouter');
-const { router: cacheRouter, initCacheRouter } = require('./routes/cacheRouter');
-const { validateOptionalVars } = require('./config/validation');
-const { createLogger } = require('./config/logger');
-const { createCorsOptions } = require('./middleware/cors');
-const { createApiRateLimiter } = require('./middleware/rateLimit');
-const { requestLogger } = require('./middleware/logging');
-const { setupGracefulShutdown } = require('./utils/gracefulShutdown');
-const { getServerConfigs } = require('./config/serverConfigs');
-const { StatusCache, CookieCache } = require('./utils/cache');
-const { errorHandler } = require('./middleware/errorHandler');
+import path from 'path'
+import { fileURLToPath } from 'url'
+import dotenv from 'dotenv'
+
+// --- Текущая директория для ESM ---
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+dotenv.config({ path: path.resolve(__dirname, '.env') })
+console.log('[DEBUG] TELEGRAM_BOT_TOKEN:', process.env.TELEGRAM_BOT_TOKEN)
+import express from 'express'
+import cors from 'cors'
+import fs from 'fs'
 
 
-// --- СОЗДАНИЕ ДИРЕКТОРИИ ДЛЯ ЛОГОВ ---
-const logsDir = path.join(__dirname, 'logs');
+
+import { router as statusRouter, initStatusRouter } from './routes/statusRouter.js'
+import { router as healthRouter, initHealthRouter } from './routes/healthRouter.js'
+import { router, initCacheRouter } from './routes/cacheRouter.js';
+const cacheRouter = router;
+import { validateOptionalVars } from './config/validation.js'
+import { createCorsOptions } from './middleware/cors.js';
+import { createApiRateLimiter } from './middleware/rateLimit.js'
+import { requestLogger } from './middleware/logging.js'
+import { setupGracefulShutdown } from './utils/gracefulShutdown.js'
+import { getServerConfigs } from './config/serverConfigs.js'
+import { StatusCache, CookieCache } from './utils/cache.js'
+import { errorHandler } from './middleware/errorHandler.js'
+import { createLogger } from './config/logger.js'
+import { WebSocketServer } from 'ws'
+import { runMigrations } from './src/db/init.js'
+import cookieParser from 'cookie-parser'
+
+const app = express()
+
+
+app.use(cookieParser())
+
+
+
+// --- Директория логов ---
+const logsDir = path.join(__dirname, 'logs')
 if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
+  fs.mkdirSync(logsDir, { recursive: true })
 }
 
-// --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
-// Для fetch-полифилла logger нужен уже здесь, поэтому создаём с дефолтными значениями
-const defaultLogLevel = process.env.LOG_LEVEL || 'info';
-const defaultNodeEnv = process.env.NODE_ENV || 'development';
-const logger = createLogger(logsDir, defaultLogLevel, defaultNodeEnv, 'backend');
+// --- Логгер backend ---
+const defaultLogLevel = process.env.LOG_LEVEL || 'info'
+const defaultNodeEnv = process.env.NODE_ENV || 'development'
+const logger = createLogger(logsDir, defaultLogLevel, defaultNodeEnv, 'backend')
 
-// --- ПОЛИФИЛЛ ДЛЯ FETCH ---
-// Проверяем версию Node.js и добавляем полифилл если нужно
-const nodeVersion = process.version;
-const majorVersion = parseInt(nodeVersion.slice(1).split('.')[0], 10);
+// --- Полифилл fetch ---
+const nodeVersion = process.version
+const majorVersion = parseInt(nodeVersion.slice(1).split('.')[0], 10)
 
 if (majorVersion < 18) {
-    // Для Node.js < 18 используем node-fetch как полифилл
-    const fetch = require('node-fetch');
-    global.fetch = fetch;
-    logger.info(`Node.js ${nodeVersion} detected, using node-fetch polyfill for fetch API`);
+  const fetch = (await import('node-fetch')).default
+  global.fetch = fetch
+  logger.info(`Node.js ${nodeVersion} detected, using node-fetch polyfill for fetch API`)
 } else {
-    logger.info(`Node.js ${nodeVersion} detected, using native fetch API`);
+  logger.info(`Node.js ${nodeVersion} detected, using native fetch API`)
 }
 
-const app = express();
 
-// --- ВАЛИДАЦИЯ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ ---
-// (удалить функции validateUrl, validateCredentials, validateOptionalVars)
+app.set('trust proxy', 'loopback') // безопасно для Docker/nginx
 
-// Выполняем валидацию
-let optionalVars;
-let SERVER_CONFIGS;
+// --- Валидация переменных ---
+let optionalVars
+let SERVER_CONFIGS
 
 try {
-    logger.info('Starting environment variables validation...');
-    
-    // Валидируем опциональные переменные и конфигурацию серверов
-    optionalVars = validateOptionalVars();
-    SERVER_CONFIGS = getServerConfigs();
-    
-    logger.info('Environment variables validation completed successfully');
-    
+  logger.info('Starting environment variables validation...')
+  optionalVars = validateOptionalVars()
+  SERVER_CONFIGS = getServerConfigs()
+  logger.info('Environment variables validation completed successfully')
 } catch (error) {
-    logger.error('Environment variables validation failed:', { error: error.message });
-    throw new Error(`Environment variables validation failed: ${  error.message}`);
+  logger.error('Environment variables validation failed:', { error: error.message })
+  throw new Error(`Environment variables validation failed: ${error.message}`)
 }
 
-const port = optionalVars.PORT;
+const port = process.env.PORT || 3000
 
-// --- КОНФИГУРАЦИЯ СЕРВЕРОВ ---
-// --- КЭШИРОВАНИЕ И СОСТОЯНИЕ ---
-const statusCache = new StatusCache(process.env.CACHE_DURATION ? parseInt(process.env.CACHE_DURATION, 10) : 60 * 1000);
-const cookieCache = new CookieCache(process.env.COOKIE_CACHE_DURATION ? parseInt(process.env.COOKIE_CACHE_DURATION, 10) : 55 * 60 * 1000);
+// --- Кэширование ---
+const statusCache = new StatusCache(parseInt(process.env.CACHE_DURATION || '60000', 10))
+const cookieCache = new CookieCache(parseInt(process.env.COOKIE_CACHE_DURATION || '3300000', 10))
 
-// --- MIDDLEWARE ---
-app.set('trust proxy', 1);
-const limiter = createApiRateLimiter();
-app.use('/api/', limiter);
-const corsOptions = createCorsOptions(logger, optionalVars.NODE_ENV);
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(requestLogger(logger));
+// --- Middleware ---
+const limiter = createApiRateLimiter()
+app.use('/api/', limiter)
+const corsOptions = createCorsOptions(logger, optionalVars.NODE_ENV)
+app.use(cors())
+app.use(express.json())
+app.use(requestLogger(logger))
 
-// --- ИНИЦИАЛИЗАЦИЯ РОУТЕРОВ ---
-initStatusRouter({
-  SERVER_CONFIGS,
-  statusCache,
-  cookieCache: cookieCache.cache,
-  logger
-});
-initHealthRouter({
-  statusCache,
-  logger
-});
-initCacheRouter({
-  SERVER_CONFIGS,
-  statusCache,
-  cookieCache: cookieCache.cache,
-  logger
-});
-// --- ПОДКЛЮЧЕНИЕ РОУТЕРОВ ---
-app.use('/api', statusRouter);
-app.use('/api', healthRouter);
-app.use('/api', cacheRouter);
+// --- Инициализация роутеров ---
+initStatusRouter({ SERVER_CONFIGS, statusCache, cookieCache: cookieCache.cache, logger })
+initHealthRouter({ statusCache, logger })
+initCacheRouter({ SERVER_CONFIGS, statusCache, cookieCache: cookieCache.cache, logger })
 
-// --- FRONTEND LOGGING ENDPOINT ---
-const frontendLogger = createLogger(logsDir, optionalVars.LOG_LEVEL, optionalVars.NODE_ENV, 'frontend');
+// --- Роуты ---
+app.use('/api', statusRouter)
+app.use('/api', healthRouter)
+app.use('/api', cacheRouter)
+app.use('/api', adminRouter)
+import authRouter from './src/api/auth.js'
+app.use('/api/auth', authRouter)
+import adminRouter from './src/api/admin.js'
+app.use('/api/admin', adminRouter)
+import userRouter from './src/api/user.js'
+app.use('/api/user', userRouter)
+
+// --- Логирование от frontend ---
+const frontendLogger = createLogger(logsDir, optionalVars.LOG_LEVEL, optionalVars.NODE_ENV, 'frontend')
 app.post('/api/log', express.json({ limit: '100kb' }), (req, res) => {
-    const { level = 'info', message, ...meta } = req.body || {};
-    if (typeof frontendLogger[level] === 'function') {
-        frontendLogger[level](message, meta);
-    } else {
-        frontendLogger.info(message, meta);
-    }
-    res.status(204).end();
-});
+  const { level = 'info', message, ...meta } = req.body || {}
+  if (typeof frontendLogger[level] === 'function') {
+    frontendLogger[level](message, meta)
+  } else {
+    frontendLogger.info(message, meta)
+  }
+  res.status(204).end()
+})
 
-// --- СТАТИКА и SPA fallback ---
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+// --- Logout ---
+app.get('/api/auth/logout', (req, res) => {
+  res.setHeader('Set-Cookie', 'auth_token=deleted; Path=/; Max-Age=0')
+  res.status(200).json({ ok: true })
+})
+
+// --- SPA fallback ---
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')))
 app.get('*', (req, res) => {
-    if (req.method === 'GET' && !req.path.startsWith('/api')) {
-        logger.debug(`SPA fallback for path: ${req.path}`);
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-    } else {
+  if (req.method === 'GET' && !req.path.startsWith('/api')) {
+    logger.debug(`SPA fallback for path: ${req.path}`)
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'))
+  } else {
     res.status(404).json({
-        error: 'Not Found',
-        message: 'The requested endpoint does not exist'
-    });
-    }
-});
+      error: 'Not Found',
+      message: 'The requested endpoint does not exist'
+    })
+  }
+})
 
-// --- ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОШИБОК ---
-app.use(errorHandler(logger));
+// --- Обработка ошибок ---
+app.use(errorHandler(logger))
 
-// --- ЗАПУСК СЕРВЕРА ---
+// --- Запуск сервера ---
 const server = app.listen(port, () => {
-    logger.info(`ROX VPN API server started on port ${port}`, {
-        port,
-        environment: process.env.NODE_ENV || 'development',
-        serversConfigured: SERVER_CONFIGS.length
-    });
-});
+  logger.info(`ROX VPN API server started on port ${port}`, {
+    port,
+    environment: process.env.NODE_ENV || 'development',
+    serversConfigured: SERVER_CONFIGS.length
+  })
+})
+runMigrations()
+// --- WebSocket логирование ---
+const today = new Date().toISOString().slice(0, 10)
+const logFiles = [
+  `logs/backend-combined-${today}.log`,
+  `logs/backend-error-${today}.log`,
+  `logs/frontend-combined-${today}.log`,
+  `logs/frontend-error-${today}.log`
+]
+const clientSettings = new Map()
 
-// --- GRACEFUL SHUTDOWN ---
-setupGracefulShutdown(server, logger);
+const wss = new WebSocketServer({ server, path: '/ws/insights' })
+wss.on('connection', (ws) => {
+  const id = Date.now() + Math.random()
+  clientSettings.set(id, { filter: {}, tail: 5 })
 
-// Логируем остановку сервера
-process.on('exit', (code) => {
-    logger.info('Process exit', { code });
-});
+  ws.send(JSON.stringify({ message: 'WebSocket подключен ✅' }))
 
-module.exports = app;
+  ws.on('message', (data) => {
+    try {
+      const msg = JSON.parse(data.toString())
+      if (msg.filter || msg.tail) {
+        clientSettings.set(id, {
+          ...clientSettings.get(id),
+          ...msg
+        })
+        ws.send(JSON.stringify({ ok: true, message: 'Фильтр применён' }))
+      }
+    } catch (err) {
+      ws.send(JSON.stringify({ error: 'Неверный формат JSON-команды' }))
+    }
+  })
+
+  const interval = setInterval(() => {
+    const { filter, tail } = clientSettings.get(id)
+    const logs = []
+
+    for (const file of logFiles) {
+      try {
+        const fullPath = path.join(__dirname, '..', file)
+        const lines = fs.readFileSync(fullPath, 'utf-8').trim().split('\n').slice(-tail)
+        for (const line of lines) {
+          try {
+            const parsed = JSON.parse(line)
+            if (
+              (!filter.label || parsed.label === filter.label) &&
+              (!filter.level || parsed.level === filter.level)
+            ) {
+              logs.push(parsed)
+            }
+          } catch {
+            logs.push({ message: line, source: file })
+          }
+        }
+      } catch {
+        logs.push({ error: `Файл недоступен: ${file}` })
+      }
+    }
+
+    ws.send(JSON.stringify({ timestamp: new Date(), logs }))
+  }, 3000)
+
+  ws.on('close', () => {
+    clearInterval(interval)
+    clientSettings.delete(id)
+  })
+})
+
+// --- Graceful Shutdown ---
+setupGracefulShutdown(server, logger)
+process.on('exit', (code) => logger.info('Process exit', { code }))
+
+export default app

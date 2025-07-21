@@ -1,16 +1,12 @@
-const rateLimit = require('express-rate-limit');
+import rateLimit from 'express-rate-limit';
 
-function createApiRateLimiter() {
-    return rateLimit({
-        trustProxy: true,
-        validate: { trustProxy: true },
-        windowMs: 60 * 1_000,
-        max: 3_000,
-        message: { error: 'Слишком много запросов, попробуйте позже' },
-        standardHeaders: true,
-        legacyHeaders: false,
-        skip: req => req.path === '/health'
-    });
+export function createApiRateLimiter() {
+  return rateLimit({
+    windowMs: 60 * 1000,
+    max: 3000,
+    message: { error: 'Слишком много запросов, попробуйте позже' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: req => req.path === '/health',
+  });
 }
-
-module.exports = { createApiRateLimiter }; 

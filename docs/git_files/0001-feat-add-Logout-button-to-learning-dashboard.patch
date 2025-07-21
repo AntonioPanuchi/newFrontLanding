@@ -1,0 +1,64 @@
+From cab33b0867f0c75492182206d38d8f2bf7593d41 Mon Sep 17 00:00:00 2001
+From: codex <codex@openai.com>
+Date: Sun, 20 Jul 2025 16:23:16 +0000
+Subject: [PATCH] feat: add Logout button to learning dashboard
+
+---
+ .../src/pages/admin/learning-insights.tsx     | 44 +++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 frontend/src/pages/admin/learning-insights.tsx
+
+diff --git a/frontend/src/pages/admin/learning-insights.tsx b/frontend/src/pages/admin/learning-insights.tsx
+new file mode 100644
+index 0000000..0da68a9
+--- /dev/null
++++ b/frontend/src/pages/admin/learning-insights.tsx
+@@ -0,0 +1,44 @@
++import { useEffect, useState } from "react";
++import { useRouter } from "next/router";
++import { Button } from "@/components/ui/button";
++
++export default function LearningInsightsDashboard() {
++  const [logs, setLogs] = useState([]);
++  const router = useRouter();
++
++  useEffect(() => {
++    const token = document.cookie.includes("auth_token");
++    if (!token) router.replace("/login");
++  }, [router]);
++
++  useEffect(() => {
++    const ws = new WebSocket("wss://your-server/ws/insights");
++    ws.onmessage = (event) => {
++      const data = JSON.parse(event.data);
++      setLogs((prev) => [data, ...prev.slice(0, 100)]);
++    };
++    return () => ws.close();
++  }, []);
++
++  return (
++    <main className="p-6">
++      <div className="flex justify-between items-center mb-4">
++        <h1 className="text-xl font-bold">📊 Обучение агентов</h1>
++        <Button
++          variant="outline"
++          size="sm"
++          onClick={() => {
++            fetch("/api/auth/logout").then(() => router.push("/login"));
++          }}
++        >
++          Выйти
++        </Button>
++      </div>
++      <ul className="space-y-1 text-sm font-mono text-muted-foreground">
++        {logs.map((log, i) => (
++          <li key={i}>{JSON.stringify(log)}</li>
++        ))}
++      </ul>
++    </main>
++  );
++}
+\ No newline at end of file
+-- 
+2.39.2
+

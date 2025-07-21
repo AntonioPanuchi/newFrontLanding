@@ -1,0 +1,22 @@
+functions:
+  - name: explainLogEntry
+    description: "Объясняет содержание одной записи из лога"
+    parameters:
+      type: object
+      properties:
+        entry:
+          type: string
+          description: "Сырая строка JSON из лога"
+      required:
+        - entry
+
+  - name: summarizeRecentErrors
+    description: "Делает краткую сводку последних ошибок в логах"
+    parameters:
+      type: object
+      properties:
+        count:
+          type: integer
+          default: 5
+          description: "Количество ошибок для анализа"
+      required: []

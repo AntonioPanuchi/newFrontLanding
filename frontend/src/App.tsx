@@ -9,6 +9,9 @@ import Faq from './pages/Faq';
 import TelegramFab from './components/TelegramFab';
 import { logFrontend } from './utils/logger';
 import { ThemeProvider } from './context/ThemeContext';
+import LearningInsightsDashboard from './pages/admin/learning-insights';
+import LoginPage from './pages/login';
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -38,6 +41,8 @@ const App: React.FC = () => (
             <Route path="/" element={<Home />} />
             <Route path="/servers" element={<Servers />} />
             <Route path="/faq" element={<Faq />} />
+            <Route path="/admin/learning-insights" element={<LearningInsightsDashboard />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
           <TelegramFab />
         </main>

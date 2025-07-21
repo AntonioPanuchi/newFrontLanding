@@ -1,4 +1,4 @@
-function setupGracefulShutdown(server, logger) {
+export function setupGracefulShutdown(server, logger) {
     process.on('SIGTERM', () => {
         logger.info('SIGTERM received, shutting down gracefully');
         server.close(() => {
@@ -6,6 +6,7 @@ function setupGracefulShutdown(server, logger) {
             process.exit(0);
         });
     });
+
     process.on('SIGINT', () => {
         logger.info('SIGINT received, shutting down gracefully');
         server.close(() => {
@@ -13,6 +14,7 @@ function setupGracefulShutdown(server, logger) {
             process.exit(0);
         });
     });
+
     process.on('uncaughtException', (error) => {
         logger.error('Uncaught Exception:', {
             error: error.message,
@@ -20,13 +22,14 @@ function setupGracefulShutdown(server, logger) {
         });
         throw error;
     });
+
     process.on('unhandledRejection', (reason, promise) => {
         logger.error('Unhandled Rejection at:', {
             promise,
             reason
         });
-        throw reason instanceof Error ? reason : new Error(`Unhandled rejection: ${  reason}`);
+        throw reason instanceof Error
+            ? reason
+            : new Error(`Unhandled rejection: ${reason}`);
     });
 }
-
-module.exports = { setupGracefulShutdown }; 

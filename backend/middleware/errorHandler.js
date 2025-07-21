@@ -1,6 +1,6 @@
-function errorHandler(logger) {
+export function errorHandler(logger) {
     return (err, req, res, next) => {
-        logger && logger.error && logger.error('Unhandled error:', {
+        logger?.error?.('Unhandled error:', {
             error: err.message,
             stack: err.stack,
             url: req.url,
@@ -12,11 +12,10 @@ function errorHandler(logger) {
             userAgent: req.get('User-Agent'),
             ip: req.ip || req.connection.remoteAddress
         });
+
         res.status(500).json({
             error: 'Internal Server Error',
             message: 'Something went wrong on our end'
         });
     };
 }
-
-module.exports = { errorHandler }; 

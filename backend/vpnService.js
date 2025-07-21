@@ -1,5 +1,5 @@
 /* c8 ignore start */
-const ping = require('ping');
+import ping from 'ping';
 
 function formatUptime(seconds) {
     if (!seconds || seconds <= 0) return 'N/A';
@@ -199,7 +199,7 @@ async function getServerStatus(server, cookieCache, logger, prevStatus = null) {
     }
 }
 
-module.exports = {
+export {
     formatUptime,
     sleep,
     pingServer,
@@ -207,4 +207,5 @@ module.exports = {
     fetchDataWithRetry,
     getServerStatus
 };
+
 /* c8 ignore stop */

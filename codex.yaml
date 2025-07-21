@@ -1,0 +1,7 @@
+project: roxvpn-dashboard
+language: ru,en
+autotrain: true
+observe:
+  enabled: true
+  source: ws://localhost:3000/ws/insights
+functions: functions.yaml

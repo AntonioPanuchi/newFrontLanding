@@ -1,10 +1,11 @@
-const express = require('express');
-const { getServerStatus } = require('../vpnService');
-const router = express.Router();
+import express from 'express';
+import { getServerStatus } from '../vpnService.js';
+
+export const router = express.Router();
 
 let SERVER_CONFIGS, statusCache, cookieCache, logger;
 
-function initCacheRouter(deps) {
+export function initCacheRouter(deps) {
   SERVER_CONFIGS = deps.SERVER_CONFIGS;
   statusCache = deps.statusCache;
   cookieCache = deps.cookieCache;
@@ -12,19 +13,21 @@ function initCacheRouter(deps) {
 }
 
 router.post('/refresh-cache', async (req, res) => {
-  logger && logger.info && logger.info('Manual cache refresh requested');
+  logger?.info?.('Manual cache refresh requested');
   try {
-    const statusPromises = SERVER_CONFIGS.map(server => getServerStatus(server, cookieCache, logger));
+    const statusPromises = SERVER_CONFIGS.map(server =>
+      getServerStatus(server, cookieCache, logger)
+    );
     const statuses = await Promise.all(statusPromises);
     statusCache.set(statuses);
-    logger && logger.info && logger.info('Cache refreshed successfully');
+    logger?.info?.('Cache refreshed successfully');
     res.json({
       success: true,
       message: 'Cache refreshed successfully',
       data: statuses
     });
   } catch (error) {
-    logger && logger.error && logger.error('Error refreshing cache:', {
+    logger?.error?.('Error refreshing cache:', {
       error: error.message,
       stack: error.stack
     });
@@ -35,5 +38,3 @@ router.post('/refresh-cache', async (req, res) => {
     });
   }
 });
-
-module.exports = { router, initCacheRouter }; 

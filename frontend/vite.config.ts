@@ -1,18 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
-  base: '/',
   plugins: [react()],
-  root: '.',
+  root: '.', // корень проекта
   build: {
-    outDir: 'dist',
+    outDir: 'dist', // ⚠️ важно: это совпадает с nginx -> location / root
+    emptyOutDir: true,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
   },
   server: {
-    open: true,
+    host: '0.0.0.0',
     port: 5173,
-    proxy: {
-      '/api': 'http://localhost:3000',
-    },
   },
 });

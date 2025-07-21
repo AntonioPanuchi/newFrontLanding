@@ -1,5 +1,4 @@
-// Валидация URL
-function validateUrl(url, name) {
+export function validateUrl(url, name) {
     if (!url) {
         throw new Error(`Missing ${name} URL`);
     }
@@ -20,8 +19,7 @@ function validateUrl(url, name) {
     }
 }
 
-// Валидация учетных данных
-function validateCredentials(username, password) {
+export function validateCredentials(username, password) {
     if (!username || username.trim().length === 0) {
         throw new Error('USERNAME cannot be empty');
     }
@@ -37,33 +35,27 @@ function validateCredentials(username, password) {
     return { username: username.trim(), password: password.trim() };
 }
 
-// Валидация опциональных переменных
-function validateOptionalVars(env = process.env) {
+export function validateOptionalVars(env = process.env) {
     const optionalVars = {
         PORT: env.PORT || '3000',
         NODE_ENV: env.NODE_ENV || 'development',
         LOG_LEVEL: env.LOG_LEVEL || 'info'
     };
-    // PORT
+
     const port = parseInt(optionalVars.PORT, 10);
     if (isNaN(port) || port < 1 || port > 65535) {
         throw new Error(`PORT must be a number between 1 and 65535, got: ${optionalVars.PORT}`);
     }
-    // NODE_ENV
+
     const validEnvs = ['development', 'production', 'test'];
     if (!validEnvs.includes(optionalVars.NODE_ENV)) {
         throw new Error(`NODE_ENV must be one of: ${validEnvs.join(', ')}, got: ${optionalVars.NODE_ENV}`);
     }
-    // LOG_LEVEL
+
     const validLogLevels = ['error', 'warn', 'info', 'debug'];
     if (!validLogLevels.includes(optionalVars.LOG_LEVEL)) {
         throw new Error(`LOG_LEVEL must be one of: ${validLogLevels.join(', ')}, got: ${optionalVars.LOG_LEVEL}`);
     }
+
     return optionalVars;
 }
-
-module.exports = {
-    validateUrl,
-    validateCredentials,
-    validateOptionalVars
-}; 

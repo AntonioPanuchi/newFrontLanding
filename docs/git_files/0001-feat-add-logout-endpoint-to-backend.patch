@@ -1,0 +1,24 @@
+From 3ee850cd73163ddbfe46f48ef6af9593f66bc3ef Mon Sep 17 00:00:00 2001
+From: codex <codex@openai.com>
+Date: Sun, 20 Jul 2025 16:06:33 +0000
+Subject: [PATCH] feat: add logout endpoint to backend
+
+---
+ backend/src/api/auth/logout.ts | 4 ++++
+ 1 file changed, 4 insertions(+)
+ create mode 100644 backend/src/api/auth/logout.ts
+
+diff --git a/backend/src/api/auth/logout.ts b/backend/src/api/auth/logout.ts
+new file mode 100644
+index 0000000..3993bfe
+--- /dev/null
++++ b/backend/src/api/auth/logout.ts
+@@ -0,0 +1,4 @@
++export default function handler(req, res) {
++  res.setHeader("Set-Cookie", "auth_token=deleted; Path=/; Max-Age=0");
++  res.status(200).json({ ok: true });
++}
+\ No newline at end of file
+-- 
+2.39.2
+

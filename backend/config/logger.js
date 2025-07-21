@@ -1,9 +1,14 @@
-const winston = require('winston');
-const DailyRotateFile = require('winston-daily-rotate-file');
-const path = require('path');
-const fs = require('fs');
+import winston from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
-function createLogger(logsDir, logLevel, nodeEnv = 'development', label = 'backend') {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+export function createLogger(logsDir, logLevel, nodeEnv = 'development', label = 'backend') {
     // Логи всегда в корневой папке logs
     const rootLogsDir = path.resolve(__dirname, '../../logs');
     if (!fs.existsSync(rootLogsDir)) {
@@ -46,5 +51,3 @@ function createLogger(logsDir, logLevel, nodeEnv = 'development', label = 'backe
     }
     return logger;
 }
-
-module.exports = { createLogger }; 

@@ -1,7 +1,8 @@
-function requestLogger(logger) {
+export function requestLogger(logger) {
     return (req, res, next) => {
         const start = Date.now();
         const { method, url, query, headers, body } = req;
+
         res.on('finish', () => {
             const duration = Date.now() - start;
             logger.info({
@@ -17,8 +18,7 @@ function requestLogger(logger) {
                 responseSize: res.get('Content-Length') || null
             });
         });
+
         next();
     };
 }
-
-module.exports = { requestLogger }; 

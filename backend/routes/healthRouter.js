@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
+
+export const router = express.Router();
 
 let statusCache, logger;
 
-function initHealthRouter(deps) {
+export function initHealthRouter(deps) {
   statusCache = deps.statusCache;
   logger = deps.logger;
 }
@@ -26,5 +27,3 @@ router.get('/health', (req, res) => {
   };
   res.status(200).json(healthCheck);
 });
-
-module.exports = { router, initHealthRouter }; 

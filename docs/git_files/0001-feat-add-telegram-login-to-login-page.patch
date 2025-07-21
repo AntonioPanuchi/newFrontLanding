@@ -1,0 +1,66 @@
+From 123456789 Mon Sep 17 00:00:00 2001
+From: Antonio Panuchi <antonio@example.com>
+Date: Sun, 20 Jul 2025 20:30:00 +0300
+Subject: feat: add Telegram login button to login page
+
+---
+ frontend/src/pages/login.tsx              | 19 +++++++++++++++++++
+ frontend/src/components/TelegramLoginButton.tsx | 22 ++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 frontend/src/components/TelegramLoginButton.tsx
+
+diff --git a/frontend/src/pages/login.tsx b/frontend/src/pages/login.tsx
+index e69de29..1a2b3c4 100644
+--- a/frontend/src/pages/login.tsx
++++ b/frontend/src/pages/login.tsx
+@@ -0,0 +1,19 @@
++import TelegramLoginButton from '@/components/TelegramLoginButton'
++
++export default function LoginPage() {
++  return (
++    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
++      <h1 className="text-3xl font-bold mb-6">Войти в ROX.VPN</h1>
++      <TelegramLoginButton
++        botName="rx_test_ru_bot"
++        onAuth={(user) => {
++          console.log("User data:", user);
++          localStorage.setItem("tg_user", JSON.stringify(user));
++          window.location.href = "/admin";
++        }}
++      />
++    </main>
++  )
++}
++
+diff --git a/frontend/src/components/TelegramLoginButton.tsx b/frontend/src/components/TelegramLoginButton.tsx
+new file mode 100644
+index 0000000..abcdeff
+--- /dev/null
++++ b/frontend/src/components/TelegramLoginButton.tsx
+@@ -0,0 +1,22 @@
++import { useEffect } from 'react'
++
++type Props = {
++  botName: string
++  onAuth: (user: any) => void
++}
++
++export default function TelegramLoginButton({ botName, onAuth }: Props) {
++  useEffect(() => {
++    (window as any).TelegramLoginWidget = {
++      dataOnauth: onAuth
++    }
++  }, [onAuth])
++
++  return (
++    <div
++      className="telegram-login"
++      data-telegram-login={botName}
++      data-size="large"
++      data-userpic="false"
++      data-request-access="write"
++    ></div>
++  )
++}
+-- 
+2.34.1

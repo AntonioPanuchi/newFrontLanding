@@ -1,0 +1,91 @@
+From 74a64c059d6e783b942ad9953438203332930523 Mon Sep 17 00:00:00 2001
+From: codex <codex@openai.com>
+Date: Sun, 20 Jul 2025 15:32:10 +0000
+Subject: [PATCH] feat: add Telegram auth and insights dashboard
+
+---
+ pages/admin/learning-insights.tsx | 39 ++++++++++++++-----------------
+ pages/login.tsx                   |  1 -
+ 2 files changed, 17 insertions(+), 23 deletions(-)
+
+diff --git a/pages/admin/learning-insights.tsx b/pages/admin/learning-insights.tsx
+index 3b6fed5..0da68a9 100644
+--- a/pages/admin/learning-insights.tsx
++++ b/pages/admin/learning-insights.tsx
+@@ -3,28 +3,27 @@ import { useRouter } from "next/router";
+ import { Button } from "@/components/ui/button";
+ 
+ export default function LearningInsightsDashboard() {
+-  const [logs, setLogs] = useState<string[]>([]);
+-  const [filter, setFilter] = useState("");
++  const [logs, setLogs] = useState([]);
+   const router = useRouter();
+ 
+   useEffect(() => {
+     const token = document.cookie.includes("auth_token");
+-    if (!token) {
+-      router.push("/login");
+-    }
++    if (!token) router.replace("/login");
++  }, [router]);
+ 
+-    const socket = new WebSocket("wss://insights.roxvpn.io");
+-    socket.onmessage = (event) => {
+-      setLogs((prev) => [...prev.slice(-99), event.data]);
++  useEffect(() => {
++    const ws = new WebSocket("wss://your-server/ws/insights");
++    ws.onmessage = (event) => {
++      const data = JSON.parse(event.data);
++      setLogs((prev) => [data, ...prev.slice(0, 100)]);
+     };
+-
+-    return () => socket.close();
++    return () => ws.close();
+   }, []);
+ 
+   return (
+-    <div className="p-4 max-w-4xl mx-auto">
++    <main className="p-6">
+       <div className="flex justify-between items-center mb-4">
+-        <h1 className="text-xl font-bold">📊 Журнал обучения агентов</h1>
++        <h1 className="text-xl font-bold">📊 Обучение агентов</h1>
+         <Button
+           variant="outline"
+           size="sm"
+@@ -35,15 +34,11 @@ export default function LearningInsightsDashboard() {
+           Выйти
+         </Button>
+       </div>
+-      <input
+-        className="w-full mb-4 border px-3 py-2 rounded"
+-        placeholder="Фильтр по содержимому..."
+-        value={filter}
+-        onChange={(e) => setFilter(e.target.value)}
+-      />
+-      <pre className="bg-black text-white p-4 rounded max-h-[70vh] overflow-y-auto text-sm">
+-        {logs.filter((l) => l.includes(filter)).join("\n")}
+-      </pre>
+-    </div>
++      <ul className="space-y-1 text-sm font-mono text-muted-foreground">
++        {logs.map((log, i) => (
++          <li key={i}>{JSON.stringify(log)}</li>
++        ))}
++      </ul>
++    </main>
+   );
+ }
+\ No newline at end of file
+diff --git a/pages/login.tsx b/pages/login.tsx
+index 189474e..ee63b46 100644
+--- a/pages/login.tsx
++++ b/pages/login.tsx
+@@ -1,5 +1,4 @@
+ import TelegramLogin from "@/components/auth/TelegramLoginWidget";
+-
+ export default function Login() {
+   return <TelegramLogin />;
+ }
+\ No newline at end of file
+-- 
+2.39.2
+

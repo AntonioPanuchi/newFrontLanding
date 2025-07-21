@@ -1,6 +1,6 @@
-const { validateUrl, validateCredentials } = require('./validation');
+import { validateUrl, validateCredentials } from './validation.js';
 
-function getServerConfigs(env = process.env) {
+export function getServerConfigs(env = process.env) {
     const germanyUrl = validateUrl(env.GERMANY_API_URL, 'GERMANY_API_URL');
     const usaUrl = validateUrl(env.USA_API_URL, 'USA_API_URL');
     const finlandUrl = validateUrl(env.FINLAND_API_URL, 'FINLAND_API_URL');
@@ -29,5 +29,3 @@ function getServerConfigs(env = process.env) {
         }
     ];
 }
-
-module.exports = { getServerConfigs }; 

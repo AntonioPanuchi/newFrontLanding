@@ -1,0 +1,99 @@
+From f413ddb82f183bb17c6fc8cb32109fac919e4db4 Mon Sep 17 00:00:00 2001
+From: codex <codex@openai.com>
+Date: Sun, 20 Jul 2025 18:14:48 +0000
+Subject: [PATCH] feat: add WebSocket log filter by label and level
+
+---
+ backend/server.js | 79 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
+ create mode 100644 backend/server.js
+
+diff --git a/backend/server.js b/backend/server.js
+new file mode 100644
+index 0000000..45c6e1a
+--- /dev/null
++++ b/backend/server.js
+@@ -0,0 +1,79 @@
++const express = require('express');
++const http = require('http');
++const { WebSocketServer } = require('ws');
++const fs = require('fs');
++const path = require('path');
++
++const app = express();
++const server = http.createServer(app);
++const wss = new WebSocketServer({ server, path: '/ws/insights' });
++
++const logFiles = [
++  'logs/backend-combined.log',
++  'logs/backend-error.log',
++  'logs/frontend-combined.log',
++  'logs/frontend-error.log'
++];
++
++const clientSettings = new Map();
++
++wss.on('connection', (ws) => {
++  const id = Date.now() + Math.random();
++  clientSettings.set(id, { filter: {}, tail: 5 });
++
++  ws.send(JSON.stringify({ message: 'WebSocket подключен ✅' }));
++
++  ws.on('message', (data) => {
++    try {
++      const msg = JSON.parse(data.toString());
++      if (msg.filter || msg.tail) {
++        clientSettings.set(id, {
++          ...clientSettings.get(id),
++          ...msg
++        });
++        ws.send(JSON.stringify({ ok: true, message: 'Фильтр применён' }));
++      }
++    } catch (err) {
++      ws.send(JSON.stringify({ error: 'Неверный формат JSON-команды' }));
++    }
++  });
++
++  const interval = setInterval(() => {
++    const { filter, tail } = clientSettings.get(id);
++    const logs = [];
++
++    for (const file of logFiles) {
++      try {
++        const fullPath = path.join(__dirname, '..', file);
++        const lines = fs.readFileSync(fullPath, 'utf-8').trim().split('\n').slice(-tail);
++
++        for (const line of lines) {
++          try {
++            const parsed = JSON.parse(line);
++            if (
++              (!filter.label || parsed.label === filter.label) &&
++              (!filter.level || parsed.level === filter.level)
++            ) {
++              logs.push(parsed);
++            }
++          } catch {
++            logs.push({ message: line, source: file });
++          }
++        }
++      } catch (e) {
++        logs.push({ error: `Файл недоступен: ${file}` });
++      }
++    }
++
++    ws.send(JSON.stringify({ timestamp: new Date(), logs }));
++  }, 3000);
++
++  ws.on('close', () => {
++    clearInterval(interval);
++    clientSettings.delete(id);
++  });
++});
++
++server.listen(3000, () => {
++  console.log('🚀 Server running with WebSocket on http://localhost:3000');
++});
+\ No newline at end of file
+-- 
+2.39.2
+
