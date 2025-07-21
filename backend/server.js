@@ -87,7 +87,7 @@ const cookieCache = new CookieCache(parseInt(process.env.COOKIE_CACHE_DURATION |
 const limiter = createApiRateLimiter()
 app.use('/api/', limiter)
 const corsOptions = createCorsOptions(logger, optionalVars.NODE_ENV)
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(requestLogger(logger))
 
